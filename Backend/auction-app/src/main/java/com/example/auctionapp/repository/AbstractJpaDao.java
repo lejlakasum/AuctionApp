@@ -36,6 +36,7 @@ public abstract class AbstractJpaDao<T> {
     public void delete(T resource){
         entityManager.remove(resource);
     }
+
     public void deleteById(Long resourceId){
         T resource = findById(resourceId);
         delete(resource);

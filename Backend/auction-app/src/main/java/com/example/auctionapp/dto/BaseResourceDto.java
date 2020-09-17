@@ -1,30 +1,23 @@
-package com.example.auctionapp.model;
+package com.example.auctionapp.dto;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 
-@MappedSuperclass
-public abstract class Resource {
+public class BaseResourceDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate dateCreated;
 
     private LocalDate lastModifiedDate;
 
-    public Resource() {
+    public BaseResourceDto() {
     }
 
-    public Resource(LocalDate dateCreated, LocalDate lastModifiedDate) {
+    public BaseResourceDto(Long id, LocalDate dateCreated, LocalDate lastModifiedDate) {
+        this.id = id;
         this.dateCreated = dateCreated;
         this.lastModifiedDate = lastModifiedDate;
     }
-
 
     public Long getId() {
         return id;

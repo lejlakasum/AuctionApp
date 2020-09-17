@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "user_entity")
@@ -32,7 +33,14 @@ public class User extends Resource {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, Role role) {
+    public User(LocalDate dateCreated,
+                LocalDate lastModifiedDate,
+                String firstName,
+                String lastName,
+                String email,
+                String password,
+                Role role) {
+        super(dateCreated, lastModifiedDate);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
