@@ -4,39 +4,40 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public abstract class AbstractJpaDao< T > {
+public abstract class AbstractJpaDao<T> {
 
-    private Class< T > clazz;
+    private Class<T> resourceClass;
 
     @PersistenceContext
     EntityManager entityManager;
 
-    public void setClazz( Class< T > clazzToSet ) {
-        this.clazz = clazzToSet;
+    public void setResourceClass( Class< T > classToSet ) {
+        this.resourceClass = classToSet;
     }
 
-    public T findById( Long id ){
-        return entityManager.find( clazz, id );
+    public T findById(Long id){
+        return entityManager.find(resourceClass, id);
     }
-    public List< T > findAll(){
-        return entityManager.createQuery( "from " + clazz.getName() )
+
+    public List<T> findAll(){
+        return entityManager.createQuery("from " + resourceClass.getName())
                 .getResultList();
     }
 
-    public T create( T entity ){
-        entityManager.persist( entity );
-        return entity;
+    public T create(T resource){
+        entityManager.persist( resource );
+        return resource;
     }
 
-    public T update( T entity ){
-        return entityManager.merge( entity );
+    public T update(T resource){
+        return entityManager.merge(resource);
     }
 
-    public void delete( T entity ){
-        entityManager.remove( entity );
+    public void delete(T resource){
+        entityManager.remove(resource);
     }
-    public void deleteById( Long entityId ){
-        T entity = findById( entityId );
-        delete( entity );
+    public void deleteById(Long resourceId){
+        T resource = findById(resourceId);
+        delete(resource);
     }
 }
