@@ -1,18 +1,16 @@
 package com.example.auctionapp.model;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @Table(name = "user_entity")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends Resource {
 
     @NotBlank(message = "First name can't be blank")
     @Column(name = "first_name")
@@ -28,30 +26,18 @@ public class User {
     @NotBlank
     private String password;
 
-    @ManyToMany
-    private List<Role> roles;
+    @ManyToOne
+    private Role role;
 
     public User() {
     }
 
-    public User(Long id, @NotBlank(message = "First name can't be blank") String firstName,
-                @NotBlank(message = "Last name can't be blank") String lastName,
-                @Email(message = "Email must be valid") String email,
-                @NotBlank String password, List<Role> roles) {
-        this.id = id;
+    public User(String firstName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roles = roles;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.role = role;
     }
 
     public String getFirstName() {
@@ -86,11 +72,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
