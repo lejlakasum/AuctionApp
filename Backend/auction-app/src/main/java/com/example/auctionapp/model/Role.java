@@ -3,13 +3,13 @@ package com.example.auctionapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "role")
 public class Role extends Resource {
 
-    @NotNull
+    @NotBlank
     private String name;
 
     public Role() {

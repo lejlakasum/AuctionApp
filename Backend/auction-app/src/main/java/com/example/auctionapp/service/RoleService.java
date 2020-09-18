@@ -1,6 +1,7 @@
 package com.example.auctionapp.service;
 
 import com.example.auctionapp.dto.RoleDto;
+import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.repository.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,11 @@ public class RoleService implements IBaseService<RoleDto> {
 
 
     public RoleDto getById(Long id) {
+
         Role role = repository.findById(id);
+        if(role == null) {
+            throw new NotFoundException("Role with id " + id + " does not exist");
+        }
         return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
@@ -50,6 +55,9 @@ public class RoleService implements IBaseService<RoleDto> {
 
     public RoleDto update(RoleDto resource) {
         Role resourceToUpdate = repository.findById(resource.getId());
+        if(resourceToUpdate == null) {
+            throw new NotFoundException("Role with id " + resource.getId() + " does not exist");
+        }
         resourceToUpdate.setName(resource.getName());
 
         Role role = repository.update(resourceToUpdate);
@@ -59,6 +67,11 @@ public class RoleService implements IBaseService<RoleDto> {
 
 
     public void deleteById(Long id) {
+
+        if(repository.findById(id) == null) {
+            throw new NotFoundException("Role with id " + id + " does not exist");
+        }
+
         repository.deleteById(id);
     }
 }
