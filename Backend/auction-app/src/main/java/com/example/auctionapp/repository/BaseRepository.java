@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -56,6 +57,20 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     public void deleteById(Long resourceId){
         T resource = findById(resourceId);
         delete(resource);
+    }
+
+    public T findByEmail(String email) {
+        CriteriaBuilder cb = getCriteriaBuilder();
+
+        CriteriaQuery<T> q = cb.createQuery(resourceClass);
+        Root<T> resource = q.from(resourceClass);
+        q.select(resource);
+        Predicate predaicateForEmail = cb.equal(resource.get("email"), email);
+        q.where(predaicateForEmail);
+
+        T result = entityManager.createQuery(q).getSingleResult();
+
+        return result;
     }
 
     protected CriteriaBuilder getCriteriaBuilder() {
