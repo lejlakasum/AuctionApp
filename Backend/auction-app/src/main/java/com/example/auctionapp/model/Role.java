@@ -4,7 +4,6 @@ package com.example.auctionapp.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "role")
@@ -16,8 +15,7 @@ public class Role extends Resource {
     public Role() {
     }
 
-    public Role(LocalDate dateCreated, LocalDate lastModifiedDate, String name) {
-        super(dateCreated, lastModifiedDate);
+    public Role(String name) {
         this.name = name;
     }
 

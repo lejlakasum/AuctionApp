@@ -1,19 +1,19 @@
 package com.example.auctionapp.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class BaseResourceDto {
 
     private Long id;
 
-    private LocalDate dateCreated;
+    private LocalDateTime dateCreated;
 
-    private LocalDate lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     public BaseResourceDto() {
     }
 
-    public BaseResourceDto(Long id, LocalDate dateCreated, LocalDate lastModifiedDate) {
+    public BaseResourceDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate) {
         this.id = id;
         this.dateCreated = dateCreated;
         this.lastModifiedDate = lastModifiedDate;
@@ -27,19 +27,19 @@ public class BaseResourceDto {
         this.id = id;
     }
 
-    public LocalDate getDateCreated() {
+    public LocalDateTime getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(LocalDate dateCreated) {
+    public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public LocalDate getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(LocalDate lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 }

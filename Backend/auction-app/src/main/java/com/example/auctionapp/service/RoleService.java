@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,16 +43,18 @@ public class RoleService implements IBaseService<RoleDto> {
 
 
     public RoleDto add(RoleDto resource) {
-        repository.create(new Role(LocalDate.now(), LocalDate.now(), resource.getName()));
-        return resource;
+        Role role = repository.create(new Role(resource.getName()));
+        return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
 
     public RoleDto update(RoleDto resource) {
         Role resourceToUpdate = repository.findById(resource.getId());
-        resourceToUpdate.setLastModifiedDate(LocalDate.now());
-        repository.update(resourceToUpdate);
-        return resource;
+        resourceToUpdate.setName(resource.getName());
+
+        Role role = repository.update(resourceToUpdate);
+
+        return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
 

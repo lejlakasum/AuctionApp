@@ -3,11 +3,11 @@ package com.example.auctionapp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "user_entity")
@@ -28,19 +28,13 @@ public class User extends Resource {
     private String password;
 
     @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", updatable = false)
     private Role role;
 
     public User() {
     }
 
-    public User(LocalDate dateCreated,
-                LocalDate lastModifiedDate,
-                String firstName,
-                String lastName,
-                String email,
-                String password,
-                Role role) {
-        super(dateCreated, lastModifiedDate);
+    public User(String firstName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

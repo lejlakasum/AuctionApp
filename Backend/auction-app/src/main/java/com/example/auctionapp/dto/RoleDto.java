@@ -1,6 +1,6 @@
 package com.example.auctionapp.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class RoleDto extends BaseResourceDto {
 
@@ -9,7 +9,7 @@ public class RoleDto extends BaseResourceDto {
     public RoleDto() {
     }
 
-    public RoleDto(Long id, LocalDate dateCreated, LocalDate lastModifiedDate, String name) {
+    public RoleDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate, String name) {
         super(id, dateCreated, lastModifiedDate);
         this.name = name;
     }
