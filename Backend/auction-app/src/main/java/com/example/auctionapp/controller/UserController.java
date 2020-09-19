@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,13 +36,15 @@ public class UserController implements IBaseController<UserDto> {
     }
 
     @PostMapping()
-    public ResponseEntity<UserDto> add(@RequestBody UserDto resource) {
+    @Valid
+    public ResponseEntity<UserDto> add(@Valid @RequestBody UserDto resource) {
 
         return new ResponseEntity<>(userService.add(resource), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public ResponseEntity<UserDto> update(@RequestBody UserDto resource) {
+    @Valid
+    public ResponseEntity<UserDto> update(@Valid @RequestBody UserDto resource) {
 
         return new ResponseEntity<>(userService.update(resource), HttpStatus.OK);
     }

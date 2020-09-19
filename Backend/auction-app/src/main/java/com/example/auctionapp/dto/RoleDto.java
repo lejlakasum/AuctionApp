@@ -1,9 +1,11 @@
 package com.example.auctionapp.dto;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class RoleDto extends BaseResourceDto {
 
+    @NotNull
     private String name;
 
     public RoleDto() {

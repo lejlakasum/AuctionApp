@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional
 public class UserService implements IBaseService<UserDto> {
 
-    private BaseRepository<User> baseUserRepository;
+
     private UserRepository userRepository;
     private BaseRepository<Role> roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -30,11 +30,8 @@ public class UserService implements IBaseService<UserDto> {
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder,
-                       BaseRepository<User> baseUserRepository,
                        UserRepository userRepository,
                        BaseRepository<Role> roleRepository) {
-        this.baseUserRepository = baseUserRepository;
-        this.baseUserRepository.setResourceClass(User.class);
         this.userRepository=userRepository;
         this.roleRepository=roleRepository;
         this.roleRepository.setResourceClass(Role.class);
@@ -43,7 +40,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public List<UserDto> getAll() {
 
-        List<User> users = baseUserRepository.findAll();
+        List<User> users = userRepository.findAll();
         List<UserDto> userDtos = new ArrayList<>();
 
         for (User user:users) {
@@ -56,7 +53,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public UserDto getById(Long id) {
 
-        User user = baseUserRepository.findById(id);
+        User user = userRepository.findById(id);
         if(user == null) {
             String message = "User with id " + id + " does not exist";
             logger.error(message);
@@ -81,7 +78,7 @@ public class UserService implements IBaseService<UserDto> {
             throw new NotFoundException(message);
         }
 
-        User user = baseUserRepository.create(new User(resource.getFirstName(),
+        User user = userRepository.create(new User(resource.getFirstName(),
                 resource.getLastName(),
                 resource.getEmail(),
                 passwordEncoder.encode(resource.getPassword()),
@@ -94,7 +91,7 @@ public class UserService implements IBaseService<UserDto> {
 
 
     public UserDto update(UserDto resource) {
-        User resourceToUpdate = baseUserRepository.findById(resource.getId());
+        User resourceToUpdate = userRepository.findById(resource.getId());
         if(resourceToUpdate == null) {
             String message = "User with id " + resource.getId() + " does not exist";
             logger.error(message);
@@ -105,7 +102,7 @@ public class UserService implements IBaseService<UserDto> {
         resourceToUpdate.setLastName(resource.getLastName());
         resourceToUpdate.setEmail(resource.getEmail());
 
-        User user = baseUserRepository.update(resourceToUpdate);
+        User user = userRepository.update(resourceToUpdate);
 
         logger.info("User with id " + user.getId() + " updated");
 
@@ -115,13 +112,13 @@ public class UserService implements IBaseService<UserDto> {
 
     public void deleteById(Long id) {
 
-        if(baseUserRepository.findById(id) == null) {
+        if(userRepository.findById(id) == null) {
             String message = "User with id " + id + " does not exist";
             logger.error(message);
             throw new NotFoundException(message);
         }
 
-        baseUserRepository.deleteById(id);
+        userRepository.deleteById(id);
 
         logger.info("User with id " + id + " deleted");
     }

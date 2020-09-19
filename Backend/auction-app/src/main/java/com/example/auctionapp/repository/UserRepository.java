@@ -11,7 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 @Repository
-public class UserRepository {
+public class UserRepository extends BaseRepository<User> {
 
     @PersistenceContext
     EntityManager entityManager;

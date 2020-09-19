@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,13 +37,15 @@ public class RoleController implements IBaseController<RoleDto> {
     }
 
     @PostMapping()
-    public ResponseEntity<RoleDto>  add(@RequestBody RoleDto resource) {
+    @Valid
+    public ResponseEntity<RoleDto>  add(@Valid @RequestBody RoleDto resource) {
 
         return new ResponseEntity<>(roleService.add(resource), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public ResponseEntity<RoleDto>  update(@RequestBody RoleDto resource) {
+    @Valid
+    public ResponseEntity<RoleDto>  update(@Valid @RequestBody RoleDto resource) {
 
         return new ResponseEntity<>(roleService.update(resource), HttpStatus.OK);
     }

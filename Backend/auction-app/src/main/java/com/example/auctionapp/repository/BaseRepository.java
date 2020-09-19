@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.validation.Valid;
 import java.util.List;
 
 @Repository
@@ -40,11 +41,13 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         return query.getResultList();
     }
 
+    @Valid
     public T create(T resource){
         entityManager.persist( resource );
         return resource;
     }
 
+    @Valid
     public T update(T resource){
         return entityManager.merge(resource);
     }

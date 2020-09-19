@@ -19,6 +19,11 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws Exception {
 
-        return new ResponseEntity<>(authenticationService.login(loginRequest), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(authenticationService.login(loginRequest), HttpStatus.CREATED);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }
