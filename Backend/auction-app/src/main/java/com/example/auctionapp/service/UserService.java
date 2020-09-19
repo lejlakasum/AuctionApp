@@ -5,6 +5,8 @@ import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ public class UserService implements IBaseService<UserDto> {
     private BaseRepository<User> userRepository;
     private BaseRepository<Role> roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder,
@@ -49,7 +53,9 @@ public class UserService implements IBaseService<UserDto> {
 
         User user = userRepository.findById(id);
         if(user == null) {
-            throw new NotFoundException("User with id " + id + " does not exist");
+            String message = "User with id " + id + " does not exist";
+            logger.error(message);
+            throw new NotFoundException(message);
         }
         return mapUserToUserDto(user);
     }
@@ -58,7 +64,9 @@ public class UserService implements IBaseService<UserDto> {
     public UserDto add(UserDto resource) {
         Role role = roleRepository.findById(resource.getRoleId());
         if(role==null) {
-            throw new NotFoundException("Role with id " + resource.getRoleId() + " does not exist");
+            String message = "Role with id " + resource.getRoleId() + " does not exist";
+            logger.error(message);
+            throw new NotFoundException(message);
         }
 
         User user = userRepository.create(new User(resource.getFirstName(),
@@ -67,6 +75,8 @@ public class UserService implements IBaseService<UserDto> {
                 passwordEncoder.encode(resource.getPassword()),
                 role));
 
+        logger.info("User with id " + user.getId() + " created");
+
         return mapUserToUserDto(user);
     }
 
@@ -74,7 +84,9 @@ public class UserService implements IBaseService<UserDto> {
     public UserDto update(UserDto resource) {
         User resourceToUpdate = userRepository.findById(resource.getId());
         if(resourceToUpdate == null) {
-            throw new NotFoundException("User with id " + resource.getId() + " does not exist");
+            String message = "User with id " + resource.getId() + " does not exist";
+            logger.error(message);
+            throw new NotFoundException(message);
         }
 
         resourceToUpdate.setFirstName(resource.getFirstName());
@@ -83,6 +95,8 @@ public class UserService implements IBaseService<UserDto> {
 
         User user = userRepository.update(resourceToUpdate);
 
+        logger.info("User with id " + user.getId() + " updated");
+
         return mapUserToUserDto(user);
     }
 
@@ -90,10 +104,14 @@ public class UserService implements IBaseService<UserDto> {
     public void deleteById(Long id) {
 
         if(userRepository.findById(id) == null) {
-            throw new NotFoundException("User with id " + id + " does not exist");
+            String message = "User with id " + id + " does not exist";
+            logger.error(message);
+            throw new NotFoundException(message);
         }
 
         userRepository.deleteById(id);
+
+        logger.info("User with id " + id + " deleted");
     }
 
     private UserDto mapUserToUserDto(User user) {

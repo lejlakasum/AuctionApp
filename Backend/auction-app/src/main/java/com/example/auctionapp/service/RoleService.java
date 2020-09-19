@@ -4,6 +4,8 @@ import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.repository.BaseRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.List;
 public class RoleService implements IBaseService<RoleDto> {
 
     BaseRepository<Role> repository;
+
+    private Logger logger = LoggerFactory.getLogger(RoleService.class);
 
     @Autowired
     public RoleService(BaseRepository<Role> repository) {
@@ -41,7 +45,9 @@ public class RoleService implements IBaseService<RoleDto> {
 
         Role role = repository.findById(id);
         if(role == null) {
-            throw new NotFoundException("Role with id " + id + " does not exist");
+            String message = "Role with id " + id + " does not exist";
+            logger.error(message);
+            throw new NotFoundException(message);
         }
         return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
@@ -49,6 +55,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
     public RoleDto add(RoleDto resource) {
         Role role = repository.create(new Role(resource.getName()));
+        logger.info("Role with id " + role.getId() + " created");
         return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
@@ -56,11 +63,14 @@ public class RoleService implements IBaseService<RoleDto> {
     public RoleDto update(RoleDto resource) {
         Role resourceToUpdate = repository.findById(resource.getId());
         if(resourceToUpdate == null) {
-            throw new NotFoundException("Role with id " + resource.getId() + " does not exist");
+            String message = "Role with id " + resource.getId() + " does not exist";
+            logger.error(message);
+            throw new NotFoundException(message);
         }
         resourceToUpdate.setName(resource.getName());
 
         Role role = repository.update(resourceToUpdate);
+        logger.info("Role with id " + role.getId() + " updated");
 
         return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
@@ -69,9 +79,12 @@ public class RoleService implements IBaseService<RoleDto> {
     public void deleteById(Long id) {
 
         if(repository.findById(id) == null) {
-            throw new NotFoundException("Role with id " + id + " does not exist");
+            String message = "Role with id " + id + " does not exist";
+            logger.error(message);
+            throw new NotFoundException(message);
         }
 
         repository.deleteById(id);
+        logger.info("Role with id " + id + " deleted");
     }
 }
