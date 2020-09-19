@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyUserDetailsService myUserDetailService;
+    private RepositoryAwareUserDetailsService myUserDetailService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;

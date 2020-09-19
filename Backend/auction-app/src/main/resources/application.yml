@@ -10,3 +10,5 @@ spring:
     url: "jdbc:postgresql://localhost:5432/auction-database"
     username: admin
     password: admin
+
+secret-key: secret

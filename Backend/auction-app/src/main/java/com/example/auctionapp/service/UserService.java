@@ -22,19 +22,13 @@ public class UserService implements IBaseService<UserDto> {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public void setUserRepository(BaseRepository<User> repositoryToSet) {
-        userRepository = repositoryToSet;
-        userRepository.setResourceClass(User.class);
-    }
-
-    @Autowired
-    public void setRoleRepository(BaseRepository<Role> repositoryToSet) {
-        roleRepository = repositoryToSet;
-        roleRepository.setResourceClass(Role.class);
-    }
-
-    @Autowired
-    public UserService(PasswordEncoder passwordEncoder) {
+    public UserService(PasswordEncoder passwordEncoder,
+                       BaseRepository<User> userRepository,
+                       BaseRepository<Role> roleRepository) {
+        this.userRepository=userRepository;
+        this.userRepository.setResourceClass(User.class);
+        this.roleRepository=roleRepository;
+        this.roleRepository.setResourceClass(Role.class);
         this.passwordEncoder = passwordEncoder;
     }
 

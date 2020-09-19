@@ -3,6 +3,8 @@ package com.example.auctionapp.controller;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,27 +24,33 @@ public class UserController implements IBaseController<UserDto> {
     UserService userService;
 
     @GetMapping()
-    public List<UserDto> getAll() {
-        return userService.getAll();
+    public ResponseEntity<List<UserDto>> getAll() {
+        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public UserDto getById(@PathVariable Long id) {
-        return userService.getById(id);
+    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
+
+        return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping()
-    public UserDto add(@RequestBody UserDto resource) {
-        return userService.add(resource);
+    public ResponseEntity<UserDto> add(@RequestBody UserDto resource) {
+
+        return new ResponseEntity<>(userService.add(resource), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public UserDto update(@RequestBody UserDto resource) {
-        return userService.update(resource);
+    public ResponseEntity<UserDto> update(@RequestBody UserDto resource) {
+
+        return new ResponseEntity<>(userService.update(resource), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+
         userService.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

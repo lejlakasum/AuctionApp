@@ -1,16 +1,18 @@
 package com.example.auctionapp.controller;
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface IBaseController<T> {
 
-    List<T> getAll();
+    ResponseEntity<List<T>> getAll();
 
-    T getById(Long id);
+    ResponseEntity<T> getById(Long id);
 
-    T add(T resource);
+    ResponseEntity<T> add(T resource);
 
-    T update(T resource);
+    ResponseEntity<T> update(T resource);
 
-    void deleteById(Long id);
+    ResponseEntity<Void> deleteById(Long id);
 }

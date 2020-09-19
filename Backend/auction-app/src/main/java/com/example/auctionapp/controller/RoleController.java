@@ -3,6 +3,8 @@ package com.example.auctionapp.controller;
 import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,27 +24,34 @@ public class RoleController implements IBaseController<RoleDto> {
     RoleService roleService;
 
     @GetMapping()
-    public List<RoleDto> getAll() {
-        return roleService.getAll();
+    public ResponseEntity<List<RoleDto>> getAll() {
+
+        return new ResponseEntity<>(roleService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public RoleDto getById(@PathVariable Long id) {
-        return roleService.getById(id);
+    public ResponseEntity<RoleDto> getById(@PathVariable Long id) {
+
+        return new ResponseEntity<>(roleService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping()
-    public RoleDto add(@RequestBody RoleDto resource) {
-        return roleService.add(resource);
+    public ResponseEntity<RoleDto>  add(@RequestBody RoleDto resource) {
+
+        return new ResponseEntity<>(roleService.add(resource), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public RoleDto update(@RequestBody RoleDto resource) {
-        return roleService.update(resource);
+    public ResponseEntity<RoleDto>  update(@RequestBody RoleDto resource) {
+
+        return new ResponseEntity<>(roleService.update(resource), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+
         roleService.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

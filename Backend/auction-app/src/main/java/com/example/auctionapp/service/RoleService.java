@@ -18,9 +18,9 @@ public class RoleService implements IBaseService<RoleDto> {
     BaseRepository<Role> repository;
 
     @Autowired
-    public void setRepository(BaseRepository<Role> repositoryToSet) {
-        repository = repositoryToSet;
-        repository.setResourceClass(Role.class);
+    public RoleService(BaseRepository<Role> repository) {
+        this.repository = repository;
+        this.repository.setResourceClass(Role.class);
     }
 
 
