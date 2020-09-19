@@ -1,10 +1,12 @@
 package com.example.auctionapp.service;
 
 import com.example.auctionapp.dto.UserDto;
+import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,8 @@ import java.util.List;
 @Transactional
 public class UserService implements IBaseService<UserDto> {
 
-    private BaseRepository<User> userRepository;
+    private BaseRepository<User> baseUserRepository;
+    private UserRepository userRepository;
     private BaseRepository<Role> roleRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -27,10 +30,12 @@ public class UserService implements IBaseService<UserDto> {
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder,
-                       BaseRepository<User> userRepository,
+                       BaseRepository<User> baseUserRepository,
+                       UserRepository userRepository,
                        BaseRepository<Role> roleRepository) {
+        this.baseUserRepository = baseUserRepository;
+        this.baseUserRepository.setResourceClass(User.class);
         this.userRepository=userRepository;
-        this.userRepository.setResourceClass(User.class);
         this.roleRepository=roleRepository;
         this.roleRepository.setResourceClass(Role.class);
         this.passwordEncoder = passwordEncoder;
@@ -38,7 +43,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public List<UserDto> getAll() {
 
-        List<User> users = userRepository.findAll();
+        List<User> users = baseUserRepository.findAll();
         List<UserDto> userDtos = new ArrayList<>();
 
         for (User user:users) {
@@ -51,7 +56,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public UserDto getById(Long id) {
 
-        User user = userRepository.findById(id);
+        User user = baseUserRepository.findById(id);
         if(user == null) {
             String message = "User with id " + id + " does not exist";
             logger.error(message);
@@ -62,6 +67,13 @@ public class UserService implements IBaseService<UserDto> {
 
 
     public UserDto add(UserDto resource) {
+
+        if(userAlreadyExist(resource.getEmail())) {
+            String message = "User with email " + resource.getEmail() + " already registered";
+            logger.error(message);
+            throw new BadRequestException(message);
+        }
+
         Role role = roleRepository.findById(resource.getRoleId());
         if(role==null) {
             String message = "Role with id " + resource.getRoleId() + " does not exist";
@@ -69,7 +81,7 @@ public class UserService implements IBaseService<UserDto> {
             throw new NotFoundException(message);
         }
 
-        User user = userRepository.create(new User(resource.getFirstName(),
+        User user = baseUserRepository.create(new User(resource.getFirstName(),
                 resource.getLastName(),
                 resource.getEmail(),
                 passwordEncoder.encode(resource.getPassword()),
@@ -82,7 +94,7 @@ public class UserService implements IBaseService<UserDto> {
 
 
     public UserDto update(UserDto resource) {
-        User resourceToUpdate = userRepository.findById(resource.getId());
+        User resourceToUpdate = baseUserRepository.findById(resource.getId());
         if(resourceToUpdate == null) {
             String message = "User with id " + resource.getId() + " does not exist";
             logger.error(message);
@@ -93,7 +105,7 @@ public class UserService implements IBaseService<UserDto> {
         resourceToUpdate.setLastName(resource.getLastName());
         resourceToUpdate.setEmail(resource.getEmail());
 
-        User user = userRepository.update(resourceToUpdate);
+        User user = baseUserRepository.update(resourceToUpdate);
 
         logger.info("User with id " + user.getId() + " updated");
 
@@ -103,13 +115,13 @@ public class UserService implements IBaseService<UserDto> {
 
     public void deleteById(Long id) {
 
-        if(userRepository.findById(id) == null) {
+        if(baseUserRepository.findById(id) == null) {
             String message = "User with id " + id + " does not exist";
             logger.error(message);
             throw new NotFoundException(message);
         }
 
-        userRepository.deleteById(id);
+        baseUserRepository.deleteById(id);
 
         logger.info("User with id " + id + " deleted");
     }
@@ -122,5 +134,16 @@ public class UserService implements IBaseService<UserDto> {
                 user.getLastName(),
                 user.getEmail(),
                 user.getRole().getId());
+    }
+
+    private boolean userAlreadyExist(String email) {
+
+        try {
+            userRepository.findByEmail(email);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
