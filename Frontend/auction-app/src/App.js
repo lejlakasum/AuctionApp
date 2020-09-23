@@ -1,6 +1,6 @@
 import React from 'react';
-import Login from './Components/Authentication/Login'
-import Registration from './Components/Authentication/Registration'
+import Registration from "./pages/Authentication/Registration"
+import Login from "./pages/Authentication/Login"
 import './App.css';
 
 function App() {
