@@ -2,6 +2,7 @@ import React from "react";
 import GenericField from "../../Components/FormField/GenericField"
 import { handleFieldChange } from "../index.jsx"
 import axios from "axios"
+import { useHistory, useLocation } from "react-router-dom"
 
 
 const Login = props => {
@@ -9,13 +10,20 @@ const Login = props => {
         email: "",
         password: ""
     })
+    const [errorMessage, setErrorMessage] = React.useState("")
 
     let url = props.baseUrl + "/login"
+    let location = useLocation();
+    let history = useHistory();
+    let { from } = location.state || {
+        from: { pathname: "/" }
+    };
 
     return (
         <div>
             <GenericField id={"email"} name={"email"} label={"Email"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} />
             <GenericField id={"password"} name={"password"} label={"Password"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} />
+            <label>{errorMessage}</label>
             <button type={"button"} onClick={() => handleLoginClick(user)} >LOGIN</button>
         </div>
     )
@@ -23,12 +31,11 @@ const Login = props => {
 
         axios.post(url, user)
             .then(response => {
-                //TODO Handle response, save jwt
-                console.log(response)
+                document.cookie = "token=" + response.data.token + "; max-age=600;"
+                history.push(from)
             })
             .catch(error => {
-                //TODO handle error
-                console.log(error)
+                setErrorMessage("Invalid username or password")
             })
     }
 

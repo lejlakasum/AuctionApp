@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/login"> <Login baseUrl={BASE_URL} /> </Route>
-        <Route path="/register"> <Registration baseUrl={BASE_URL} /> </Route>
+        <PrivateRoute path="/register"> <Registration baseUrl={BASE_URL} /> </PrivateRoute>
       </Switch>
     </BrowserRouter>
   );

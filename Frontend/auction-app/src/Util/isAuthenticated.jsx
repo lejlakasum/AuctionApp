@@ -1,7 +1,14 @@
+import getToken from "./getToken"
+
 function isAuthenticated() {
-    //TODO check token
-    var isLogedIn = false
-    return isLogedIn
+
+    var token = getToken("token")
+
+    if (token != null) {
+        return true;
+    }
+
+    return false;
 }
 
 export default isAuthenticated;
