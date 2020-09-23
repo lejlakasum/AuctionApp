@@ -26,6 +26,8 @@ public class UserService implements IBaseService<UserDto> {
     private BaseRepository<Role> roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final Long USER_ROLE_ID = 2L;
+
     private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Autowired
@@ -71,12 +73,7 @@ public class UserService implements IBaseService<UserDto> {
             throw new BadRequestException(message);
         }
 
-        Role role = roleRepository.findById(resource.getRoleId());
-        if(role==null) {
-            String message = "Role with id " + resource.getRoleId() + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        Role role = roleRepository.findById(USER_ROLE_ID);
 
         User user = userRepository.create(new User(resource.getFirstName(),
                 resource.getLastName(),

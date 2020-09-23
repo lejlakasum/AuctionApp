@@ -24,8 +24,7 @@ const Registration = props => {
     )
 
     function handleRegisterClick(user) {
-        //TODO: Find other way for sending role id
-        user.roleId = 2
+
         axios.post(routes.base.path + routes.user.path, user)
             .then(response => {
                 //TODO Handle response

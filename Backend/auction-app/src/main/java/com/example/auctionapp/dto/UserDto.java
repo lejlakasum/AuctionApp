@@ -2,7 +2,6 @@ package com.example.auctionapp.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class UserDto extends BaseResourceDto {
@@ -19,9 +18,6 @@ public class UserDto extends BaseResourceDto {
     @NotBlank(message = "Password can't be blank")
     private String password;
 
-    @NotNull(message = "Role id can't be null")
-    private Long roleId;
-
     public UserDto() {
     }
 
@@ -30,14 +26,12 @@ public class UserDto extends BaseResourceDto {
                    LocalDateTime lastModifiedDate,
                    String firstName,
                    String lastName, String email,
-                   String password,
-                   Long roleId) {
+                   String password) {
         super(id, dateCreated, lastModifiedDate);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roleId = roleId;
     }
 
     public UserDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate, String firstName, String lastName, String email, Long roleId) {
@@ -45,7 +39,6 @@ public class UserDto extends BaseResourceDto {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.roleId = roleId;
     }
 
     public String getFirstName() {
@@ -78,13 +71,5 @@ public class UserDto extends BaseResourceDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
     }
 }
