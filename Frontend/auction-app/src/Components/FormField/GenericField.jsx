@@ -1,10 +1,10 @@
 import React from "react";
 
-const GenericField = ({ type, id, label, className, placeholder, onChange, name }) => {
+const GenericField = ({ label, ...props }) => {
     return (
         <div>
             <label>{label}</label>
-            <input type={type} className={className} id={id} placeholder={placeholder} onChange={onChange} name={name} />
+            <input {...props} />
         </div>
     );
 }
