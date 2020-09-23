@@ -1,4 +1,4 @@
-export function handleFieldChange(e, input, setInput) {
+export function handleFieldChange(e, setInput) {
     const { name, value } = e.target;
     setInput(prevState => ({
         ...prevState,
