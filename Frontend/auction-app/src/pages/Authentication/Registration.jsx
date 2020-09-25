@@ -2,6 +2,7 @@ import React from "react";
 import GenericField from "../../Components/FormField/GenericField"
 import { handleFieldChange } from "../index.jsx"
 import axios from "axios"
+import "../../index.css"
 
 
 const Registration = props => {
@@ -25,16 +26,22 @@ const Registration = props => {
     let url = props.baseUrl + "/user"
 
     return (
-        <div>
-            <div>
-                {message}
+        <div className={"form-box"}>
+            <div className={"form"}>
+                <div className={"form-title"}>
+                    REGISTER
+                </div>
+                <GenericField id={"firstName"} name={"firstName"} label={"First Name"} className={"input-field"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.firstName} />
+                <GenericField id={"lastName"} name={"lastName"} label={"Last Name"} className={"input-field"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.lastName} />
+                <GenericField id={"email"} name={"email"} label={"Email"} className={"input-field"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.email} />
+                <GenericField id={"password"} name={"password"} label={"Password"} className={"input-field"} type={"password"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.password} />
+                <button type={"button"} className={"btn-submit"} onClick={(e) => handleRegisterClick(e, user)} >REGISTER</button>
+                <div className={"form-info"}>
+                    {message}
+                </div>
             </div>
-            <GenericField id={"firstName"} name={"firstName"} label={"First Name"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.firstName} />
-            <GenericField id={"lastName"} name={"lastName"} label={"Last Name"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.lastName} />
-            <GenericField id={"email"} name={"email"} label={"Email"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.email} />
-            <GenericField id={"password"} name={"password"} label={"Password"} type={"password"} onChange={(e) => handleFieldChange(e, setUser)} validationMessage={validation.password} />
-            <button type={"button"} onClick={(e) => handleRegisterClick(e, user)} >REGISTER</button>
         </div>
+
     )
 
     function handleRegisterClick(e, user) {

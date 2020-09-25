@@ -1,11 +1,15 @@
 import React from "react";
+import "../../index.css"
 
 const GenericField = ({ label, validationMessage, ...props }) => {
     return (
-        <div>
+        <div className={"generic-field"}>
             <label>{label}</label>
             <input {...props} />
-            <label>{validationMessage}</label>
+            <small>
+                <label className={"validation-error"}>{validationMessage}</label>
+            </small>
+
         </div>
     );
 }
