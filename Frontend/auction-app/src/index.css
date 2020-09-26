@@ -1,11 +1,20 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .form-box {
   display: flex;
   justify-content: center;
+  margin: 1em 0 4em 0;
 }
 
 .form {
-  width: 702px;
-  height: 830px;
+  width: 35%;
+  min-width: 500px;
   background: #FFFFFF;
   border: 1px solid #D8D8D8;
   display: flex;
@@ -14,47 +23,54 @@
 }
 
 .form-title {
-  width: 700px;
-  height: 60px;
-  background-color: #fafafa;
-  color: #252525;
-  font-family: "Lato-Bold";
-  font-size: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    height: 2em;
+    background-color: #fafafa;
+    color: #252525;
+    font-family: "Lato";
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 0.84px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .input-field {
   display: flex;
   flex-direction: column;
-  width: 600px;
-  height: 54px;
+  width: 100%;
+  height: 2em;
   border: 1px solid #D8D8D8;
   background-color: #FCFCFC;
 }
 
 .generic-field {
-  margin-top: 76px;
+  width: 80%;
+  margin-top: 1em;
+  font-size: 0.8em;
+  font-family: "Lato";
 }
 
 .btn-submit {
-  width: 603px;
-  height: 57px;
+  width: 81%;
+  height: 2em;
   border: 3px solid #8367D8;
-  font-size: 18px;
-  margin-top: 76px;
+  font-size: 0.7em;
+  font-family: "Lato";
+  font-weight: bold;
+  margin: 3em 0 1em 0;
 }
 
 .btn-login {
-  width: 603px;
-  height: 57px;
-  font-family: Lato-Bold;
-    font-size: 18px;
+  width: 81%;
+  height: 2em;
+  font-family: "Lato";
+  font-size: 18px;
   color: #FFFFFF;
   letter-spacing: 0.63px;
   text-align: center;
-  margin-top: 76px;
+  margin: 3em 0 3em 0;
   background: #8367D8;
   border: 3px solid #8367D8;
   box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
@@ -62,4 +78,53 @@
 
 .validation-error {
   color: red;
+  font-family: "Lato";
+}
+
+.footer {
+  background: #252525;
+  border: 1px solid #979797;
+  width: 100%;
+  height: 200px;
+}
+
+.header {
+    background: #252525;
+  border: 1px solid #979797;
+  width: 100%;
+  height: 130px;
+}
+
+.have-account {
+  font-size: 0.7em;
+  color: #9B9B9B;
+  letter-spacing: 0.63px;
+  margin-bottom: 4em;
+  font-family: "Lato";
+}
+
+.login-word {
+  text-decoration: none;
+  color: #8367D8;
+  letter-spacing: 0.63px;
+  font-family: "Lato";
+}
+
+.status {
+  color: black;
+  letter-spacing: 0.63px;
+  font-family: "Lato";
+  width: 100%;
+  height: 2em;
+  display: flex;
+  align-items: center;
+  padding-left: 1em;  
+}
+
+.status-success {
+  background-color: rgb(141, 194, 141);
+}
+
+.status-error {
+  background-color: rgba(209, 132, 122, 0.808);
 }

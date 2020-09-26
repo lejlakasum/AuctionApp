@@ -27,8 +27,10 @@ const Login = props => {
                     LOGIN
                 </div>
                 <GenericField id={"email"} name={"email"} label={"Email"} className={"input-field"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} />
-                <GenericField id={"password"} name={"password"} label={"Password"} className={"input-field"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} />
-                <label className={"validation-error"}>{errorMessage}</label>
+                <GenericField id={"password"} name={"password"} label={"Password"} className={"input-field"} type={"password"} onChange={(e) => handleFieldChange(e, setUser)} />
+                <small>
+                    <label className={"validation-error"}>{errorMessage}</label>
+                </small>
                 <button type={"button"} className={"btn-login"} onClick={() => handleLoginClick(user)} >LOGIN</button>
             </div>
         </div>
