@@ -26,7 +26,7 @@ public class UserService implements IBaseService<UserDto> {
     private BaseRepository<Role> roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final Long USER_ROLE_ID = 2L;
+    private static final Long USER_ROLE_ID = 2L;
 
     private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
