@@ -4,6 +4,7 @@ import { handleFieldChange } from "../index.jsx"
 import axios from "axios"
 import "../../index.css"
 import StatusBar from "../../Components/StatusBar/StatusBar"
+import PageName from "../HeaderFooter/PageName"
 
 
 const Registration = props => {
@@ -29,6 +30,7 @@ const Registration = props => {
 
     return (
         <div>
+            <PageName pageName="register" />
             <StatusBar statusMessage={message} className={statusStyle} />
             <div className={"form-box"}>
                 <div className={"form"}>

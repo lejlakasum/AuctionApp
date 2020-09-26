@@ -56,6 +56,7 @@ body {
   width: 81%;
   height: 2em;
   border: 3px solid #8367D8;
+  background-color: #FFFFFF;
   font-size: 0.7em;
   font-family: "Lato";
   font-weight: bold;
@@ -89,10 +90,56 @@ body {
 }
 
 .header {
-    background: #252525;
-  border: 1px solid #979797;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  height: 130px;
+}
+
+.header-top {
+  background: #252525;
+  height: 2em;
+}
+
+.header-middle {
+  background: #FFFFFF;
+  height: 3em;
+  padding-left: 4em;
+}
+
+.social-networks {
+  padding-left: 4em;
+  color: #D8D8D8;
+}
+
+.header-text {
+  font-family: "Lato";
+  font-weight: bold;
+  font-size: 0.6em;
+  text-decoration: none;
+  color: #FFFFFF;
+  letter-spacing: 0.49px;
+}
+
+.header-or {
+  font-family: "Lato";
+  font-weight: bold;
+  font-size: 0.6em;
+  color: #9B9B9B;
+  letter-spacing: 0.49px;
+  margin: 0 0.8em 0 0.8em;
+}
+
+.header-title {
+  font-family: "Lato";
+  font-weight: lighter;
+font-size: 1em;
+color: #8367d8bb;
+letter-spacing: 0.84px;
+}
+
+.login-acccount {
+  padding-right: 4em;
 }
 
 .have-account {
@@ -127,4 +174,17 @@ body {
 
 .status-error {
   background-color: rgba(209, 132, 122, 0.808);
+}
+
+.page-name {
+  display: flex;
+  align-items: center;
+  background: #FAFAFA;
+  font-family: "Lato";
+  text-transform: uppercase;
+  font-size: 0.7em;
+  color: #252525;
+  letter-spacing: 0.63px;
+  padding-left: 5.5em;
+  height: 3em;
 }
