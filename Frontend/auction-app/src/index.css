@@ -83,10 +83,43 @@ body {
 }
 
 .footer {
+  display: flex;
+  justify-content: space-around;
   background: #252525;
   border: 1px solid #979797;
   width: 100%;
   height: 200px;
+}
+
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer a {
+  text-decoration: none;
+  font-family: "Lato";
+  font-size: 0.7em;
+  color: #FFFFFF;
+  letter-spacing: 0.56px;
+}
+
+.footer-contact {
+  font-family: "Lato";
+  font-size: 0.7em;
+  color: #FFFFFF;
+  letter-spacing: 0.56px;
+}
+
+.footer-text {
+opacity: 0.5;
+font-family: "Lato";
+font-size: 1em;
+color: #FFFFFF;
+letter-spacing: 0.56px;
+margin-top: 2em;
+margin-bottom: 1em;
 }
 
 .header {

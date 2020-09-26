@@ -4,6 +4,7 @@ import { handleFieldChange } from "../index.jsx"
 import axios from "axios"
 import { useHistory, useLocation } from "react-router-dom"
 import "../../index.css"
+import PageName from "../HeaderFooter/PageName"
 
 
 const Login = props => {
@@ -21,20 +22,22 @@ const Login = props => {
     };
 
     return (
-        <div className={"form-box"}>
-            <div className={"form"}>
-                <div className={"form-title"}>
-                    LOGIN
+        <div>
+            <PageName pageName="login" />
+            <div className={"form-box"}>
+                <div className={"form"}>
+                    <div className={"form-title"}>
+                        LOGIN
                 </div>
-                <GenericField id={"email"} name={"email"} label={"Email"} className={"input-field"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} />
-                <GenericField id={"password"} name={"password"} label={"Password"} className={"input-field"} type={"password"} onChange={(e) => handleFieldChange(e, setUser)} />
-                <small>
-                    <label className={"validation-error"}>{errorMessage}</label>
-                </small>
-                <button type={"button"} className={"btn-login"} onClick={() => handleLoginClick(user)} >LOGIN</button>
+                    <GenericField id={"email"} name={"email"} label={"Email"} className={"input-field"} type={"text"} onChange={(e) => handleFieldChange(e, setUser)} />
+                    <GenericField id={"password"} name={"password"} label={"Password"} className={"input-field"} type={"password"} onChange={(e) => handleFieldChange(e, setUser)} />
+                    <small>
+                        <label className={"validation-error"}>{errorMessage}</label>
+                    </small>
+                    <button type={"button"} className={"btn-login"} onClick={() => handleLoginClick(user)} >LOGIN</button>
+                </div>
             </div>
         </div>
-
     )
     function handleLoginClick(user) {
 
