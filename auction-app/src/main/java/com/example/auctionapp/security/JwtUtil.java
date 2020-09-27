@@ -33,10 +33,11 @@ public class JwtUtil {
         return extractExpiration(token, secretKey).before(new Date());
     }
 
-    public static String generateToken(UserDetails userDetails, String secretKey) {
+    public static String generateToken(CustomUserDetails userDetails, String secretKey) {
         Map<String, Object> claims = new HashMap<>();
         String role = userDetails.getAuthorities().stream().findFirst().get().getAuthority();
         claims.put("role", role);
+        claims.put("id", userDetails.getUserId());
         return createToken(claims, userDetails.getUsername(), secretKey);
     }
 
