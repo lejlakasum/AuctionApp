@@ -2,6 +2,7 @@ package com.example.auctionapp.service;
 
 import com.example.auctionapp.model.LoginRequest;
 import com.example.auctionapp.model.LoginResponse;
+import com.example.auctionapp.security.CustomUserDetails;
 import com.example.auctionapp.security.JwtUtil;
 import com.example.auctionapp.security.RepositoryAwareUserDetailsService;
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,7 +43,7 @@ public class AuthenticationService {
             throw e;
         }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+        final CustomUserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
 
         final String token = JwtUtil.generateToken(userDetails, SECRET_KEY);
 
