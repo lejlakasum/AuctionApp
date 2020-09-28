@@ -3,6 +3,7 @@ package com.example.auctionapp.seeder;
 import com.example.auctionapp.enumeration.RoleEnum;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Role;
+import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.UserRepository;
@@ -25,6 +26,7 @@ public class DatabaseSeeder {
     private BaseRepository<Role> roleRepository;
     private UserRepository userRepository;
     private BaseRepository<Category> categoryRepository;
+    private BaseRepository<Subcategory> subcategoryRepository;
 
     private Logger logger = LoggerFactory.getLogger(RoleService.class);
     private PasswordEncoder passwordEncoder;
@@ -33,7 +35,8 @@ public class DatabaseSeeder {
     public DatabaseSeeder(BaseRepository<Role> roleRepository,
                           UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
-                          BaseRepository<Category> categoryRepository) {
+                          BaseRepository<Category> categoryRepository,
+                          BaseRepository<Subcategory> subcategoryRepository) {
         this.roleRepository = roleRepository;
         this.roleRepository.setResourceClass(Role.class);
         this.userRepository = userRepository;
@@ -41,6 +44,8 @@ public class DatabaseSeeder {
         this.passwordEncoder = passwordEncoder;
         this.categoryRepository = categoryRepository;
         this.categoryRepository.setResourceClass(Category.class);
+        this.subcategoryRepository=subcategoryRepository;
+        this.subcategoryRepository.setResourceClass(Subcategory.class);
     }
 
     @EventListener
@@ -48,6 +53,7 @@ public class DatabaseSeeder {
         seedRoleTable();
         seedUserTable();
         seedCategoryTable();
+        seedSubcategoryTable();
     }
 
     private void seedRoleTable() {
@@ -101,6 +107,22 @@ public class DatabaseSeeder {
             categoryRepository.create(new Category("Garden"));
 
             logger.info("Category table seeded");
+        }
+    }
+
+    private void seedSubcategoryTable() {
+        List<Category> categories = categoryRepository.findAll();
+        List<Subcategory> subcategories = subcategoryRepository.findAll();
+        if(subcategories.isEmpty()) {
+
+            subcategoryRepository.create(new Subcategory("Dress", categories.get(0)));
+            subcategoryRepository.create(new Subcategory("Shirt", categories.get(0)));
+            subcategoryRepository.create(new Subcategory("Jacket", categories.get(0)));
+            subcategoryRepository.create(new Subcategory("Waller", categories.get(1)));
+            subcategoryRepository.create(new Subcategory("Belt", categories.get(1)));
+            subcategoryRepository.create(new Subcategory("Desk", categories.get(5)));
+
+            logger.info("Subcategory table seeded");
         }
     }
 
