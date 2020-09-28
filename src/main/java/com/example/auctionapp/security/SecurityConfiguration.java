@@ -1,5 +1,6 @@
 package com.example.auctionapp.security;
 
+import com.example.auctionapp.enumeration.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/role", "/role/*")
                 .denyAll()
+                .antMatchers(HttpMethod.POST, "/category").hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/category").hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/category/*").hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/category", "/category/*")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

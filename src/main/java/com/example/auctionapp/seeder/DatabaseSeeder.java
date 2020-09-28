@@ -1,6 +1,7 @@
 package com.example.auctionapp.seeder;
 
 import com.example.auctionapp.enumeration.RoleEnum;
+import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
@@ -23,6 +24,7 @@ public class DatabaseSeeder {
 
     private BaseRepository<Role> roleRepository;
     private UserRepository userRepository;
+    private BaseRepository<Category> categoryRepository;
 
     private Logger logger = LoggerFactory.getLogger(RoleService.class);
     private PasswordEncoder passwordEncoder;
@@ -30,18 +32,22 @@ public class DatabaseSeeder {
     @Autowired
     public DatabaseSeeder(BaseRepository<Role> roleRepository,
                           UserRepository userRepository,
-                          PasswordEncoder passwordEncoder) {
+                          PasswordEncoder passwordEncoder,
+                          BaseRepository<Category> categoryRepository) {
         this.roleRepository = roleRepository;
         this.roleRepository.setResourceClass(Role.class);
         this.userRepository = userRepository;
         this.userRepository.setResourceClass(User.class);
         this.passwordEncoder = passwordEncoder;
+        this.categoryRepository = categoryRepository;
+        this.categoryRepository.setResourceClass(Category.class);
     }
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedRoleTable();
         seedUserTable();
+        seedCategoryTable();
     }
 
     private void seedRoleTable() {
@@ -80,5 +86,22 @@ public class DatabaseSeeder {
         }
     }
 
+    private void seedCategoryTable() {
+        List<Category> categories = categoryRepository.findAll();
+        if(categories.isEmpty()) {
+            categoryRepository.create(new Category("Fashion"));
+            categoryRepository.create(new Category("Accessories"));
+            categoryRepository.create(new Category("Jewelry"));
+            categoryRepository.create(new Category("Shoes"));
+            categoryRepository.create(new Category("Sportswear"));
+            categoryRepository.create(new Category("Home"));
+            categoryRepository.create(new Category("Electronics"));
+            categoryRepository.create(new Category("Mobile"));
+            categoryRepository.create(new Category("Computer"));
+            categoryRepository.create(new Category("Garden"));
+
+            logger.info("Category table seeded");
+        }
+    }
 
 }
