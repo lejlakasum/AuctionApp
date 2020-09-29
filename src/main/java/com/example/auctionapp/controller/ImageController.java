@@ -1,8 +1,8 @@
 package com.example.auctionapp.controller;
 
-import com.example.auctionapp.dto.RoleDto;
+import com.example.auctionapp.dto.ImageDto;
 import com.example.auctionapp.dto.SubcategoryDto;
-import com.example.auctionapp.service.SubcategoryService;
+import com.example.auctionapp.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,42 +19,42 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/subcategory")
-public class SubcategoryController implements IBaseController<SubcategoryDto> {
+@RequestMapping("/image")
+public class ImageController implements IBaseController<ImageDto> {
 
     @Autowired
-    SubcategoryService subcategoryService;
+    ImageService imageService;
 
     @GetMapping()
-    public ResponseEntity<List<SubcategoryDto>> getAll() {
+    public ResponseEntity<List<ImageDto>> getAll() {
 
-        return new ResponseEntity<>(subcategoryService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubcategoryDto> getById(@PathVariable Long id) {
+    public ResponseEntity<ImageDto> getById(@PathVariable Long id) {
 
-        return new ResponseEntity<>(subcategoryService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping()
     @Valid
-    public ResponseEntity<SubcategoryDto> add(@Valid @RequestBody SubcategoryDto resource) {
+    public ResponseEntity<ImageDto> add(@Valid @RequestBody ImageDto resource) {
 
-        return new ResponseEntity<>(subcategoryService.add(resource), HttpStatus.CREATED);
+        return new ResponseEntity<>(imageService.add(resource), HttpStatus.CREATED);
     }
 
     @PutMapping()
     @Valid
-    public ResponseEntity<SubcategoryDto> update(@Valid @RequestBody SubcategoryDto resource) {
+    public ResponseEntity<ImageDto> update(@Valid @RequestBody ImageDto resource) {
 
-        return new ResponseEntity<>(subcategoryService.update(resource), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.update(resource), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 
-        subcategoryService.deleteById(id);
+        imageService.deleteById(id);
 
         return ResponseEntity.noContent().build();
     }
