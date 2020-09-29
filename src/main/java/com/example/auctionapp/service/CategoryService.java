@@ -22,7 +22,7 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
     BaseRepository<Category> repository;
 
-    private Logger logger = LoggerFactory.getLogger(CategoryService.class);
+    private static Logger logger = LoggerFactory.getLogger(CategoryService.class);
 
     @Autowired
     public CategoryService(BaseRepository<Category> repository) {

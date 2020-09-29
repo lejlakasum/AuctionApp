@@ -30,7 +30,7 @@ public class UserService implements IBaseService<UserDto> {
 
     private static final Long USER_ROLE_ID = 2L;
 
-    private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+    private static Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder,

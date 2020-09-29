@@ -28,7 +28,7 @@ public class DatabaseSeeder {
     private BaseRepository<Category> categoryRepository;
     private BaseRepository<Subcategory> subcategoryRepository;
 
-    private Logger logger = LoggerFactory.getLogger(RoleService.class);
+    private static Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private PasswordEncoder passwordEncoder;
 
     @Autowired

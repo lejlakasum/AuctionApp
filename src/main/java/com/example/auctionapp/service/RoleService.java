@@ -22,7 +22,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
     BaseRepository<Role> repository;
 
-    private Logger logger = LoggerFactory.getLogger(RoleService.class);
+    private static Logger logger = LoggerFactory.getLogger(RoleService.class);
 
     @Autowired
     public RoleService(BaseRepository<Role> repository) {

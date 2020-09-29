@@ -26,7 +26,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
     BaseRepository<Subcategory> repository;
     BaseRepository<Category> categoryRepository;
 
-    private Logger logger = LoggerFactory.getLogger(SubcategoryService.class);
+    private static Logger logger = LoggerFactory.getLogger(SubcategoryService.class);
 
     @Autowired
     public SubcategoryService(BaseRepository<Subcategory> repository,
