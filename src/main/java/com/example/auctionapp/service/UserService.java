@@ -1,5 +1,6 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.Utility;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.exception.NotFoundException;
@@ -21,6 +22,7 @@ import java.util.List;
 @Transactional
 public class UserService implements IBaseService<UserDto> {
 
+    private static final String RESOURCE_NAME = "User";
 
     private UserRepository userRepository;
     private BaseRepository<Role> roleRepository;
@@ -55,12 +57,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public UserDto getById(Long id) {
 
-        User user = userRepository.findById(id);
-        if(user == null) {
-            String message = "User with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        User user = Utility.findIfExist(userRepository, id, RESOURCE_NAME);
         return mapUserToUserDto(user);
     }
 
@@ -88,12 +85,7 @@ public class UserService implements IBaseService<UserDto> {
 
 
     public UserDto update(UserDto resource) {
-        User resourceToUpdate = userRepository.findById(resource.getId());
-        if(resourceToUpdate == null) {
-            String message = "User with id " + resource.getId() + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        User resourceToUpdate = Utility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
 
         resourceToUpdate.setFirstName(resource.getFirstName());
         resourceToUpdate.setLastName(resource.getLastName());
@@ -109,11 +101,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public void deleteById(Long id) {
 
-        if(userRepository.findById(id) == null) {
-            String message = "User with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        Utility.findIfExist(userRepository, id, RESOURCE_NAME);
 
         userRepository.deleteById(id);
 

@@ -1,5 +1,6 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.Utility;
 import com.example.auctionapp.dto.CategoryDto;
 import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Category;
@@ -17,6 +18,8 @@ import java.util.List;
 @Transactional
 public class CategoryService implements IBaseService<CategoryDto> {
 
+    private static final String RESOURCE_NAME = "Category";
+
     BaseRepository<Category> repository;
 
     private Logger logger = LoggerFactory.getLogger(CategoryService.class);
@@ -33,7 +36,11 @@ public class CategoryService implements IBaseService<CategoryDto> {
         List<CategoryDto> categoryDtos = new ArrayList<>();
 
         for (Category category:categories) {
-            categoryDtos.add(new CategoryDto(category.getId(), category.getDateCreated(), category.getLastModifiedDate(), category.getName()));
+            categoryDtos.add(new CategoryDto(
+                                        category.getId(),
+                                        category.getDateCreated(),
+                                        category.getLastModifiedDate(),
+                                        category.getName()));
         }
 
         return  categoryDtos;
@@ -42,46 +49,47 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
     public CategoryDto getById(Long id) {
 
-        Category category = repository.findById(id);
-        if(category == null) {
-            String message = "Category with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
-        return new CategoryDto(category.getId(), category.getDateCreated(), category.getLastModifiedDate(), category.getName());
+        Category category = Utility.findIfExist(repository, id, RESOURCE_NAME);
+
+        return new CategoryDto(
+                            category.getId(),
+                            category.getDateCreated(),
+                            category.getLastModifiedDate(),
+                            category.getName());
     }
 
 
     public CategoryDto add(CategoryDto resource) {
         Category category = repository.create(new Category(resource.getName()));
         logger.info("Category with id " + category.getId() + " created");
-        return new CategoryDto(category.getId(), category.getDateCreated(), category.getLastModifiedDate(), category.getName());
+        return new CategoryDto(
+                            category.getId(),
+                            category.getDateCreated(),
+                            category.getLastModifiedDate(),
+                            category.getName());
     }
 
 
     public CategoryDto update(CategoryDto resource) {
-        Category resourceToUpdate = repository.findById(resource.getId());
-        if(resourceToUpdate == null) {
-            String message = "Category with id " + resource.getId() + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+
+        Category resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+
         resourceToUpdate.setName(resource.getName());
 
         Category category = repository.update(resourceToUpdate);
         logger.info("Category with id " + category.getId() + " updated");
 
-        return new CategoryDto(category.getId(), category.getDateCreated(), category.getLastModifiedDate(), category.getName());
+        return new CategoryDto(
+                            category.getId(),
+                            category.getDateCreated(),
+                            category.getLastModifiedDate(),
+                            category.getName());
     }
 
 
     public void deleteById(Long id) {
 
-        if(repository.findById(id) == null) {
-            String message = "Category with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        Utility.findIfExist(repository, id, RESOURCE_NAME);
 
         repository.deleteById(id);
         logger.info("Category with id " + id + " deleted");

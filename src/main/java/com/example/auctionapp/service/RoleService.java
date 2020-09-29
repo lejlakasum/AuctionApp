@@ -1,5 +1,6 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.Utility;
 import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
@@ -16,6 +17,8 @@ import java.util.List;
 @Service
 @Transactional
 public class RoleService implements IBaseService<RoleDto> {
+
+    private static final String RESOURCE_NAME = "Role";
 
     BaseRepository<Role> repository;
 
@@ -43,12 +46,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
     public RoleDto getById(Long id) {
 
-        Role role = repository.findById(id);
-        if(role == null) {
-            String message = "Role with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        Role role = Utility.findIfExist(repository, id, RESOURCE_NAME);
         return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
@@ -61,12 +59,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
 
     public RoleDto update(RoleDto resource) {
-        Role resourceToUpdate = repository.findById(resource.getId());
-        if(resourceToUpdate == null) {
-            String message = "Role with id " + resource.getId() + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        Role resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
         resourceToUpdate.setName(resource.getName());
 
         Role role = repository.update(resourceToUpdate);
@@ -78,11 +71,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
     public void deleteById(Long id) {
 
-        if(repository.findById(id) == null) {
-            String message = "Role with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        Utility.findIfExist(repository, id, RESOURCE_NAME);
 
         repository.deleteById(id);
         logger.info("Role with id " + id + " deleted");
