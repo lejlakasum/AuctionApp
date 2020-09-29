@@ -1,0 +1,120 @@
+package com.example.auctionapp.service;
+
+import com.example.auctionapp.Util.Utility;
+import com.example.auctionapp.dto.ImageDto;
+import com.example.auctionapp.dto.ProductDto;
+import com.example.auctionapp.model.Image;
+import com.example.auctionapp.model.Product;
+import com.example.auctionapp.model.Subcategory;
+import com.example.auctionapp.repository.BaseRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Transactional
+public class ProductService implements IBaseService<ProductDto> {
+
+    private static final String RESOURCE_NAME = "Product";
+
+    BaseRepository<Product> repository;
+    BaseRepository<Subcategory> subcategoryRepository;
+
+    private static Logger logger = LoggerFactory.getLogger(ProductService.class);
+
+    @Autowired
+    public ProductService(BaseRepository<Product> repository) {
+        this.repository = repository;
+        this.repository.setResourceClass(Product.class);
+    }
+
+    public List<ProductDto> getAll() {
+        List<Product> products = repository.findAll();
+        List<ProductDto> productDtos = new ArrayList<>();
+
+        for (Product product:products) {
+            productDtos.add(mapProductToProductDto(product));
+        }
+
+        return productDtos;
+    }
+
+
+    public ProductDto getById(Long id) {
+
+        Product product = Utility.findIfExist(repository, id, RESOURCE_NAME);
+
+        return mapProductToProductDto(product);
+    }
+
+
+    public ProductDto add(ProductDto resource) {
+
+        Subcategory subcategory = Utility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
+
+        Product product = repository.create(new Product(resource.getName(),
+                                                        resource.getDescription(),
+                                                        resource.getPrice(),
+                                                        subcategory,
+                                                        resource.getAuctionStartDate(),
+                                                        resource.getAuctionEndDate(),
+                                                        null));
+        logger.info("Product with id " + product.getId() + " created");
+        return mapProductToProductDto(product);
+    }
+
+
+    public ProductDto update(ProductDto resource) {
+
+        Product resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+
+        Subcategory subcategory = Utility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
+
+        resourceToUpdate.setName(resource.getName());
+        resourceToUpdate.setDescription(resource.getDescription());
+        resourceToUpdate.setPrice(resource.getPrice());
+        resourceToUpdate.setAuctionStartDate(resource.getAuctionStartDate());
+        resourceToUpdate.setAuctionEndDate(resource.getAuctionEndDate());
+        resourceToUpdate.setSubcategory(subcategory);
+
+        Product product = repository.update(resourceToUpdate);
+        logger.info("Product with id " + product.getId() + " updated");
+
+        return mapProductToProductDto(product);
+    }
+
+
+    public void deleteById(Long id) {
+
+        Utility.findIfExist(repository, id, RESOURCE_NAME);
+
+        repository.deleteById(id);
+        logger.info("Product with id " + id + " deleted");
+    }
+
+    private ProductDto mapProductToProductDto(Product product) {
+
+        List<String> images = new ArrayList<>();
+        for (Image image:product.getImages()) {
+            images.add(image.getUrl());
+        }
+
+        return new ProductDto(product.getId(),
+                product.getDateCreated(),
+                product.getLastModifiedDate(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getSubcategory().getId(),
+                product.getAuctionStartDate(),
+                product.getAuctionEndDate(),
+                images
+                );
+
+    }
+}

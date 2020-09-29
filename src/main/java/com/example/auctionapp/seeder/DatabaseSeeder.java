@@ -2,6 +2,8 @@ package com.example.auctionapp.seeder;
 
 import com.example.auctionapp.enumeration.RoleEnum;
 import com.example.auctionapp.model.Category;
+import com.example.auctionapp.model.Image;
+import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
@@ -17,7 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Transactional
@@ -27,6 +32,8 @@ public class DatabaseSeeder {
     private UserRepository userRepository;
     private BaseRepository<Category> categoryRepository;
     private BaseRepository<Subcategory> subcategoryRepository;
+    private BaseRepository<Product> productRepository;
+    private BaseRepository<Image> imageRepository;
 
     private static Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private PasswordEncoder passwordEncoder;
@@ -36,7 +43,9 @@ public class DatabaseSeeder {
                           UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
                           BaseRepository<Category> categoryRepository,
-                          BaseRepository<Subcategory> subcategoryRepository) {
+                          BaseRepository<Subcategory> subcategoryRepository,
+                          BaseRepository<Product> productRepository,
+                          BaseRepository<Image> imageRepository) {
         this.roleRepository = roleRepository;
         this.roleRepository.setResourceClass(Role.class);
         this.userRepository = userRepository;
@@ -46,6 +55,10 @@ public class DatabaseSeeder {
         this.categoryRepository.setResourceClass(Category.class);
         this.subcategoryRepository=subcategoryRepository;
         this.subcategoryRepository.setResourceClass(Subcategory.class);
+        this.productRepository = productRepository;
+        this.productRepository.setResourceClass(Product.class);
+        this.imageRepository=imageRepository;
+        this.imageRepository.setResourceClass(Image.class);
     }
 
     @EventListener
@@ -54,6 +67,8 @@ public class DatabaseSeeder {
         seedUserTable();
         seedCategoryTable();
         seedSubcategoryTable();
+        seedProductTable();
+        seedImageTable();
     }
 
     private void seedRoleTable() {
@@ -123,6 +138,23 @@ public class DatabaseSeeder {
             subcategoryRepository.create(new Subcategory("Desk", categories.get(5)));
 
             logger.info("Subcategory table seeded");
+        }
+    }
+
+    private void seedProductTable() {
+        List<Product> products = productRepository.findAll();
+        List<Subcategory> subcategories = subcategoryRepository.findAll();
+        if(products.isEmpty()) {
+            productRepository.create(new Product("Black Shirt", "Desc", 100., subcategories.get(1), LocalDateTime.now(), LocalDateTime.now(), null));
+        }
+    }
+
+    private void seedImageTable() {
+        List<Product> products = productRepository.findAll();
+        List<Image> images = imageRepository.findAll();
+
+        if(images.isEmpty()) {
+            imageRepository.create(new Image("URL", products.get(0)));
         }
     }
 

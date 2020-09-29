@@ -23,7 +23,7 @@ import java.util.List;
 public class ImageController implements IBaseController<ImageDto> {
 
     @Autowired
-    ImageService imageService;
+    private ImageService imageService;
 
     @GetMapping()
     public ResponseEntity<List<ImageDto>> getAll() {

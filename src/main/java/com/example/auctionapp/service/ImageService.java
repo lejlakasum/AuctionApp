@@ -23,8 +23,8 @@ public class ImageService implements IBaseService<ImageDto> {
 
     private static final String RESOURCE_NAME = "Image";
 
-    BaseRepository<Image> repository;
-    BaseRepository<Product> productRepository;
+    private BaseRepository<Image> repository;
+    private BaseRepository<Product> productRepository;
 
     private static Logger logger = LoggerFactory.getLogger(ImageService.class);
 

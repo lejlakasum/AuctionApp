@@ -1,20 +1,18 @@
-package com.example.auctionapp.model;
+package com.example.auctionapp.dto;
 
-import org.aspectj.lang.annotation.Before;
+import com.example.auctionapp.model.Image;
+import com.example.auctionapp.model.Subcategory;
 
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name = "product")
-public class Product extends Resource {
+public class ProductDto extends BaseResourceDto{
 
     @NotBlank
     private String name;
@@ -24,10 +22,8 @@ public class Product extends Resource {
     @NotNull
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "subcategory_id", referencedColumnName = "id", updatable = false)
-    private Subcategory subcategory;
-
+    @NotNull
+    private Long subcategoryId;
 
     @NotNull
     private LocalDateTime auctionStartDate;
@@ -35,26 +31,30 @@ public class Product extends Resource {
     @NotNull
     private LocalDateTime auctionEndDate;
 
-    @OneToMany(mappedBy = "product")
-    private Set<Image> images;
+    private List<String> imagesUrl;
 
-    public Product() {
+    public ProductDto() {
     }
 
-    public Product(String name,
-                   String description,
-                   Double price,
-                   Subcategory subcategory,
-                   LocalDateTime auctionStartDate,
-                   LocalDateTime auctionEndDate,
-                   Set<Image> images) {
+    public ProductDto(Long id,
+                      LocalDateTime dateCreated,
+                      LocalDateTime lastModifiedDate,
+                      String name,
+                      String description,
+                      Double price,
+                      Long subcategoryId,
+                      LocalDateTime auctionStartDate,
+                      LocalDateTime auctionEndDate,
+                      List<String> imagesUrl) {
+
+        super(id, dateCreated, lastModifiedDate);
         this.name = name;
         this.description = description;
         this.price = price;
-        this.subcategory = subcategory;
+        this.subcategoryId = subcategoryId;
         this.auctionStartDate = auctionStartDate;
         this.auctionEndDate = auctionEndDate;
-        this.images = images;
+        this.imagesUrl = imagesUrl;
     }
 
     public String getName() {
@@ -81,12 +81,12 @@ public class Product extends Resource {
         this.price = price;
     }
 
-    public Subcategory getSubcategory() {
-        return subcategory;
+    public Long getSubcategoryId() {
+        return subcategoryId;
     }
 
-    public void setSubcategory(Subcategory subcategory) {
-        this.subcategory = subcategory;
+    public void setSubcategoryId(Long subcategoryId) {
+        this.subcategoryId = subcategoryId;
     }
 
     public LocalDateTime getAuctionStartDate() {
@@ -105,11 +105,11 @@ public class Product extends Resource {
         this.auctionEndDate = auctionEndDate;
     }
 
-    public Set<Image> getImages() {
-        return images;
+    public List<String> getImagesUrl() {
+        return imagesUrl;
     }
 
-    public void setImages(Set<Image> images) {
-        this.images = images;
+    public void setImagesUrl(List<String> imagesUrl) {
+        this.imagesUrl = imagesUrl;
     }
 }
