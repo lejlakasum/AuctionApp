@@ -5,9 +5,9 @@ import com.example.auctionapp.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Utility {
+public class RepositoryUtility {
 
-    private static Logger logger = LoggerFactory.getLogger(Utility.class);
+    private static Logger logger = LoggerFactory.getLogger(RepositoryUtility.class);
 
     public static <T> T findIfExist(BaseRepository<T> repository, Long id, String resourceName) {
 

@@ -1,8 +1,7 @@
 package com.example.auctionapp.service;
 
-import com.example.auctionapp.Util.Utility;
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.RoleDto;
-import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.repository.BaseRepository;
 import org.slf4j.Logger;
@@ -46,7 +45,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
     public RoleDto getById(Long id) {
 
-        Role role = Utility.findIfExist(repository, id, RESOURCE_NAME);
+        Role role = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
         return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
@@ -59,7 +58,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
 
     public RoleDto update(RoleDto resource) {
-        Role resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+        Role resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
         resourceToUpdate.setName(resource.getName());
 
         Role role = repository.update(resourceToUpdate);
@@ -71,7 +70,7 @@ public class RoleService implements IBaseService<RoleDto> {
 
     public void deleteById(Long id) {
 
-        Utility.findIfExist(repository, id, RESOURCE_NAME);
+        RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         repository.deleteById(id);
         logger.info("Role with id " + id + " deleted");

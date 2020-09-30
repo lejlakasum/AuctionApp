@@ -47,8 +47,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/category", "/subcategory").hasAuthority(RoleEnum.ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*").hasAuthority(RoleEnum.ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/category", "/category/*",
-                                                        "/subcategory", "/subcategory/*")
+                                                        "/subcategory", "/subcategory/*",
+                                                        "/product", "/product/*",
+                                                        "/image", "/image*")
                 .permitAll()
+                .antMatchers(HttpMethod.POST, "/product").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())
+                .antMatchers(HttpMethod.POST, "/image").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
                 .anyRequest()
                 .authenticated()
                 .and()

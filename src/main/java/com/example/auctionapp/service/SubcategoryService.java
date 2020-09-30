@@ -1,12 +1,9 @@
 package com.example.auctionapp.service;
 
-import com.example.auctionapp.Util.Utility;
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.SubcategoryDto;
-import com.example.auctionapp.dto.UserDto;
-import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +50,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
     public SubcategoryDto getById(Long id) {
 
-        Subcategory subcategory = Utility.findIfExist(repository, id, RESOURCE_NAME);
+        Subcategory subcategory = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         return mapSubcategoryToDto(subcategory);
     }
@@ -61,7 +58,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
     public SubcategoryDto add(SubcategoryDto resource) {
 
-        Category category = Utility.findIfExist(categoryRepository, resource.getCategoryId(), "Category");
+        Category category = RepositoryUtility.findIfExist(categoryRepository, resource.getCategoryId(), "Category");
 
         Subcategory subcategory = repository.create(new Subcategory(resource.getName(), category));
         logger.info("Subcategory with id " + subcategory.getId() + " created");
@@ -71,9 +68,9 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
     public SubcategoryDto update(SubcategoryDto resource) {
 
-        Subcategory resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+        Subcategory resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
 
-        Category category = Utility.findIfExist(categoryRepository, resource.getCategoryId(), "Category");
+        Category category = RepositoryUtility.findIfExist(categoryRepository, resource.getCategoryId(), "Category");
 
         resourceToUpdate.setName(resource.getName());
         resourceToUpdate.setCategory(category);
@@ -87,7 +84,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
     public void deleteById(Long id) {
 
-        Utility.findIfExist(repository, id, RESOURCE_NAME);
+        RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         repository.deleteById(id);
         logger.info("Subcategory with id " + id + " deleted");
@@ -98,6 +95,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
                 subcategory.getDateCreated(),
                 subcategory.getLastModifiedDate(),
                 subcategory.getName(),
-                subcategory.getCategory().getId());
+                subcategory.getCategory().getId()
+        );
     }
 }

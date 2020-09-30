@@ -1,9 +1,8 @@
 package com.example.auctionapp.service;
 
-import com.example.auctionapp.Util.Utility;
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.exception.BadRequestException;
-import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
@@ -30,7 +29,7 @@ public class UserService implements IBaseService<UserDto> {
 
     private static final Long USER_ROLE_ID = 2L;
 
-    private static Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder,
@@ -57,7 +56,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public UserDto getById(Long id) {
 
-        User user = Utility.findIfExist(userRepository, id, RESOURCE_NAME);
+        User user = RepositoryUtility.findIfExist(userRepository, id, RESOURCE_NAME);
         return mapUserToUserDto(user);
     }
 
@@ -76,7 +75,8 @@ public class UserService implements IBaseService<UserDto> {
                 resource.getLastName(),
                 resource.getEmail(),
                 passwordEncoder.encode(resource.getPassword()),
-                role));
+                role)
+        );
 
         logger.info("User with id " + user.getId() + " created");
 
@@ -85,7 +85,7 @@ public class UserService implements IBaseService<UserDto> {
 
 
     public UserDto update(UserDto resource) {
-        User resourceToUpdate = Utility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
+        User resourceToUpdate = RepositoryUtility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
 
         resourceToUpdate.setFirstName(resource.getFirstName());
         resourceToUpdate.setLastName(resource.getLastName());
@@ -101,7 +101,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public void deleteById(Long id) {
 
-        Utility.findIfExist(userRepository, id, RESOURCE_NAME);
+        RepositoryUtility.findIfExist(userRepository, id, RESOURCE_NAME);
 
         userRepository.deleteById(id);
 
@@ -115,7 +115,8 @@ public class UserService implements IBaseService<UserDto> {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getRole().getId());
+                user.getRole().getId()
+        );
     }
 
     private boolean userAlreadyExist(String email) {

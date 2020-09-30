@@ -1,7 +1,6 @@
 package com.example.auctionapp.service;
 
-import com.example.auctionapp.Util.Utility;
-import com.example.auctionapp.dto.ImageDto;
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.ProductDto;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
@@ -47,7 +46,7 @@ public class ProductService implements IBaseService<ProductDto> {
 
     public ProductDto getById(Long id) {
 
-        Product product = Utility.findIfExist(repository, id, RESOURCE_NAME);
+        Product product = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         return mapProductToProductDto(product);
     }
@@ -55,7 +54,7 @@ public class ProductService implements IBaseService<ProductDto> {
 
     public ProductDto add(ProductDto resource) {
 
-        Subcategory subcategory = Utility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
+        Subcategory subcategory = RepositoryUtility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
 
         Product product = repository.create(new Product(resource.getName(),
                                                         resource.getDescription(),
@@ -71,9 +70,9 @@ public class ProductService implements IBaseService<ProductDto> {
 
     public ProductDto update(ProductDto resource) {
 
-        Product resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+        Product resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
 
-        Subcategory subcategory = Utility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
+        Subcategory subcategory = RepositoryUtility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
 
         resourceToUpdate.setName(resource.getName());
         resourceToUpdate.setDescription(resource.getDescription());
@@ -91,7 +90,7 @@ public class ProductService implements IBaseService<ProductDto> {
 
     public void deleteById(Long id) {
 
-        Utility.findIfExist(repository, id, RESOURCE_NAME);
+        RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         repository.deleteById(id);
         logger.info("Product with id " + id + " deleted");
@@ -114,7 +113,7 @@ public class ProductService implements IBaseService<ProductDto> {
                 product.getAuctionStartDate(),
                 product.getAuctionEndDate(),
                 images
-                );
+        );
 
     }
 }

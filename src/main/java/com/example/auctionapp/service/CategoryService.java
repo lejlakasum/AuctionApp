@@ -1,8 +1,7 @@
 package com.example.auctionapp.service;
 
-import com.example.auctionapp.Util.Utility;
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.CategoryDto;
-import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.repository.BaseRepository;
 import org.slf4j.Logger;
@@ -40,7 +39,8 @@ public class CategoryService implements IBaseService<CategoryDto> {
                                         category.getId(),
                                         category.getDateCreated(),
                                         category.getLastModifiedDate(),
-                                        category.getName()));
+                                        category.getName())
+            );
         }
 
         return  categoryDtos;
@@ -49,13 +49,14 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
     public CategoryDto getById(Long id) {
 
-        Category category = Utility.findIfExist(repository, id, RESOURCE_NAME);
+        Category category = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         return new CategoryDto(
                             category.getId(),
                             category.getDateCreated(),
                             category.getLastModifiedDate(),
-                            category.getName());
+                            category.getName()
+        );
     }
 
 
@@ -66,13 +67,14 @@ public class CategoryService implements IBaseService<CategoryDto> {
                             category.getId(),
                             category.getDateCreated(),
                             category.getLastModifiedDate(),
-                            category.getName());
+                            category.getName()
+        );
     }
 
 
     public CategoryDto update(CategoryDto resource) {
 
-        Category resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+        Category resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
 
         resourceToUpdate.setName(resource.getName());
 
@@ -83,13 +85,14 @@ public class CategoryService implements IBaseService<CategoryDto> {
                             category.getId(),
                             category.getDateCreated(),
                             category.getLastModifiedDate(),
-                            category.getName());
+                            category.getName()
+        );
     }
 
 
     public void deleteById(Long id) {
 
-        Utility.findIfExist(repository, id, RESOURCE_NAME);
+        RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         repository.deleteById(id);
         logger.info("Category with id " + id + " deleted");

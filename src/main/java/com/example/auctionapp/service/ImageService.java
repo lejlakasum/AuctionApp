@@ -1,12 +1,9 @@
 package com.example.auctionapp.service;
 
-import com.example.auctionapp.Util.Utility;
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.ImageDto;
-import com.example.auctionapp.dto.SubcategoryDto;
-import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +50,7 @@ public class ImageService implements IBaseService<ImageDto> {
 
     public ImageDto getById(Long id) {
 
-        Image image = Utility.findIfExist(repository, id, RESOURCE_NAME);
+        Image image = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         return mapImageToImageDto(image);
     }
@@ -61,7 +58,7 @@ public class ImageService implements IBaseService<ImageDto> {
 
     public ImageDto add(ImageDto resource) {
 
-        Product product = Utility.findIfExist(productRepository, resource.getProductId(), "Product");
+        Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
 
         Image image = repository.create(new Image(resource.getUrl(), product));
         logger.info("Image with id " + image.getId() + " created");
@@ -71,9 +68,9 @@ public class ImageService implements IBaseService<ImageDto> {
 
     public ImageDto update(ImageDto resource) {
 
-        Image resourceToUpdate = Utility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+        Image resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
 
-        Product product = Utility.findIfExist(productRepository, resource.getProductId(), "Product");
+        Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
 
         resourceToUpdate.setUrl(resource.getUrl());
         resourceToUpdate.setProduct(product);
@@ -87,7 +84,7 @@ public class ImageService implements IBaseService<ImageDto> {
 
     public void deleteById(Long id) {
 
-        Utility.findIfExist(repository, id, RESOURCE_NAME);
+        RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         repository.deleteById(id);
         logger.info("Image with id " + id + " deleted");
@@ -98,6 +95,7 @@ public class ImageService implements IBaseService<ImageDto> {
                 image.getDateCreated(),
                 image.getLastModifiedDate(),
                 image.getUrl(),
-                image.getProduct().getId());
+                image.getProduct().getId()
+        );
     }
 }
