@@ -145,7 +145,10 @@ public class DatabaseSeeder {
         List<Product> products = productRepository.findAll();
         List<Subcategory> subcategories = subcategoryRepository.findAll();
         if(products.isEmpty()) {
-            productRepository.create(new Product("Black Shirt", "Desc", 100., subcategories.get(1), LocalDateTime.now(), LocalDateTime.now(), null));
+            productRepository.create(new Product("Black Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 100., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
+            productRepository.create(new Product("Brown Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 300., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
+            productRepository.create(new Product("Blue Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 500., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
+            productRepository.create(new Product("White Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 1000., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
         }
     }
 
@@ -154,7 +157,11 @@ public class DatabaseSeeder {
         List<Image> images = imageRepository.findAll();
 
         if(images.isEmpty()) {
-            imageRepository.create(new Image("URL", products.get(0)));
+            imageRepository.create(new Image("https://www.harrysarmysurplus.net/assets/images/rothco/7324_4.jpg", products.get(0)));
+            imageRepository.create(new Image("https://www.harrysarmysurplus.net/assets/images/rothco/7324_1.jpg", products.get(0)));
+            imageRepository.create(new Image("https://static.grainger.com/rp/s/is/image/Grainger/9YR98_AS05?$zmmain$", products.get(1)));
+            imageRepository.create(new Image("https://content.regatta.com/CMW772_UR5/350/CMW772_UR5_01_bynder_defined_type_product_01.jpg", products.get(2)));
+            imageRepository.create(new Image("https://www.fjackets.com/product_images/i/088/Mens_White_Leather_Motorcycle_Jacket__45131_zoom.jpg", products.get(3)));
         }
     }
 

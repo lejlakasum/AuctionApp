@@ -48,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*").hasAuthority(RoleEnum.ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/category", "/category/*",
                                                         "/subcategory", "/subcategory/*",
-                                                        "/product", "/product/*",
+                                                        "/product", "/product/*", "/product/*/*",
                                                         "/image", "/image*")
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/product").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())

@@ -6,6 +6,7 @@ import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,16 @@ public class ProductService implements IBaseService<ProductDto> {
 
     private static final String RESOURCE_NAME = "Product";
 
-    BaseRepository<Product> repository;
+    @Autowired
+    ProductRepository repository;
     BaseRepository<Subcategory> subcategoryRepository;
 
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
-    public ProductService(BaseRepository<Product> repository) {
-        this.repository = repository;
-        this.repository.setResourceClass(Product.class);
+    public ProductService(BaseRepository<Subcategory> subcategoryRepository) {
+        this.subcategoryRepository = subcategoryRepository;
+        this.subcategoryRepository.setResourceClass(Subcategory.class);
     }
 
     public List<ProductDto> getAll() {
@@ -49,6 +51,18 @@ public class ProductService implements IBaseService<ProductDto> {
         Product product = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
         return mapProductToProductDto(product);
+    }
+
+    public List<ProductDto> getRelatedProducts(Long productId, Long subcategoryId) {
+
+        List<Product> products = repository.findRelatedProducts(productId, subcategoryId);
+        List<ProductDto> productDtos = new ArrayList<>();
+
+        for (Product product:products) {
+            productDtos.add(mapProductToProductDto(product));
+        }
+
+        return productDtos;
     }
 
 

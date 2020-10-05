@@ -5,6 +5,7 @@ import com.example.auctionapp.dto.ImageDto;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,14 @@ public class ImageService implements IBaseService<ImageDto> {
     private static final String RESOURCE_NAME = "Image";
 
     private BaseRepository<Image> repository;
-    private BaseRepository<Product> productRepository;
+    private ProductRepository productRepository;
 
     private static Logger logger = LoggerFactory.getLogger(ImageService.class);
 
     @Autowired
-    public ImageService(BaseRepository<Image> repository,
-                              BaseRepository<Product> productRepository) {
+    public ImageService(BaseRepository<Image> repository) {
         this.repository = repository;
         this.repository.setResourceClass(Image.class);
-        this.productRepository =productRepository;
-        this.productRepository.setResourceClass(Product.class);
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.auctionapp.model;
 
 import org.aspectj.lang.annotation.Before;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -9,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -19,6 +21,7 @@ public class Product extends Resource {
     @NotBlank
     private String name;
 
+    @Size(min=0, max = 1000)
     private String description;
 
     @NotNull
