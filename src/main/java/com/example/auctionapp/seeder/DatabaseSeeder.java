@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,6 @@ public class DatabaseSeeder {
     private BaseRepository<Category> categoryRepository;
     private BaseRepository<Subcategory> subcategoryRepository;
     private BaseRepository<Product> productRepository;
-    private BaseRepository<Image> imageRepository;
 
     private static Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private PasswordEncoder passwordEncoder;
@@ -44,8 +44,7 @@ public class DatabaseSeeder {
                           PasswordEncoder passwordEncoder,
                           BaseRepository<Category> categoryRepository,
                           BaseRepository<Subcategory> subcategoryRepository,
-                          BaseRepository<Product> productRepository,
-                          BaseRepository<Image> imageRepository) {
+                          BaseRepository<Product> productRepository) {
         this.roleRepository = roleRepository;
         this.roleRepository.setResourceClass(Role.class);
         this.userRepository = userRepository;
@@ -57,8 +56,6 @@ public class DatabaseSeeder {
         this.subcategoryRepository.setResourceClass(Subcategory.class);
         this.productRepository = productRepository;
         this.productRepository.setResourceClass(Product.class);
-        this.imageRepository=imageRepository;
-        this.imageRepository.setResourceClass(Image.class);
     }
 
     @EventListener
@@ -68,7 +65,6 @@ public class DatabaseSeeder {
         seedCategoryTable();
         seedSubcategoryTable();
         seedProductTable();
-        seedImageTable();
     }
 
     private void seedRoleTable() {
@@ -144,24 +140,23 @@ public class DatabaseSeeder {
     private void seedProductTable() {
         List<Product> products = productRepository.findAll();
         List<Subcategory> subcategories = subcategoryRepository.findAll();
+        List<Image> images = new ArrayList<>();
+
         if(products.isEmpty()) {
-            productRepository.create(new Product("Black Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 100., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
-            productRepository.create(new Product("Brown Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 300., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
-            productRepository.create(new Product("Blue Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 500., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
-            productRepository.create(new Product("White Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 1000., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), null));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_1.jpg?alt=media&token=8f659c7a-c046-416c-b7e5-25e91204eb9e"));
+            productRepository.create(new Product("Black Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 100., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), images));
+            images=new ArrayList<>();
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F9YR98_AS05.jpg?alt=media&token=67ae4719-dfc0-40f8-8b54-d83f9ec89992"));
+            productRepository.create(new Product("Brown Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 300., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), images));
+            images=new ArrayList<>();
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2FCMW772_UR5_01_bynder_defined_type_product_01.jpg?alt=media&token=3fcce00d-42d4-47bd-931f-57b64dd9aafa"));
+            productRepository.create(new Product("Blue Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 500., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), images));
+            images=new ArrayList<>();
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2FMens_White_Leather_Motorcycle_Jacket__45131_zoom.jpg?alt=media&token=9116965a-e04a-436b-9206-242559b88ee8"));
+            productRepository.create(new Product("White Jacket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", 1000., subcategories.get(2), LocalDateTime.now(), LocalDateTime.now(), images));
+
+            logger.info("Product table seeded");
         }
-    }
-
-    private void seedImageTable() {
-        List<Product> products = productRepository.findAll();
-        List<Image> images = imageRepository.findAll();
-
-        if(images.isEmpty()) {
-            /*imageRepository.create(new Image("https://www.harrysarmysurplus.net/assets/images/rothco/7324_4.jpg", products.get(0)));
-            imageRepository.create(new Image("https://www.harrysarmysurplus.net/assets/images/rothco/7324_1.jpg", products.get(0)));
-            imageRepository.create(new Image("https://static.grainger.com/rp/s/is/image/Grainger/9YR98_AS05?$zmmain$", products.get(1)));
-            imageRepository.create(new Image("https://content.regatta.com/CMW772_UR5/350/CMW772_UR5_01_bynder_defined_type_product_01.jpg", products.get(2)));
-            imageRepository.create(new Image("https://www.fjackets.com/product_images/i/088/Mens_White_Leather_Motorcycle_Jacket__45131_zoom.jpg", products.get(3)));
-        */}
     }
 }
