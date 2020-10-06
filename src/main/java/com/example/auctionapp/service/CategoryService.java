@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,16 +33,15 @@ public class CategoryService implements IBaseService<CategoryDto> {
     public List<CategoryDto> getAll() {
 
         List<Category> categories = repository.findAll();
-        List<CategoryDto> categoryDtos = new ArrayList<>();
 
-        for (Category category:categories) {
-            categoryDtos.add(new CategoryDto(
-                                        category.getId(),
-                                        category.getDateCreated(),
-                                        category.getLastModifiedDate(),
-                                        category.getName())
-            );
-        }
+        List<CategoryDto> categoryDtos = categories.stream().map(
+                category -> { return new CategoryDto(
+                        category.getId(),
+                        category.getDateCreated(),
+                        category.getLastModifiedDate(),
+                        category.getName());
+                }
+        ).collect(Collectors.toList());
 
         return  categoryDtos;
     }

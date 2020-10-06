@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,11 +34,14 @@ public class ImageService implements IBaseService<ImageDto> {
     public List<ImageDto> getAll() {
 
         List<Image> images = repository.findAll();
-        List<ImageDto> imageDtos = new ArrayList<>();
-
-        for (Image image:images) {
-            imageDtos.add(mapImageToImageDto(image));
-        }
+        List<ImageDto> imageDtos = images.stream().map(
+                image -> { return new ImageDto(
+                        image.getId(),
+                        image.getDateCreated(),
+                        image.getLastModifiedDate(),
+                        image.getUrl());
+                }
+        ).collect(Collectors.toList());
 
         return  imageDtos;
     }

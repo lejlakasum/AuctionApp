@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,11 +34,14 @@ public class RoleService implements IBaseService<RoleDto> {
     public List<RoleDto> getAll() {
 
         List<Role> roles = repository.findAll();
-        List<RoleDto> roleDtos = new ArrayList<>();
-
-        for (Role role:roles) {
-            roleDtos.add(new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName()));
-        }
+        List<RoleDto> roleDtos = roles.stream().map(
+                role -> {return new RoleDto(
+                                    role.getId(),
+                                    role.getDateCreated(),
+                                    role.getLastModifiedDate(),
+                                    role.getName());
+                }
+        ).collect(Collectors.toList());
 
         return  roleDtos;
     }

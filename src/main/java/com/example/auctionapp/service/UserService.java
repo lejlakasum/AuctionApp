@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -44,11 +45,10 @@ public class UserService implements IBaseService<UserDto> {
     public List<UserDto> getAll() {
 
         List<User> users = userRepository.findAll();
-        List<UserDto> userDtos = new ArrayList<>();
-
-        for (User user:users) {
-            userDtos.add(mapUserToUserDto(user));
-        }
+        List<UserDto> userDtos = users.stream().map(
+                user -> {return mapUserToUserDto(user);
+                }
+        ).collect(Collectors.toList());
 
         return  userDtos;
     }

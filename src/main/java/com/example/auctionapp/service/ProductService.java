@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,11 +37,10 @@ public class ProductService implements IBaseService<ProductDto> {
 
     public List<ProductDto> getAll() {
         List<Product> products = repository.findAll();
-        List<ProductDto> productDtos = new ArrayList<>();
-
-        for (Product product:products) {
-            productDtos.add(mapProductToProductDto(product));
-        }
+        List<ProductDto> productDtos = products.stream().map(
+                product -> {return mapProductToProductDto(product);
+                }
+        ).collect(Collectors.toList());
 
         return productDtos;
     }
@@ -56,11 +56,10 @@ public class ProductService implements IBaseService<ProductDto> {
     public List<ProductDto> getRelatedProducts(Long productId, Long subcategoryId) {
 
         List<Product> products = repository.findRelatedProducts(productId, subcategoryId);
-        List<ProductDto> productDtos = new ArrayList<>();
-
-        for (Product product:products) {
-            productDtos.add(mapProductToProductDto(product));
-        }
+        List<ProductDto> productDtos = products.stream().map(
+                product -> {return mapProductToProductDto(product);
+                }
+        ).collect(Collectors.toList());
 
         return productDtos;
     }
@@ -117,10 +116,10 @@ public class ProductService implements IBaseService<ProductDto> {
 
     private ProductDto mapProductToProductDto(Product product) {
 
-        List<String> images = new ArrayList<>();
-        for (Image image:product.getImages()) {
-            images.add(image.getUrl());
-        }
+        List<String> images = product.getImages().stream().map(
+                image -> {return image.getUrl();
+                }
+        ).collect(Collectors.toList());
 
         return new ProductDto(product.getId(),
                 product.getDateCreated(),
