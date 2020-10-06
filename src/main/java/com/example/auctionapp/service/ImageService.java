@@ -20,16 +20,10 @@ public class ImageService implements IBaseService<ImageDto> {
 
     private static final String RESOURCE_NAME = "Image";
 
+    @Autowired
     private BaseRepository<Image> repository;
 
     private static Logger logger = LoggerFactory.getLogger(ImageService.class);
-
-    @Autowired
-    public ImageService(BaseRepository<Image> repository) {
-        this.repository = repository;
-        this.repository.setResourceClass(Image.class);
-    }
-
 
     public List<ImageDto> getAll() {
 

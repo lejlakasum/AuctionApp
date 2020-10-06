@@ -11,9 +11,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.validation.Valid;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-@Repository
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class BaseRepository<T> implements IBaseRepository<T> {
 
@@ -22,7 +22,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void setResourceClass( Class< T > classToSet ) {
+    public void setResourceClass(Class< T > classToSet ) {
         this.resourceClass = classToSet;
     }
 

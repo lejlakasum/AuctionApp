@@ -24,7 +24,9 @@ public class UserService implements IBaseService<UserDto> {
 
     private static final String RESOURCE_NAME = "User";
 
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private BaseRepository<Role> roleRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -33,12 +35,7 @@ public class UserService implements IBaseService<UserDto> {
     private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder,
-                       UserRepository userRepository,
-                       BaseRepository<Role> roleRepository) {
-        this.userRepository=userRepository;
-        this.roleRepository=roleRepository;
-        this.roleRepository.setResourceClass(Role.class);
+    public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 

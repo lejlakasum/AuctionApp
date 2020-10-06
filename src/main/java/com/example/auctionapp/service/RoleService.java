@@ -20,16 +20,10 @@ public class RoleService implements IBaseService<RoleDto> {
 
     private static final String RESOURCE_NAME = "Role";
 
+    @Autowired
     BaseRepository<Role> repository;
 
     private static Logger logger = LoggerFactory.getLogger(RoleService.class);
-
-    @Autowired
-    public RoleService(BaseRepository<Role> repository) {
-        this.repository = repository;
-        this.repository.setResourceClass(Role.class);
-    }
-
 
     public List<RoleDto> getAll() {
 

@@ -11,13 +11,16 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
+
 public class ProductRepository extends BaseRepository<Product> {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    public static final Integer MAX_RESULT = 3;
 
     public List<Product> findRelatedProducts(Long productId, Long subcategoryId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -27,14 +30,16 @@ public class ProductRepository extends BaseRepository<Product> {
         q.select(resource);
         Predicate predicateForSubcategory = cb.equal(resource.get("subcategory").get("id"), subcategoryId);
         Predicate predicateForProduct = cb.notEqual(resource.get("id"), productId);
+        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
         q.where(
                 cb.and(
                         predicateForProduct,
-                        predicateForSubcategory
+                        predicateForSubcategory,
+                        predicateForEndDate
                 )
         );
 
-        List<Product> result = entityManager.createQuery(q).getResultList();
+        List<Product> result = entityManager.createQuery(q).setMaxResults(3).getResultList();
 
         return result;
     }

@@ -20,15 +20,10 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
     private static final String RESOURCE_NAME = "Category";
 
+    @Autowired
     BaseRepository<Category> repository;
 
     private static Logger logger = LoggerFactory.getLogger(CategoryService.class);
-
-    @Autowired
-    public CategoryService(BaseRepository<Category> repository) {
-        this.repository = repository;
-        this.repository.setResourceClass(Category.class);
-    }
 
     public List<CategoryDto> getAll() {
 

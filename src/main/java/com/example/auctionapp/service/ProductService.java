@@ -25,15 +25,10 @@ public class ProductService implements IBaseService<ProductDto> {
 
     @Autowired
     ProductRepository repository;
+    @Autowired
     BaseRepository<Subcategory> subcategoryRepository;
 
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
-
-    @Autowired
-    public ProductService(BaseRepository<Subcategory> subcategoryRepository) {
-        this.subcategoryRepository = subcategoryRepository;
-        this.subcategoryRepository.setResourceClass(Subcategory.class);
-    }
 
     public List<ProductDto> getAll() {
         List<Product> products = repository.findAll();
