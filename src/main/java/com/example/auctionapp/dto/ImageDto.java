@@ -9,16 +9,12 @@ public class ImageDto extends BaseResourceDto {
     @NotBlank
     private String url;
 
-    @NotNull
-    private Long productId;
-
     public ImageDto() {
     }
 
-    public ImageDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate, String url, Long productId) {
+    public ImageDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate, String url) {
         super(id, dateCreated, lastModifiedDate);
         this.url = url;
-        this.productId = productId;
     }
 
     public String getUrl() {
@@ -27,13 +23,5 @@ public class ImageDto extends BaseResourceDto {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
     }
 }

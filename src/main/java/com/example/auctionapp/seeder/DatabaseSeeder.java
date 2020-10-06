@@ -157,12 +157,11 @@ public class DatabaseSeeder {
         List<Image> images = imageRepository.findAll();
 
         if(images.isEmpty()) {
-            imageRepository.create(new Image("https://www.harrysarmysurplus.net/assets/images/rothco/7324_4.jpg", products.get(0)));
+            /*imageRepository.create(new Image("https://www.harrysarmysurplus.net/assets/images/rothco/7324_4.jpg", products.get(0)));
             imageRepository.create(new Image("https://www.harrysarmysurplus.net/assets/images/rothco/7324_1.jpg", products.get(0)));
             imageRepository.create(new Image("https://static.grainger.com/rp/s/is/image/Grainger/9YR98_AS05?$zmmain$", products.get(1)));
             imageRepository.create(new Image("https://content.regatta.com/CMW772_UR5/350/CMW772_UR5_01_bynder_defined_type_product_01.jpg", products.get(2)));
             imageRepository.create(new Image("https://www.fjackets.com/product_images/i/088/Mens_White_Leather_Motorcycle_Jacket__45131_zoom.jpg", products.get(3)));
-        }
+        */}
     }
-
 }

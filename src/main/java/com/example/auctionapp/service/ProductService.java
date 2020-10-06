@@ -70,13 +70,18 @@ public class ProductService implements IBaseService<ProductDto> {
 
         Subcategory subcategory = RepositoryUtility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
 
+        List<Image> images = new ArrayList<>();
+        for (String url:resource.getImagesUrl()) {
+            images.add(new Image(url));
+        }
+
         Product product = repository.create(new Product(resource.getName(),
                                                         resource.getDescription(),
                                                         resource.getPrice(),
                                                         subcategory,
                                                         resource.getAuctionStartDate(),
                                                         resource.getAuctionEndDate(),
-                                                        null));
+                                                        images));
         logger.info("Product with id " + product.getId() + " created");
         return mapProductToProductDto(product);
     }

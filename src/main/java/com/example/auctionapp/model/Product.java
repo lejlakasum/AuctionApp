@@ -3,6 +3,7 @@ package com.example.auctionapp.model;
 import org.aspectj.lang.annotation.Before;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,8 +40,8 @@ public class Product extends Resource {
     @NotNull
     private LocalDateTime auctionEndDate;
 
-    @OneToMany(mappedBy = "product")
-    private Set<Image> images;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
 
     public Product() {
     }
@@ -50,7 +52,7 @@ public class Product extends Resource {
                    Subcategory subcategory,
                    LocalDateTime auctionStartDate,
                    LocalDateTime auctionEndDate,
-                   Set<Image> images) {
+                   List<Image> images) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -108,11 +110,11 @@ public class Product extends Resource {
         this.auctionEndDate = auctionEndDate;
     }
 
-    public Set<Image> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(Set<Image> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 }

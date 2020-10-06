@@ -3,9 +3,7 @@ package com.example.auctionapp.service;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.ImageDto;
 import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Product;
 import com.example.auctionapp.repository.BaseRepository;
-import com.example.auctionapp.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ public class ImageService implements IBaseService<ImageDto> {
     private static final String RESOURCE_NAME = "Image";
 
     private BaseRepository<Image> repository;
-    private ProductRepository productRepository;
 
     private static Logger logger = LoggerFactory.getLogger(ImageService.class);
 
@@ -56,9 +53,7 @@ public class ImageService implements IBaseService<ImageDto> {
 
     public ImageDto add(ImageDto resource) {
 
-        Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
-
-        Image image = repository.create(new Image(resource.getUrl(), product));
+        Image image = repository.create(new Image(resource.getUrl()));
         logger.info("Image with id " + image.getId() + " created");
         return mapImageToImageDto(image);
     }
@@ -68,10 +63,7 @@ public class ImageService implements IBaseService<ImageDto> {
 
         Image resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
 
-        Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
-
         resourceToUpdate.setUrl(resource.getUrl());
-        resourceToUpdate.setProduct(product);
 
         Image image = repository.update(resourceToUpdate);
         logger.info("Image with id " + image.getId() + " updated");
@@ -92,8 +84,7 @@ public class ImageService implements IBaseService<ImageDto> {
         return new ImageDto(image.getId(),
                 image.getDateCreated(),
                 image.getLastModifiedDate(),
-                image.getUrl(),
-                image.getProduct().getId()
+                image.getUrl()
         );
     }
 }
