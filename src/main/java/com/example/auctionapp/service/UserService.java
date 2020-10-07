@@ -1,8 +1,8 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.exception.BadRequestException;
-import com.example.auctionapp.exception.NotFoundException;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
@@ -16,38 +16,36 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class UserService implements IBaseService<UserDto> {
 
+    private static final String RESOURCE_NAME = "User";
 
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private BaseRepository<Role> roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     private static final Long USER_ROLE_ID = 2L;
 
-    private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder,
-                       UserRepository userRepository,
-                       BaseRepository<Role> roleRepository) {
-        this.userRepository=userRepository;
-        this.roleRepository=roleRepository;
-        this.roleRepository.setResourceClass(Role.class);
+    public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDto> getAll() {
 
         List<User> users = userRepository.findAll();
-        List<UserDto> userDtos = new ArrayList<>();
-
-        for (User user:users) {
-            userDtos.add(mapUserToUserDto(user));
-        }
+        List<UserDto> userDtos = users.stream().map(
+                user -> {return mapUserToUserDto(user);
+                }
+        ).collect(Collectors.toList());
 
         return  userDtos;
     }
@@ -55,12 +53,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public UserDto getById(Long id) {
 
-        User user = userRepository.findById(id);
-        if(user == null) {
-            String message = "User with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        User user = RepositoryUtility.findIfExist(userRepository, id, RESOURCE_NAME);
         return mapUserToUserDto(user);
     }
 
@@ -79,7 +72,8 @@ public class UserService implements IBaseService<UserDto> {
                 resource.getLastName(),
                 resource.getEmail(),
                 passwordEncoder.encode(resource.getPassword()),
-                role));
+                role)
+        );
 
         logger.info("User with id " + user.getId() + " created");
 
@@ -88,12 +82,7 @@ public class UserService implements IBaseService<UserDto> {
 
 
     public UserDto update(UserDto resource) {
-        User resourceToUpdate = userRepository.findById(resource.getId());
-        if(resourceToUpdate == null) {
-            String message = "User with id " + resource.getId() + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        User resourceToUpdate = RepositoryUtility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
 
         resourceToUpdate.setFirstName(resource.getFirstName());
         resourceToUpdate.setLastName(resource.getLastName());
@@ -109,11 +98,7 @@ public class UserService implements IBaseService<UserDto> {
 
     public void deleteById(Long id) {
 
-        if(userRepository.findById(id) == null) {
-            String message = "User with id " + id + " does not exist";
-            logger.error(message);
-            throw new NotFoundException(message);
-        }
+        RepositoryUtility.findIfExist(userRepository, id, RESOURCE_NAME);
 
         userRepository.deleteById(id);
 
@@ -127,7 +112,8 @@ public class UserService implements IBaseService<UserDto> {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getRole().getId());
+                user.getRole().getId()
+        );
     }
 
     private boolean userAlreadyExist(String email) {
