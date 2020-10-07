@@ -84,4 +84,23 @@ public class ProductRepository extends BaseRepository<Product> {
         return result;
     }
 
+    public List<Product> getLastChanceProducts() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> resource = q.from(Product.class);
+        q.select(resource);
+        Predicate predicateForEndDate = cb.between(resource.<LocalDateTime>get("auctionEndDate"),
+                                                    LocalDateTime.now(),
+                                                    LocalDateTime.now().plusHours(24)
+        );
+
+        q.where(predicateForEndDate);
+        q.orderBy(cb.asc(resource.get("auctionEndDate")));
+
+        List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT_ARRIVALS).getResultList();
+
+        return result;
+    }
+
 }

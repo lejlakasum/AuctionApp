@@ -56,6 +56,11 @@ public class ProductController implements IBaseController<ProductDto> {
         return new ResponseEntity<>(productService.getNewArrivals(), HttpStatus.OK);
     }
 
+    @GetMapping("/last-chance")
+    public ResponseEntity<List<ProductDto>> getLastChance() {
+        return new ResponseEntity<>(productService.getLastChance(), HttpStatus.OK);
+    }
+
     @PostMapping()
     @Valid
     public ResponseEntity<ProductDto>  add(@Valid @RequestBody ProductDto resource) {

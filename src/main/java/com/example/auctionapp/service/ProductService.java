@@ -66,6 +66,13 @@ public class ProductService implements IBaseService<ProductDto> {
         return mapProductListToDtoList(products);
     }
 
+    public List<ProductDto> getLastChance() {
+
+        List<Product> products = repository.getLastChanceProducts();
+
+        return mapProductListToDtoList(products);
+    }
+
 
     public ProductDto add(ProductDto resource) {
 
