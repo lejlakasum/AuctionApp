@@ -59,6 +59,17 @@ public class ProductService implements IBaseService<ProductDto> {
         return productDtos;
     }
 
+    public List<ProductDto> getFeatureProducts() {
+
+        List<Product> products = repository.getFeatureProducts();
+        List<ProductDto> productDtos = products.stream().map(
+                product -> {return mapProductToProductDto(product);
+                }
+        ).collect(Collectors.toList());
+
+        return productDtos;
+    }
+
 
     public ProductDto add(ProductDto resource) {
 
@@ -75,7 +86,8 @@ public class ProductService implements IBaseService<ProductDto> {
                                                         subcategory,
                                                         resource.getAuctionStartDate(),
                                                         resource.getAuctionEndDate(),
-                                                        images));
+                                                        images,
+                                                        resource.getFeature()));
         logger.info("Product with id " + product.getId() + " created");
         return mapProductToProductDto(product);
     }
@@ -125,7 +137,8 @@ public class ProductService implements IBaseService<ProductDto> {
                 product.getSubcategory().getId(),
                 product.getAuctionStartDate(),
                 product.getAuctionEndDate(),
-                images
+                images,
+                product.getFeature()
         );
 
     }

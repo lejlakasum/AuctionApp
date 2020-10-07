@@ -1,9 +1,6 @@
 package com.example.auctionapp.repository;
 
 import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,7 +36,22 @@ public class ProductRepository extends BaseRepository<Product> {
                 )
         );
 
-        List<Product> result = entityManager.createQuery(q).setMaxResults(3).getResultList();
+        List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT).getResultList();
+
+        return result;
+    }
+
+    public List<Product> getFeatureProducts() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> resource = q.from(Product.class);
+        q.select(resource);
+
+        Predicate predicateForFeature = cb.equal(resource.get("feature"), true);
+        q.where(predicateForFeature);
+
+        List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT).getResultList();
 
         return result;
     }

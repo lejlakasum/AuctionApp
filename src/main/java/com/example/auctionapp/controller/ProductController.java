@@ -46,6 +46,11 @@ public class ProductController implements IBaseController<ProductDto> {
         return new ResponseEntity<>(productService.getRelatedProducts(id, subcategoryId), HttpStatus.OK);
     }
 
+    @GetMapping("/feature")
+    public ResponseEntity<List<ProductDto>> getFeatureProducts() {
+        return new ResponseEntity<>(productService.getFeatureProducts(), HttpStatus.OK);
+    }
+
     @PostMapping()
     @Valid
     public ResponseEntity<ProductDto>  add(@Valid @RequestBody ProductDto resource) {

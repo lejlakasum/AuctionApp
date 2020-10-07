@@ -33,6 +33,8 @@ public class ProductDto extends BaseResourceDto{
 
     private List<String> imagesUrl;
 
+    private Boolean feature;
+
     public ProductDto() {
     }
 
@@ -45,7 +47,8 @@ public class ProductDto extends BaseResourceDto{
                       Long subcategoryId,
                       LocalDateTime auctionStartDate,
                       LocalDateTime auctionEndDate,
-                      List<String> imagesUrl) {
+                      List<String> imagesUrl,
+                      Boolean feature) {
 
         super(id, dateCreated, lastModifiedDate);
         this.name = name;
@@ -55,6 +58,7 @@ public class ProductDto extends BaseResourceDto{
         this.auctionStartDate = auctionStartDate;
         this.auctionEndDate = auctionEndDate;
         this.imagesUrl = imagesUrl;
+        this.feature = feature;
     }
 
     public String getName() {
@@ -111,5 +115,13 @@ public class ProductDto extends BaseResourceDto{
 
     public void setImagesUrl(List<String> imagesUrl) {
         this.imagesUrl = imagesUrl;
+    }
+
+    public Boolean getFeature() {
+        return feature;
+    }
+
+    public void setFeature(Boolean feature) {
+        this.feature = feature;
     }
 }
