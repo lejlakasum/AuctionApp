@@ -26,7 +26,7 @@ public class AuthenticationService {
     @Value("${secret-key}")
     private String SECRET_KEY;
 
-    private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+    private static Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     public LoginResponse login(LoginRequest loginRequest) throws Exception {
         try {
