@@ -18,6 +18,8 @@ public class ProductRepository extends BaseRepository<Product> {
     EntityManager entityManager;
 
     public static final Integer MAX_RESULT = 3;
+    public static final Integer MAX_RESULT_FEATURE = 4;
+    public static final Integer MAX_RESULT_ARRIVALS = 6;
 
     public List<Product> findRelatedProducts(Long productId, Long subcategoryId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -49,10 +51,37 @@ public class ProductRepository extends BaseRepository<Product> {
         q.select(resource);
 
         Predicate predicateForFeature = cb.equal(resource.get("feature"), true);
-        q.where(predicateForFeature);
+        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
+        q.where(
+                cb.and(predicateForFeature,
+                        predicateForEndDate)
+        );
 
-        List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT).getResultList();
+        List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT_FEATURE).getResultList();
 
         return result;
     }
+
+    public List<Product> getNewArrivals() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> resource = q.from(Product.class);
+        q.select(resource);
+
+        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
+        Predicate predicateForStartDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionStartDate"),
+                                                                  LocalDateTime.now().minusHours(48));
+
+        q.where(
+                cb.and(predicateForStartDate,
+                        predicateForEndDate)
+        );
+        q.orderBy(cb.desc(resource.get("auctionStartDate")));
+
+        List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT_ARRIVALS).getResultList();
+
+        return result;
+    }
+
 }

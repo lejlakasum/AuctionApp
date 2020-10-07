@@ -31,13 +31,10 @@ public class ProductService implements IBaseService<ProductDto> {
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     public List<ProductDto> getAll() {
-        List<Product> products = repository.findAll();
-        List<ProductDto> productDtos = products.stream().map(
-                product -> {return mapProductToProductDto(product);
-                }
-        ).collect(Collectors.toList());
 
-        return productDtos;
+        List<Product> products = repository.findAll();
+
+        return mapProductListToDtoList(products);
     }
 
 
@@ -51,23 +48,22 @@ public class ProductService implements IBaseService<ProductDto> {
     public List<ProductDto> getRelatedProducts(Long productId, Long subcategoryId) {
 
         List<Product> products = repository.findRelatedProducts(productId, subcategoryId);
-        List<ProductDto> productDtos = products.stream().map(
-                product -> {return mapProductToProductDto(product);
-                }
-        ).collect(Collectors.toList());
 
-        return productDtos;
+        return mapProductListToDtoList(products);
     }
 
     public List<ProductDto> getFeatureProducts() {
 
         List<Product> products = repository.getFeatureProducts();
-        List<ProductDto> productDtos = products.stream().map(
-                product -> {return mapProductToProductDto(product);
-                }
-        ).collect(Collectors.toList());
 
-        return productDtos;
+        return mapProductListToDtoList(products);
+    }
+
+    public List<ProductDto> getNewArrivals() {
+
+        List<Product> products = repository.getNewArrivals();
+
+        return mapProductListToDtoList(products);
     }
 
 
@@ -141,5 +137,12 @@ public class ProductService implements IBaseService<ProductDto> {
                 product.getFeature()
         );
 
+    }
+
+    private List<ProductDto> mapProductListToDtoList(List<Product> products) {
+        return products.stream().map(
+                product -> {return mapProductToProductDto(product);
+                }
+        ).collect(Collectors.toList());
     }
 }
