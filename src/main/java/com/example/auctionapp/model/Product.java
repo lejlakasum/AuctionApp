@@ -45,6 +45,10 @@ public class Product extends Resource {
 
     private Boolean feature;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    private User user;
+
     public Product() {
     }
 
@@ -55,7 +59,8 @@ public class Product extends Resource {
                    LocalDateTime auctionStartDate,
                    LocalDateTime auctionEndDate,
                    List<Image> images,
-                   Boolean feature) {
+                   Boolean feature,
+                   User user) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -64,6 +69,7 @@ public class Product extends Resource {
         this.auctionEndDate = auctionEndDate;
         this.images = images;
         this.feature=feature;
+        this.user=user;
     }
 
     public String getName() {
@@ -128,5 +134,13 @@ public class Product extends Resource {
 
     public void setFeature(Boolean feature) {
         this.feature = feature;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

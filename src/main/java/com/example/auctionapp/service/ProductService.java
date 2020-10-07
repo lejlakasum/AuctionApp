@@ -5,8 +5,10 @@ import com.example.auctionapp.dto.ProductDto;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
+import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.ProductRepository;
+import com.example.auctionapp.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class ProductService implements IBaseService<ProductDto> {
     ProductRepository repository;
     @Autowired
     BaseRepository<Subcategory> subcategoryRepository;
+    @Autowired
+    UserRepository userRepository;
 
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
 
@@ -77,6 +81,7 @@ public class ProductService implements IBaseService<ProductDto> {
     public ProductDto add(ProductDto resource) {
 
         Subcategory subcategory = RepositoryUtility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
+        User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
 
         List<Image> images = resource.getImagesUrl().stream().map(
                 url -> {return new Image(url);
@@ -90,7 +95,8 @@ public class ProductService implements IBaseService<ProductDto> {
                                                         resource.getAuctionStartDate(),
                                                         resource.getAuctionEndDate(),
                                                         images,
-                                                        resource.getFeature()));
+                                                        resource.getFeature(),
+                                                        user));
         logger.info("Product with id " + product.getId() + " created");
         return mapProductToProductDto(product);
     }
@@ -141,7 +147,8 @@ public class ProductService implements IBaseService<ProductDto> {
                 product.getAuctionStartDate(),
                 product.getAuctionEndDate(),
                 images,
-                product.getFeature()
+                product.getFeature(),
+                product.getId()
         );
 
     }
