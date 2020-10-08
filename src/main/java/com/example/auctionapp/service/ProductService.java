@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class ProductService implements IBaseService<ProductDto> {
 
     private static final String RESOURCE_NAME = "Product";
+    public static final List<String> categoryList = Arrays.asList("Fashion", "Shoes", "Electronics");
 
     @Autowired
     ProductRepository repository;
@@ -75,6 +77,17 @@ public class ProductService implements IBaseService<ProductDto> {
         List<Product> products = repository.getLastChanceProducts();
 
         return mapProductListToDtoList(products);
+    }
+
+    public List<List<ProductDto>> getFeatureCollections() {
+
+        List<List<ProductDto>> featureCollection = new ArrayList<>();
+
+        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(0))));
+        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(1))));
+        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(2))));
+
+        return featureCollection;
     }
 
 

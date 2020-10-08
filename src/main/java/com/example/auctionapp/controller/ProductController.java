@@ -61,6 +61,11 @@ public class ProductController implements IBaseController<ProductDto> {
         return new ResponseEntity<>(productService.getLastChance(), HttpStatus.OK);
     }
 
+    @GetMapping("/feature-collections")
+    public ResponseEntity<List<List<ProductDto>>> getFeatureCollections() {
+        return new ResponseEntity<>(productService.getFeatureCollections(), HttpStatus.OK);
+    }
+
     @PostMapping()
     @Valid
     public ResponseEntity<ProductDto>  add(@Valid @RequestBody ProductDto resource) {

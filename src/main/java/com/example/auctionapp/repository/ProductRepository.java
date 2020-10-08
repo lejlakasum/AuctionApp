@@ -6,9 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -20,6 +22,7 @@ public class ProductRepository extends BaseRepository<Product> {
     public static final Integer MAX_RESULT = 3;
     public static final Integer MAX_RESULT_FEATURE = 4;
     public static final Integer MAX_RESULT_ARRIVALS = 6;
+    public static final Integer MAX_RESULT_COLLECTIONS = 10;
 
     public List<Product> findRelatedProducts(Long productId, Long subcategoryId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -99,6 +102,28 @@ public class ProductRepository extends BaseRepository<Product> {
         q.orderBy(cb.asc(resource.get("auctionEndDate")));
 
         List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT_ARRIVALS).getResultList();
+
+        return result;
+    }
+
+    public List<Product> getFeatureCllectionByCategory(String categoryName) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> resource = q.from(Product.class);
+        q.select(resource);
+
+        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
+        Predicate predicateForFeature = cb.equal(resource.get("feature"), true);
+        Predicate predicateForCategory = cb.like(resource.get("subcategory").get("category").get("name"), categoryName);
+
+        q.where(
+                cb.and(predicateForEndDate,
+                        predicateForFeature,
+                        predicateForCategory)
+        );
+
+        List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT_COLLECTIONS).getResultList();
 
         return result;
     }

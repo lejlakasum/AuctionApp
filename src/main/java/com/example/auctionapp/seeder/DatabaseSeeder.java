@@ -4,6 +4,7 @@ import com.example.auctionapp.enumeration.RoleEnum;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
+import com.example.auctionapp.model.Rating;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
@@ -39,6 +40,8 @@ public class DatabaseSeeder {
     private BaseRepository<Subcategory> subcategoryRepository;
     @Autowired
     private BaseRepository<Product> productRepository;
+    @Autowired
+    private BaseRepository<Rating> ratingRepository;
 
     private static Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private PasswordEncoder passwordEncoder;
@@ -55,6 +58,7 @@ public class DatabaseSeeder {
         seedCategoryTable();
         seedSubcategoryTable();
         seedProductTable();
+        seedRatingTable();
     }
 
     private void seedRoleTable() {
@@ -95,6 +99,14 @@ public class DatabaseSeeder {
                     roleRepository.findById(3L)
             ));
 
+            userRepository.create(new User(
+                    "Serena",
+                    "Williams",
+                    "serena@mail.com",
+                    passwordEncoder.encode("password"),
+                    roleRepository.findById(3L)
+            ));
+
             logger.info("User table seeded");
         }
     }
@@ -128,6 +140,14 @@ public class DatabaseSeeder {
             subcategoryRepository.create(new Subcategory("Waller", categories.get(1)));
             subcategoryRepository.create(new Subcategory("Belt", categories.get(1)));
             subcategoryRepository.create(new Subcategory("Desk", categories.get(5)));
+            subcategoryRepository.create(new Subcategory("Boots", categories.get(3)));
+            subcategoryRepository.create(new Subcategory("Running", categories.get(3)));
+            subcategoryRepository.create(new Subcategory("Tennis", categories.get(3)));
+            subcategoryRepository.create(new Subcategory("Mobile Phone", categories.get(6)));
+            subcategoryRepository.create(new Subcategory("Tablet", categories.get(6)));
+            subcategoryRepository.create(new Subcategory("TV", categories.get(6)));
+            subcategoryRepository.create(new Subcategory("Laptop", categories.get(6)));
+
 
             logger.info("Subcategory table seeded");
         }
@@ -136,7 +156,9 @@ public class DatabaseSeeder {
     private void seedProductTable() {
         List<Product> products = productRepository.findAll();
         List<Subcategory> subcategories = subcategoryRepository.findAll();
-        User seller = userRepository.findAll().get(2);
+        List<User> users = userRepository.findAll();
+        User seller = users.get(2);
+        User seller2 = users.get(3);
         List<Image> images = new ArrayList<>();
 
         if(products.isEmpty()) {
@@ -161,7 +183,7 @@ public class DatabaseSeeder {
                                                 300.,
                                                 subcategories.get(2),
                                                 LocalDateTime.now().minusHours(50),
-                                                LocalDateTime.now().minusDays(5),
+                                                LocalDateTime.now().plusDays(5),
                                                 images,
                                                 true,
                                                 seller
@@ -196,7 +218,79 @@ public class DatabaseSeeder {
                     )
             );
 
+            images=new ArrayList<>();
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
+            productRepository.create(new Product("White Jacket",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                            1000.,
+                            subcategories.get(2),
+                            LocalDateTime.now().minusHours(77),
+                            LocalDateTime.now().plusHours(3),
+                            images,
+                            false,
+                            seller2
+                    )
+            );
+
+            images=new ArrayList<>();
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
+            productRepository.create(new Product("Lenovo Tablet",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                            1000.,
+                            subcategories.get(10),
+                            LocalDateTime.now().minusHours(77),
+                            LocalDateTime.now().plusHours(3),
+                            images,
+                            true,
+                            seller2
+                    )
+            );
+
+            images=new ArrayList<>();
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
+            productRepository.create(new Product("Tennis shoes",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                            1000.,
+                            subcategories.get(8),
+                            LocalDateTime.now().minusHours(77),
+                            LocalDateTime.now().plusHours(3),
+                            images,
+                            true,
+                            seller2
+                    )
+            );
+
+            images=new ArrayList<>();
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
+            productRepository.create(new Product("White Jacket",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                            1000.,
+                            subcategories.get(2),
+                            LocalDateTime.now().minusHours(77),
+                            LocalDateTime.now().plusHours(3),
+                            images,
+                            false,
+                            seller2
+                    )
+            );
+
             logger.info("Product table seeded");
+        }
+    }
+
+    private void seedRatingTable() {
+        List<Rating> ratings = ratingRepository.findAll();
+        List<User> users = userRepository.findAll();
+        if(ratings.isEmpty()) {
+
+            ratingRepository.create(new Rating(5, "", users.get(2)));
+            ratingRepository.create(new Rating(3, "", users.get(2)));
+            ratingRepository.create(new Rating(4, "", users.get(2)));
+            ratingRepository.create(new Rating(3, "", users.get(2)));
+            ratingRepository.create(new Rating(3, "", users.get(2)));
+            ratingRepository.create(new Rating(4, "", users.get(2)));
+
+            logger.info("Rating table seeded");
         }
     }
 }
