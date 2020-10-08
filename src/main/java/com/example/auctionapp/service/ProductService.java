@@ -79,6 +79,13 @@ public class ProductService implements IBaseService<ProductDto> {
         return mapProductListToDtoList(products);
     }
 
+    public List<ProductDto> getTopRated() {
+
+        List<Product> products = repository.getTopRatedProducts();
+
+        return mapProductListToDtoList(products);
+    }
+
     public List<List<ProductDto>> getFeatureCollections() {
 
         List<List<ProductDto>> featureCollection = new ArrayList<>();

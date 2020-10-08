@@ -9,6 +9,7 @@ import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
 import com.example.auctionapp.service.RoleService;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class DatabaseSeeder {
     @Autowired
     private BaseRepository<Subcategory> subcategoryRepository;
     @Autowired
-    private BaseRepository<Product> productRepository;
+    private ProductRepository productRepository;
     @Autowired
     private BaseRepository<Rating> ratingRepository;
 
@@ -286,9 +287,9 @@ public class DatabaseSeeder {
             ratingRepository.create(new Rating(5, "", users.get(2)));
             ratingRepository.create(new Rating(3, "", users.get(2)));
             ratingRepository.create(new Rating(4, "", users.get(2)));
-            ratingRepository.create(new Rating(3, "", users.get(2)));
-            ratingRepository.create(new Rating(3, "", users.get(2)));
-            ratingRepository.create(new Rating(4, "", users.get(2)));
+            ratingRepository.create(new Rating(3, "", users.get(3)));
+            ratingRepository.create(new Rating(3, "", users.get(3)));
+            ratingRepository.create(new Rating(4, "", users.get(3)));
 
             logger.info("Rating table seeded");
         }

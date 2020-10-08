@@ -61,6 +61,11 @@ public class ProductController implements IBaseController<ProductDto> {
         return new ResponseEntity<>(productService.getLastChance(), HttpStatus.OK);
     }
 
+    @GetMapping("/top-rated")
+    public ResponseEntity<List<ProductDto>> getTopRated() {
+        return new ResponseEntity<>(productService.getTopRated(), HttpStatus.OK);
+    }
+
     @GetMapping("/feature-collections")
     public ResponseEntity<List<List<ProductDto>>> getFeatureCollections() {
         return new ResponseEntity<>(productService.getFeatureCollections(), HttpStatus.OK);

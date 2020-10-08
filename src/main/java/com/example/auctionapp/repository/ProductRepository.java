@@ -1,6 +1,8 @@
 package com.example.auctionapp.repository;
 
 import com.example.auctionapp.model.Product;
+import com.example.auctionapp.model.Rating;
+import com.example.auctionapp.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,7 +11,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class ProductRepository extends BaseRepository<Product> {
     public static final Integer MAX_RESULT_FEATURE = 4;
     public static final Integer MAX_RESULT_ARRIVALS = 6;
     public static final Integer MAX_RESULT_COLLECTIONS = 10;
+    public static final Integer MAX_TOP_RATED = 5;
 
     public List<Product> findRelatedProducts(Long productId, Long subcategoryId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -126,6 +131,36 @@ public class ProductRepository extends BaseRepository<Product> {
         List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT_COLLECTIONS).getResultList();
 
         return result;
+    }
+
+    public List<Product> getTopRatedProducts() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Product> productQuery = cb.createQuery(Product.class);
+        Root<Product> product = productQuery.from(Product.class);
+
+        CriteriaQuery<Rating> ratingQuery = cb.createQuery(Rating.class);
+        Root<Rating> rating = ratingQuery.from(Rating.class);
+
+        ratingQuery.select(rating.get("user").get("id"))
+                .groupBy(rating.get("user").get("id"))
+                .orderBy(cb.desc(cb.avg(rating.get("grade"))));
+
+
+        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(product.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
+
+        List<Rating> users = entityManager.createQuery(ratingQuery).setMaxResults(MAX_TOP_RATED).getResultList();
+
+        productQuery.select(product)
+                .where(
+                        cb.and(predicateForEndDate,
+                                cb.in(product.get("user").get("id")).value(users))
+                );
+
+        List<Product> result = entityManager.createQuery(productQuery).setMaxResults(MAX_RESULT_ARRIVALS).getResultList();
+
+        return result;
+
     }
 
 }
