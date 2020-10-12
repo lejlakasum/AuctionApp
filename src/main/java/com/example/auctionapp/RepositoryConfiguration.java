@@ -3,6 +3,7 @@ package com.example.auctionapp;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
+import com.example.auctionapp.model.Rating;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
@@ -54,6 +55,13 @@ public class RepositoryConfiguration {
     UserRepository userRepository() {
         UserRepository rep = new UserRepository();
         rep.setResourceClass(User.class);
+        return rep;
+    }
+
+    @Bean
+    BaseRepository<Rating> ratingyRepository() {
+        BaseRepository<Rating> rep = new BaseRepository<Rating>();
+        rep.setResourceClass(Rating.class);
         return rep;
     }
 }

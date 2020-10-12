@@ -46,6 +46,31 @@ public class ProductController implements IBaseController<ProductDto> {
         return new ResponseEntity<>(productService.getRelatedProducts(id, subcategoryId), HttpStatus.OK);
     }
 
+    @GetMapping("/feature")
+    public ResponseEntity<List<ProductDto>> getFeatureProducts() {
+        return new ResponseEntity<>(productService.getFeatureProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/new-arrivals")
+    public ResponseEntity<List<ProductDto>> getNewArrivals() {
+        return new ResponseEntity<>(productService.getNewArrivals(), HttpStatus.OK);
+    }
+
+    @GetMapping("/last-chance")
+    public ResponseEntity<List<ProductDto>> getLastChance() {
+        return new ResponseEntity<>(productService.getLastChance(), HttpStatus.OK);
+    }
+
+    @GetMapping("/top-rated")
+    public ResponseEntity<List<ProductDto>> getTopRated() {
+        return new ResponseEntity<>(productService.getTopRated(), HttpStatus.OK);
+    }
+
+    @GetMapping("/feature-collections")
+    public ResponseEntity<List<List<ProductDto>>> getFeatureCollections() {
+        return new ResponseEntity<>(productService.getFeatureCollections(), HttpStatus.OK);
+    }
+
     @PostMapping()
     @Valid
     public ResponseEntity<ProductDto>  add(@Valid @RequestBody ProductDto resource) {

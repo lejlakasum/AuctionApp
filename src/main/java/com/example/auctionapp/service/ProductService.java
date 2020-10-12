@@ -5,8 +5,10 @@ import com.example.auctionapp.dto.ProductDto;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
+import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.ProductRepository;
+import com.example.auctionapp.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,22 +25,22 @@ import java.util.stream.Collectors;
 public class ProductService implements IBaseService<ProductDto> {
 
     private static final String RESOURCE_NAME = "Product";
+    public static final List<String> categoryList = Arrays.asList("Fashion", "Shoes", "Electronics");
 
     @Autowired
     ProductRepository repository;
     @Autowired
     BaseRepository<Subcategory> subcategoryRepository;
+    @Autowired
+    UserRepository userRepository;
 
     private static Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     public List<ProductDto> getAll() {
-        List<Product> products = repository.findAll();
-        List<ProductDto> productDtos = products.stream().map(
-                product -> {return mapProductToProductDto(product);
-                }
-        ).collect(Collectors.toList());
 
-        return productDtos;
+        List<Product> products = repository.findAll();
+
+        return mapProductListToDtoList(products);
     }
 
 
@@ -51,18 +54,54 @@ public class ProductService implements IBaseService<ProductDto> {
     public List<ProductDto> getRelatedProducts(Long productId, Long subcategoryId) {
 
         List<Product> products = repository.findRelatedProducts(productId, subcategoryId);
-        List<ProductDto> productDtos = products.stream().map(
-                product -> {return mapProductToProductDto(product);
-                }
-        ).collect(Collectors.toList());
 
-        return productDtos;
+        return mapProductListToDtoList(products);
+    }
+
+    public List<ProductDto> getFeatureProducts() {
+
+        List<Product> products = repository.getFeatureProducts();
+
+        return mapProductListToDtoList(products);
+    }
+
+    public List<ProductDto> getNewArrivals() {
+
+        List<Product> products = repository.getNewArrivals();
+
+        return mapProductListToDtoList(products);
+    }
+
+    public List<ProductDto> getLastChance() {
+
+        List<Product> products = repository.getLastChanceProducts();
+
+        return mapProductListToDtoList(products);
+    }
+
+    public List<ProductDto> getTopRated() {
+
+        List<Product> products = repository.getTopRatedProducts();
+
+        return mapProductListToDtoList(products);
+    }
+
+    public List<List<ProductDto>> getFeatureCollections() {
+
+        List<List<ProductDto>> featureCollection = new ArrayList<>();
+
+        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(0))));
+        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(1))));
+        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(2))));
+
+        return featureCollection;
     }
 
 
     public ProductDto add(ProductDto resource) {
 
         Subcategory subcategory = RepositoryUtility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
+        User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
 
         List<Image> images = resource.getImagesUrl().stream().map(
                 url -> {return new Image(url);
@@ -75,7 +114,9 @@ public class ProductService implements IBaseService<ProductDto> {
                                                         subcategory,
                                                         resource.getAuctionStartDate(),
                                                         resource.getAuctionEndDate(),
-                                                        images));
+                                                        images,
+                                                        resource.getFeature(),
+                                                        user));
         logger.info("Product with id " + product.getId() + " created");
         return mapProductToProductDto(product);
     }
@@ -125,8 +166,17 @@ public class ProductService implements IBaseService<ProductDto> {
                 product.getSubcategory().getId(),
                 product.getAuctionStartDate(),
                 product.getAuctionEndDate(),
-                images
+                images,
+                product.getFeature(),
+                product.getId()
         );
 
+    }
+
+    private List<ProductDto> mapProductListToDtoList(List<Product> products) {
+        return products.stream().map(
+                product -> {return mapProductToProductDto(product);
+                }
+        ).collect(Collectors.toList());
     }
 }
