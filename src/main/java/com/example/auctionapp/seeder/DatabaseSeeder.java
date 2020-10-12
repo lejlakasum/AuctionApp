@@ -270,7 +270,7 @@ public class DatabaseSeeder {
                             LocalDateTime.now().minusHours(77),
                             LocalDateTime.now().plusHours(3),
                             images,
-                            false,
+                            true,
                             seller2
                     )
             );
