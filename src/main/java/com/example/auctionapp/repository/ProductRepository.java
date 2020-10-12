@@ -25,7 +25,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
     public static final Integer MAX_RESULT = 3;
     public static final Integer MAX_RESULT_FEATURE = 4;
-    public static final Integer MAX_RESULT_ARRIVALS = 6;
+    public static final Integer MAX_RESULT_ARRIVALS = 8;
     public static final Integer MAX_RESULT_COLLECTIONS = 10;
     public static final Integer MAX_TOP_RATED = 5;
 
