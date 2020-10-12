@@ -43,6 +43,12 @@ public class Product extends Resource {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
+    private Boolean feature;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
+    private User user;
+
     public Product() {
     }
 
@@ -52,7 +58,9 @@ public class Product extends Resource {
                    Subcategory subcategory,
                    LocalDateTime auctionStartDate,
                    LocalDateTime auctionEndDate,
-                   List<Image> images) {
+                   List<Image> images,
+                   Boolean feature,
+                   User user) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -60,6 +68,8 @@ public class Product extends Resource {
         this.auctionStartDate = auctionStartDate;
         this.auctionEndDate = auctionEndDate;
         this.images = images;
+        this.feature=feature;
+        this.user=user;
     }
 
     public String getName() {
@@ -116,5 +126,21 @@ public class Product extends Resource {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public Boolean getFeature() {
+        return feature;
+    }
+
+    public void setFeature(Boolean feature) {
+        this.feature = feature;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
