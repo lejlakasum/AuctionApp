@@ -1,7 +1,9 @@
 package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.RepositoryUtility;
+import com.example.auctionapp.dto.CollectionDto;
 import com.example.auctionapp.dto.ProductDto;
+import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
@@ -86,15 +88,31 @@ public class ProductService implements IBaseService<ProductDto> {
         return mapProductListToDtoList(products);
     }
 
-    public List<List<ProductDto>> getFeatureCollections() {
+    public List<CollectionDto> getFeatureCollections() {
 
-        List<List<ProductDto>> featureCollection = new ArrayList<>();
+        List<CollectionDto> featureCollection = new ArrayList<>();
 
-        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(0))));
-        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(1))));
-        featureCollection.add(mapProductListToDtoList(repository.getFeatureCllectionByCategory(categoryList.get(2))));
+        featureCollection.add(new CollectionDto(
+                categoryList.get(0),
+                mapProductListToDtoList(repository.getCllectionByCategory(categoryList.get(0), true)))
+        );
+
+        featureCollection.add(new CollectionDto(
+                categoryList.get(1),
+                mapProductListToDtoList(repository.getCllectionByCategory(categoryList.get(1), true)))
+        );
+
+        featureCollection.add(new CollectionDto(
+                categoryList.get(2),
+                mapProductListToDtoList(repository.getCllectionByCategory(categoryList.get(2), true)))
+        );
 
         return featureCollection;
+    }
+
+    public List<ProductDto> getByCategory(String categoryName) {
+
+        return mapProductListToDtoList(repository.getCllectionByCategory(categoryName, false));
     }
 
 

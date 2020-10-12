@@ -1,5 +1,6 @@
 package com.example.auctionapp.controller;
 
+import com.example.auctionapp.dto.CollectionDto;
 import com.example.auctionapp.dto.ProductDto;
 import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.service.ProductService;
@@ -67,8 +68,13 @@ public class ProductController implements IBaseController<ProductDto> {
     }
 
     @GetMapping("/feature-collections")
-    public ResponseEntity<List<List<ProductDto>>> getFeatureCollections() {
+    public ResponseEntity<List<CollectionDto>> getFeatureCollections() {
         return new ResponseEntity<>(productService.getFeatureCollections(), HttpStatus.OK);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<ProductDto>> getByCategory(@RequestParam("category") String categoryName) {
+        return new ResponseEntity<>(productService.getByCategory(categoryName), HttpStatus.OK);
     }
 
     @PostMapping()
