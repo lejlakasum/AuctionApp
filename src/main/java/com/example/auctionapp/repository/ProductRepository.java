@@ -128,7 +128,17 @@ public class ProductRepository extends BaseRepository<Product> {
         );
 
         if(feature) {
-            q.where(predicateForFeature);
+            q.where(
+                    cb.and(predicateForEndDate,
+                            predicateForFeature,
+                            predicateForCategory)
+            );
+        }
+        else {
+            q.where(
+                    cb.and(predicateForEndDate,
+                            predicateForCategory)
+            );
         }
 
         List<Product> result = entityManager.createQuery(q).setMaxResults(MAX_RESULT_COLLECTIONS).getResultList();
