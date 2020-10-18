@@ -56,17 +56,12 @@ public class CategoryService implements IBaseService<CategoryDto> {
     public List<CollectionDto> findFeatureCategories() {
         List<CollectionDto> collectionDtos = new ArrayList<>();
 
-        collectionDtos.add(new CollectionDto(
-                        mapCategoryToCategoryDto(repository.findByName(featureCategories.get(0))),
-                        productRepository.getCollectionLowestPrice(featureCategories.get(0))));
+        for (String category: featureCategories) {
+            collectionDtos.add(new CollectionDto(
+                    mapCategoryToCategoryDto(repository.findByName(category)),
+                    productRepository.getCollectionLowestPrice(category)));
 
-        collectionDtos.add(new CollectionDto(
-                mapCategoryToCategoryDto(repository.findByName(featureCategories.get(1))),
-                productRepository.getCollectionLowestPrice(featureCategories.get(1))));
-
-        collectionDtos.add(new CollectionDto(
-                mapCategoryToCategoryDto(repository.findByName(featureCategories.get(2))),
-                productRepository.getCollectionLowestPrice(featureCategories.get(2))));
+        }
 
         return collectionDtos;
     }

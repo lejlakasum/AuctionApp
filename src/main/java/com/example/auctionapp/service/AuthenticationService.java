@@ -23,12 +23,11 @@ public class AuthenticationService {
     @Autowired
     private RepositoryAwareUserDetailsService userDetailsService;
 
-    @Value("${secret-key}")
     private String SECRET_KEY;
 
     public AuthenticationService(AuthenticationManager authenticationManager,
                                  RepositoryAwareUserDetailsService userDetailsService,
-                                 String SECRET_KEY) {
+                                 @Value("${secret-key}") String SECRET_KEY) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.SECRET_KEY = SECRET_KEY;

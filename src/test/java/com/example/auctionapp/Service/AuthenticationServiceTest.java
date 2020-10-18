@@ -38,14 +38,12 @@ public class AuthenticationServiceTest {
 
     @BeforeEach
     public void init() {
-        System.out.print("PRINT BEFORE TEST");
         MockitoAnnotations.initMocks(this);
         authenticationService = new AuthenticationService(authenticationManager, userDetailsService, SECRET_KEY);
     }
 
     @Test
     public void loginTest() throws Exception {
-        System.out.print("TEST");
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken("username",
                 "password");
         CustomUserDetails userDetails = new CustomUserDetails(

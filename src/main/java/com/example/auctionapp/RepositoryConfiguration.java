@@ -66,9 +66,4 @@ public class RepositoryConfiguration {
         return rep;
     }
 
-    @Bean
-    String string() {
-        String str = new String();
-        return str;
-    }
 }
