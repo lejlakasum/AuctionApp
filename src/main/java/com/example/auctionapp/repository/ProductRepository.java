@@ -2,19 +2,14 @@ package com.example.auctionapp.repository;
 
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Rating;
-import com.example.auctionapp.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -121,11 +116,6 @@ public class ProductRepository extends BaseRepository<Product> {
         Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
         Predicate predicateForFeature = cb.equal(resource.get("feature"), feature);
         Predicate predicateForCategory = cb.like(resource.get("subcategory").get("category").get("name"), categoryName);
-
-        q.where(
-                cb.and(predicateForEndDate,
-                        predicateForCategory)
-        );
 
         if(feature) {
             q.where(

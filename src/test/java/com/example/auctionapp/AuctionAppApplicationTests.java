@@ -2,6 +2,7 @@ package com.example.auctionapp;
 
 import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.model.Category;
+import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.LoginRequest;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.repository.BaseRepository;
@@ -12,8 +13,14 @@ import com.example.auctionapp.service.AuthenticationService;
 import static org.junit.Assert.assertEquals;
 
 import com.example.auctionapp.service.RoleService;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,26 +40,34 @@ class AuctionAppApplicationTests {
     @Value("${secret-key}")
     private String SECRET_KEY;
 
-    @Autowired
+    @InjectMocks
     private AuthenticationService authenticationService;
 
-    @MockBean
+    @Mock
     private AuthenticationManager authenticationManager;
 
-    @MockBean
+    @Mock
     private RepositoryAwareUserDetailsService userDetailsService;
 
-    @Autowired
+    @InjectMocks
     private RoleService roleService;
 
-    @MockBean
+    @Mock
     private BaseRepository<Role> roleRepository;
 
-    @Autowired
+    @InjectMocks
     private BaseRepository<Category> categoryRepository;
+
+    @Mock
+    private EntityManager entityManager;
 
     @Test
     void contextLoads() {
+    }
+
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -105,22 +120,19 @@ class AuctionAppApplicationTests {
     @Test
     public void findCategoryTest() {
 
-        EntityManager entityManager = Mockito.mock(EntityManager.class);
-
-        Category category = new Category("categoryName");
+        Category category = new Category("categoryName", new Image("#"));
 
         Mockito.when(entityManager.find(Category.class, 1L))
                 .thenReturn(category);
 
-        assertEquals(category.getName(), categoryRepository.findById(1L).getName());
+        Category serviceCategory = categoryRepository.findById(1L);
+        assertEquals(category.getName(), serviceCategory.getName());
     }
 
     @Test
     public void createCategoryTest() {
 
-        EntityManager entityManager = Mockito.mock(EntityManager.class);
-
-        Category category = new Category("categoryName");
+        Category category = new Category("categoryName", new Image("#"));
 
         Mockito.doNothing().when(entityManager).persist(category);
 

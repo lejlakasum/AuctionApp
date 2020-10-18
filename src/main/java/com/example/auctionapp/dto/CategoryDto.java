@@ -8,12 +8,15 @@ public class CategoryDto extends BaseResourceDto {
     @NotNull
     private String name;
 
+    private String imageUrl;
+
     public CategoryDto() {
     }
 
-    public CategoryDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate, @NotNull String name) {
+    public CategoryDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate, String name, String imageUrl) {
         super(id, dateCreated, lastModifiedDate);
         this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {
@@ -22,5 +25,13 @@ public class CategoryDto extends BaseResourceDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

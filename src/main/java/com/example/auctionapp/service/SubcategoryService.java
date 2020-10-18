@@ -5,6 +5,7 @@ import com.example.auctionapp.dto.SubcategoryDto;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.CategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
     @Autowired
     BaseRepository<Subcategory> repository;
     @Autowired
-    BaseRepository<Category> categoryRepository;
+    CategoryRepository categoryRepository;
 
     private static Logger logger = LoggerFactory.getLogger(SubcategoryService.class);
 

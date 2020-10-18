@@ -1,9 +1,7 @@
 package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.RepositoryUtility;
-import com.example.auctionapp.dto.CollectionDto;
 import com.example.auctionapp.dto.ProductDto;
-import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
@@ -17,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +23,6 @@ import java.util.stream.Collectors;
 public class ProductService implements IBaseService<ProductDto> {
 
     private static final String RESOURCE_NAME = "Product";
-    public static final List<String> categoryList = Arrays.asList("Fashion", "Shoes", "Electronics");
 
     @Autowired
     ProductRepository repository;
@@ -88,31 +83,9 @@ public class ProductService implements IBaseService<ProductDto> {
         return mapProductListToDtoList(products);
     }
 
-    public List<CollectionDto> getFeatureCollections() {
+    public List<ProductDto> getByCategory(String categoryName, Boolean feature) {
 
-        List<CollectionDto> featureCollection = new ArrayList<>();
-
-        featureCollection.add(new CollectionDto(
-                categoryList.get(0),
-                mapProductListToDtoList(repository.getCllectionByCategory(categoryList.get(0), true)))
-        );
-
-        featureCollection.add(new CollectionDto(
-                categoryList.get(1),
-                mapProductListToDtoList(repository.getCllectionByCategory(categoryList.get(1), true)))
-        );
-
-        featureCollection.add(new CollectionDto(
-                categoryList.get(2),
-                mapProductListToDtoList(repository.getCllectionByCategory(categoryList.get(2), true)))
-        );
-
-        return featureCollection;
-    }
-
-    public List<ProductDto> getByCategory(String categoryName) {
-
-        return mapProductListToDtoList(repository.getCllectionByCategory(categoryName, false));
+        return mapProductListToDtoList(repository.getCllectionByCategory(categoryName, feature));
     }
 
 

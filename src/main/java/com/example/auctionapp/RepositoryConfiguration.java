@@ -8,6 +8,7 @@ import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.CategoryRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -15,13 +16,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RepositoryConfiguration {
-
-    @Bean
-    BaseRepository<Category> categoryRepository() {
-        BaseRepository<Category> rep = new BaseRepository<Category>();
-        rep.setResourceClass(Category.class);
-        return rep;
-    }
 
     @Bean
     BaseRepository<Image> imageRepository() {
@@ -62,6 +56,13 @@ public class RepositoryConfiguration {
     BaseRepository<Rating> ratingyRepository() {
         BaseRepository<Rating> rep = new BaseRepository<Rating>();
         rep.setResourceClass(Rating.class);
+        return rep;
+    }
+
+    @Bean
+    CategoryRepository categoryRepository() {
+        CategoryRepository rep = new CategoryRepository();
+        rep.setResourceClass(Category.class);
         return rep;
     }
 }

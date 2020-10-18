@@ -37,6 +37,11 @@ public class CategoryController implements IBaseController<CategoryDto> {
         return new ResponseEntity<>(categoryService.getById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/feature")
+    public ResponseEntity<List<CategoryDto>> getFeatureCategories() {
+        return new ResponseEntity<>(categoryService.findFeatureCategories(), HttpStatus.OK);
+    }
+
     @PostMapping()
     @Valid
     public ResponseEntity<CategoryDto> add(@Valid @RequestBody CategoryDto resource) {

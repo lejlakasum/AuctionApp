@@ -115,16 +115,16 @@ public class DatabaseSeeder {
     private void seedCategoryTable() {
         List<Category> categories = categoryRepository.findAll();
         if(categories.isEmpty()) {
-            categoryRepository.create(new Category("Fashion"));
-            categoryRepository.create(new Category("Accessories"));
-            categoryRepository.create(new Category("Jewelry"));
-            categoryRepository.create(new Category("Shoes"));
-            categoryRepository.create(new Category("Sportswear"));
-            categoryRepository.create(new Category("Home"));
-            categoryRepository.create(new Category("Electronics"));
-            categoryRepository.create(new Category("Mobile"));
-            categoryRepository.create(new Category("Computer"));
-            categoryRepository.create(new Category("Garden"));
+            categoryRepository.create(new Category("Fashion", new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6")));
+            categoryRepository.create(new Category("Accessories", new Image("#")));
+            categoryRepository.create(new Category("Jewelry", new Image("#")));
+            categoryRepository.create(new Category("Shoes", new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F1-42-9714512230_xxl.webp?alt=media&token=f772ad4c-b352-41c2-bf2c-a320c11166e5")));
+            categoryRepository.create(new Category("Sportswear", new Image("#")));
+            categoryRepository.create(new Category("Home", new Image("#")));
+            categoryRepository.create(new Category("Electronics", new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F71320MVSdWL._SL1500_.jpg?alt=media&token=9086fc51-9fa9-4419-bfc3-c84694a7c6b6")));
+            categoryRepository.create(new Category("Mobile", new Image("#")));
+            categoryRepository.create(new Category("Computer", new Image("#")));
+            categoryRepository.create(new Category("Garden", new Image("#")));
 
             logger.info("Category table seeded");
         }
