@@ -53,6 +53,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/product").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())
                 .antMatchers(HttpMethod.POST, "/image").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
+                .antMatchers(HttpMethod.GET,  "/swagger-resources/**",
+                                                         "/swagger-ui.html",
+                                                         "/v2/api-docs",
+                                                         "/webjars/**",
+                                                         "/csrf",
+                                                         "/").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
