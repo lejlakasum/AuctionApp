@@ -1,6 +1,7 @@
 package com.example.auctionapp.controller;
 
 import com.example.auctionapp.dto.CategoryDto;
+import com.example.auctionapp.dto.CollectionDto;
 import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class CategoryController implements IBaseController<CategoryDto> {
     }
 
     @GetMapping("/feature")
-    public ResponseEntity<List<CategoryDto>> getFeatureCategories() {
+    public ResponseEntity<List<CollectionDto>> getFeatureCategories() {
         return new ResponseEntity<>(categoryService.findFeatureCategories(), HttpStatus.OK);
     }
 

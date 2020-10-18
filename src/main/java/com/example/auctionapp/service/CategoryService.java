@@ -2,9 +2,11 @@ package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.CategoryDto;
+import com.example.auctionapp.dto.CollectionDto;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.repository.CategoryRepository;
+import com.example.auctionapp.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
     @Autowired
     CategoryRepository repository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     private static Logger logger = LoggerFactory.getLogger(CategoryService.class);
 
@@ -48,14 +53,22 @@ public class CategoryService implements IBaseService<CategoryDto> {
         return mapCategoryToCategoryDto(category);
     }
 
-    public List<CategoryDto> findFeatureCategories() {
-        List<CategoryDto> categoryDtos = new ArrayList<>();
+    public List<CollectionDto> findFeatureCategories() {
+        List<CollectionDto> collectionDtos = new ArrayList<>();
 
-        categoryDtos.add(mapCategoryToCategoryDto(repository.findByName(featureCategories.get(0))));
-        categoryDtos.add(mapCategoryToCategoryDto(repository.findByName(featureCategories.get(1))));
-        categoryDtos.add(mapCategoryToCategoryDto(repository.findByName(featureCategories.get(2))));
+        collectionDtos.add(new CollectionDto(
+                        mapCategoryToCategoryDto(repository.findByName(featureCategories.get(0))),
+                        productRepository.getCollectionLowestPrice(featureCategories.get(0))));
 
-        return categoryDtos;
+        collectionDtos.add(new CollectionDto(
+                mapCategoryToCategoryDto(repository.findByName(featureCategories.get(1))),
+                productRepository.getCollectionLowestPrice(featureCategories.get(1))));
+
+        collectionDtos.add(new CollectionDto(
+                mapCategoryToCategoryDto(repository.findByName(featureCategories.get(2))),
+                productRepository.getCollectionLowestPrice(featureCategories.get(2))));
+
+        return collectionDtos;
     }
 
     public CategoryDto add(CategoryDto resource) {

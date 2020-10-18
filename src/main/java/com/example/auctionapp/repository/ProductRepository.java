@@ -166,4 +166,27 @@ public class ProductRepository extends BaseRepository<Product> {
 
     }
 
+    public Double getCollectionLowestPrice(String categoryName) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> resource = q.from(Product.class);
+        q.select(resource);
+
+        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
+        Predicate predicateForFeature = cb.equal(resource.get("feature"), true);
+        Predicate predicateForCategory = cb.like(resource.get("subcategory").get("category").get("name"), categoryName);
+
+        q.where(
+                cb.and(predicateForEndDate,
+                predicateForFeature,
+                predicateForCategory)
+        );
+        q.orderBy(cb.asc(resource.get("price")));
+
+        Double lowestPrice = entityManager.createQuery(q).getResultList().get(0).getPrice();
+
+        return lowestPrice;
+    }
+
 }
