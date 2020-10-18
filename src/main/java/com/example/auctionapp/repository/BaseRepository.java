@@ -22,6 +22,14 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     @PersistenceContext
     EntityManager entityManager;
 
+    public BaseRepository() {
+    }
+
+    public BaseRepository(Class<T> resourceClass, EntityManager entityManager) {
+        this.resourceClass = resourceClass;
+        this.entityManager = entityManager;
+    }
+
     public void setResourceClass(Class< T > classToSet ) {
         this.resourceClass = classToSet;
     }

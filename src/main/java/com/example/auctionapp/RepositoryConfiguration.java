@@ -65,4 +65,10 @@ public class RepositoryConfiguration {
         rep.setResourceClass(Category.class);
         return rep;
     }
+
+    @Bean
+    String string() {
+        String str = new String();
+        return str;
+    }
 }

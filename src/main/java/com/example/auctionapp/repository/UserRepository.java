@@ -16,6 +16,9 @@ public class UserRepository extends BaseRepository<User> {
     @PersistenceContext
     EntityManager entityManager;
 
+    public UserRepository() {
+    }
+
     public User findByEmail(String email) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 

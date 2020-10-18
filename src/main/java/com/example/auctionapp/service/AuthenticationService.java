@@ -26,6 +26,14 @@ public class AuthenticationService {
     @Value("${secret-key}")
     private String SECRET_KEY;
 
+    public AuthenticationService(AuthenticationManager authenticationManager,
+                                 RepositoryAwareUserDetailsService userDetailsService,
+                                 String SECRET_KEY) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.SECRET_KEY = SECRET_KEY;
+    }
+
     private static Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     public LoginResponse login(LoginRequest loginRequest) throws Exception {
