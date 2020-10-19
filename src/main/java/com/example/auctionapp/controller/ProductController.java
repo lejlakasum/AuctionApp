@@ -65,9 +65,9 @@ public class ProductController implements IBaseController<ProductDto> {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<List<ProductDto>> getByCategory(@RequestParam("category") String categoryName,
+    public ResponseEntity<List<ProductDto>> getByCategory(@RequestParam("category") Long categoryId,
                                                           @RequestParam("feature") Boolean feature) {
-        return new ResponseEntity<>(productService.getByCategory(categoryName, feature), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getByCategory(categoryId, feature), HttpStatus.OK);
     }
 
     @PostMapping()

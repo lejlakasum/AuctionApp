@@ -83,9 +83,9 @@ public class ProductService implements IBaseService<ProductDto> {
         return mapProductListToDtoList(products);
     }
 
-    public List<ProductDto> getByCategory(String categoryName, Boolean feature) {
+    public List<ProductDto> getByCategory(Long categoryId, Boolean feature) {
 
-        return mapProductListToDtoList(repository.getCllectionByCategory(categoryName, feature));
+        return mapProductListToDtoList(repository.getCllectionByCategory(categoryId, feature));
     }
 
 

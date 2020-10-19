@@ -106,7 +106,7 @@ public class ProductRepository extends BaseRepository<Product> {
         return result;
     }
 
-    public List<Product> getCllectionByCategory(String categoryName, Boolean feature) {
+    public List<Product> getCllectionByCategory(Long categoryId, Boolean feature) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<Product> q = cb.createQuery(Product.class);
@@ -115,7 +115,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
         Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
         Predicate predicateForFeature = cb.equal(resource.get("feature"), feature);
-        Predicate predicateForCategory = cb.like(resource.get("subcategory").get("category").get("name"), categoryName);
+        Predicate predicateForCategory = cb.equal(resource.get("subcategory").get("category").get("id"), categoryId);
 
         if(feature) {
             q.where(
