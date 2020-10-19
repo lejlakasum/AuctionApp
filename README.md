@@ -1,1 +1,3 @@
 # AuctionApp
+
+Server side
