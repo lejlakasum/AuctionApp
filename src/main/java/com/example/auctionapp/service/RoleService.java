@@ -18,12 +18,15 @@ import java.util.stream.Collectors;
 @Transactional
 public class RoleService implements IBaseService<RoleDto> {
 
+    private static final Logger logger = LoggerFactory.getLogger(RoleService.class);
     private static final String RESOURCE_NAME = "Role";
 
-    @Autowired
-    BaseRepository<Role> repository;
+    private final BaseRepository<Role> repository;
 
-    private static Logger logger = LoggerFactory.getLogger(RoleService.class);
+    @Autowired
+    public RoleService(BaseRepository<Role> repository) {
+        this.repository = repository;
+    }
 
     public List<RoleDto> getAll() {
 

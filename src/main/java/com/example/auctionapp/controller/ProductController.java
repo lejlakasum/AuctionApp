@@ -1,11 +1,8 @@
 package com.example.auctionapp.controller;
 
-import com.example.auctionapp.dto.CollectionDto;
 import com.example.auctionapp.dto.ProductDto;
-import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,8 +22,12 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController implements IBaseController<ProductDto> {
 
+    private final ProductService productService;
+
     @Autowired
-    private ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<ProductDto>> getAll() {
@@ -67,14 +68,10 @@ public class ProductController implements IBaseController<ProductDto> {
         return new ResponseEntity<>(productService.getTopRated(), HttpStatus.OK);
     }
 
-    @GetMapping("/feature-collections")
-    public ResponseEntity<List<CollectionDto>> getFeatureCollections() {
-        return new ResponseEntity<>(productService.getFeatureCollections(), HttpStatus.OK);
-    }
-
     @GetMapping("/category")
-    public ResponseEntity<List<ProductDto>> getByCategory(@RequestParam("category") String categoryName) {
-        return new ResponseEntity<>(productService.getByCategory(categoryName), HttpStatus.OK);
+    public ResponseEntity<List<ProductDto>> getByCategory(@RequestParam("category") Long categoryId,
+                                                          @RequestParam("feature") Boolean feature) {
+        return new ResponseEntity<>(productService.getByCategory(categoryId, feature), HttpStatus.OK);
     }
 
     @PostMapping()

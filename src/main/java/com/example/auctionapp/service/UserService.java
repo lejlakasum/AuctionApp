@@ -22,21 +22,21 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserService implements IBaseService<UserDto> {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String RESOURCE_NAME = "User";
-
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BaseRepository<Role> roleRepository;
-    private final PasswordEncoder passwordEncoder;
-
     private static final Long USER_ROLE_ID = 2L;
 
-    private static Logger logger = LoggerFactory.getLogger(UserService.class);
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final BaseRepository<Role> roleRepository;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder) {
+    public UserService(PasswordEncoder passwordEncoder,
+                       UserRepository userRepository,
+                       BaseRepository<Role> roleRepository) {
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public List<UserDto> getAll() {

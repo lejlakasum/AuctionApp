@@ -2,32 +2,28 @@ package com.example.auctionapp.repository;
 
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Rating;
-import com.example.auctionapp.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class ProductRepository extends BaseRepository<Product> {
-
-    @PersistenceContext
-    EntityManager entityManager;
 
     public static final Integer MAX_RESULT = 3;
     public static final Integer MAX_RESULT_FEATURE = 4;
     public static final Integer MAX_RESULT_ARRIVALS = 8;
     public static final Integer MAX_RESULT_COLLECTIONS = 10;
     public static final Integer MAX_TOP_RATED = 5;
+
+    public ProductRepository(Class<Product> resourceClass, EntityManager entityManager) {
+        super(resourceClass, entityManager);
+    }
 
     public List<Product> findRelatedProducts(Long productId, Long subcategoryId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -111,7 +107,7 @@ public class ProductRepository extends BaseRepository<Product> {
         return result;
     }
 
-    public List<Product> getCllectionByCategory(String categoryName, Boolean feature) {
+    public List<Product> getCllectionByCategory(Long categoryId, Boolean feature) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<Product> q = cb.createQuery(Product.class);
@@ -120,12 +116,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
         Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
         Predicate predicateForFeature = cb.equal(resource.get("feature"), feature);
-        Predicate predicateForCategory = cb.like(resource.get("subcategory").get("category").get("name"), categoryName);
-
-        q.where(
-                cb.and(predicateForEndDate,
-                        predicateForCategory)
-        );
+        Predicate predicateForCategory = cb.equal(resource.get("subcategory").get("category").get("id"), categoryId);
 
         if(feature) {
             q.where(
@@ -174,6 +165,29 @@ public class ProductRepository extends BaseRepository<Product> {
 
         return result;
 
+    }
+
+    public Double getCollectionLowestPrice(String categoryName) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> resource = q.from(Product.class);
+        q.select(resource);
+
+        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now());
+        Predicate predicateForFeature = cb.equal(resource.get("feature"), true);
+        Predicate predicateForCategory = cb.like(resource.get("subcategory").get("category").get("name"), categoryName);
+
+        q.where(
+                cb.and(predicateForEndDate,
+                predicateForFeature,
+                predicateForCategory)
+        );
+        q.orderBy(cb.asc(resource.get("price")));
+
+        Double lowestPrice = entityManager.createQuery(q).getResultList().get(0).getPrice();
+
+        return lowestPrice;
     }
 
 }

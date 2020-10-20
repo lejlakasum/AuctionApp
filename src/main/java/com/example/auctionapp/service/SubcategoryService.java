@@ -5,6 +5,7 @@ import com.example.auctionapp.dto.SubcategoryDto;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.CategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,17 @@ import java.util.stream.Collectors;
 @Transactional
 public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
+    private static final Logger logger = LoggerFactory.getLogger(SubcategoryService.class);
     private static final String RESOURCE_NAME = "Subcategory";
 
-    @Autowired
     BaseRepository<Subcategory> repository;
-    @Autowired
-    BaseRepository<Category> categoryRepository;
+    CategoryRepository categoryRepository;
 
-    private static Logger logger = LoggerFactory.getLogger(SubcategoryService.class);
+    @Autowired
+    public SubcategoryService(BaseRepository<Subcategory> repository, CategoryRepository categoryRepository) {
+        this.repository = repository;
+        this.categoryRepository = categoryRepository;
+    }
 
     public List<SubcategoryDto> getAll() {
 

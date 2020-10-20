@@ -1,34 +1,32 @@
 package com.example.auctionapp.dto;
 
-import java.util.List;
-
 public class CollectionDto {
 
-    private String categoryName;
+    private CategoryDto category;
 
-    private List<ProductDto> products;
+    private Double lowestPrice;
 
     public CollectionDto() {
     }
 
-    public CollectionDto(String categoryName, List<ProductDto> products) {
-        this.categoryName = categoryName;
-        this.products = products;
+    public CollectionDto(CategoryDto category, Double lowestPrice) {
+        this.category = category;
+        this.lowestPrice = lowestPrice;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public CategoryDto getCategory() {
+        return category;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategory(CategoryDto category) {
+        this.category = category;
     }
 
-    public List<ProductDto> getProducts() {
-        return products;
+    public Double getLowestPrice() {
+        return lowestPrice;
     }
 
-    public void setProducts(List<ProductDto> products) {
-        this.products = products;
+    public void setLowestPrice(Double lowestPrice) {
+        this.lowestPrice = lowestPrice;
     }
 }
