@@ -18,11 +18,16 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private RepositoryAwareUserDetailsService userDetailsService;
+    private final RepositoryAwareUserDetailsService userDetailsService;
 
-    @Value("${secret-key}")
-    private String SECRET_KEY;
+    private final String SECRET_KEY;
+
+    @Autowired
+    public JwtRequestFilter(RepositoryAwareUserDetailsService userDetailsService,
+                            @Value("${secret-key}") String SECRET_KEY) {
+        this.userDetailsService = userDetailsService;
+        this.SECRET_KEY = SECRET_KEY;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

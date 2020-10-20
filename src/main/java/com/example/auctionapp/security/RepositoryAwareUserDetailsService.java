@@ -15,8 +15,12 @@ import java.util.List;
 @Service
 public class RepositoryAwareUserDetailsService implements UserDetailsService {
 
+    private final UserRepository repository;
+
     @Autowired
-    private UserRepository repository;
+    public RepositoryAwareUserDetailsService(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

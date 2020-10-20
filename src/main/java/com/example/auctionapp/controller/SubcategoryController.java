@@ -22,8 +22,12 @@ import java.util.List;
 @RequestMapping("/subcategory")
 public class SubcategoryController implements IBaseController<SubcategoryDto> {
 
+    private final SubcategoryService subcategoryService;
+
     @Autowired
-    SubcategoryService subcategoryService;
+    public SubcategoryController(SubcategoryService subcategoryService) {
+        this.subcategoryService = subcategoryService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<SubcategoryDto>> getAll() {

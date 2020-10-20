@@ -21,8 +21,12 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController implements IBaseController<UserDto> {
 
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<UserDto>> getAll() {

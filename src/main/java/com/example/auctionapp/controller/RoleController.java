@@ -21,8 +21,12 @@ import java.util.List;
 @RequestMapping("/role")
 public class RoleController implements IBaseController<RoleDto> {
 
+    private final RoleService roleService;
+
     @Autowired
-    RoleService roleService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<RoleDto>> getAll() {
