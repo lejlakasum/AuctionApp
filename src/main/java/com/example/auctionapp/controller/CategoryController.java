@@ -2,7 +2,6 @@ package com.example.auctionapp.controller;
 
 import com.example.auctionapp.dto.CategoryDto;
 import com.example.auctionapp.dto.CollectionDto;
-import com.example.auctionapp.dto.RoleDto;
 import com.example.auctionapp.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +22,12 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController implements IBaseController<CategoryDto> {
 
+    private final CategoryService categoryService;
+
     @Autowired
-    CategoryService categoryService;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<CategoryDto>> getAll() {

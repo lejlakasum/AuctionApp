@@ -2,36 +2,25 @@ package com.example.auctionapp.repository;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.validation.Valid;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class BaseRepository<T> implements IBaseRepository<T> {
 
-    private Class<T> resourceClass;
+    private final Class<T> resourceClass;
 
-    @PersistenceContext
-    EntityManager entityManager;
-
-    public BaseRepository() {
-    }
+    protected final EntityManager entityManager;
 
     public BaseRepository(Class<T> resourceClass, EntityManager entityManager) {
         this.resourceClass = resourceClass;
         this.entityManager = entityManager;
-    }
-
-    public void setResourceClass(Class< T > classToSet ) {
-        this.resourceClass = classToSet;
     }
 
     public T findById(Long id){

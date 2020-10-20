@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class RepositoryUtility {
 
-    private static Logger logger = LoggerFactory.getLogger(RepositoryUtility.class);
+    private static final Logger logger = LoggerFactory.getLogger(RepositoryUtility.class);
 
     public static <T> T findIfExist(BaseRepository<T> repository, Long id, String resourceName) {
 

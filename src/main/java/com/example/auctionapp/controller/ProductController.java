@@ -22,8 +22,12 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController implements IBaseController<ProductDto> {
 
+    private final ProductService productService;
+
     @Autowired
-    private ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<ProductDto>> getAll() {

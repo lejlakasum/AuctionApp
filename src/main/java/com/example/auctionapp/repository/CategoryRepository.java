@@ -11,8 +11,9 @@ import javax.persistence.criteria.Root;
 
 public class CategoryRepository extends BaseRepository<Category> {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    public CategoryRepository(Class<Category> resourceClass, EntityManager entityManager) {
+        super(resourceClass, entityManager);
+    }
 
     public Category findByName(String name) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();

@@ -18,12 +18,15 @@ import java.util.stream.Collectors;
 @Transactional
 public class ImageService implements IBaseService<ImageDto> {
 
+    private static final Logger logger = LoggerFactory.getLogger(ImageService.class);
     private static final String RESOURCE_NAME = "Image";
 
-    @Autowired
-    private BaseRepository<Image> repository;
+    private final BaseRepository<Image> repository;
 
-    private static Logger logger = LoggerFactory.getLogger(ImageService.class);
+    @Autowired
+    public ImageService(BaseRepository<Image> repository) {
+        this.repository = repository;
+    }
 
     public List<ImageDto> getAll() {
 

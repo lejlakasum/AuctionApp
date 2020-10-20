@@ -13,10 +13,8 @@ import javax.persistence.criteria.Root;
 
 public class UserRepository extends BaseRepository<User> {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
-    public UserRepository() {
+    public UserRepository(Class<User> resourceClass, EntityManager entityManager) {
+        super(resourceClass, entityManager);
     }
 
     public User findByEmail(String email) {

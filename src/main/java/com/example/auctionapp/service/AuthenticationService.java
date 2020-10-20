@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+
+    private final AuthenticationManager authenticationManager;
+    private final RepositoryAwareUserDetailsService userDetailsService;
+
+    private final String SECRET_KEY;
 
     @Autowired
-    private RepositoryAwareUserDetailsService userDetailsService;
-
-    private String SECRET_KEY;
-
     public AuthenticationService(AuthenticationManager authenticationManager,
                                  RepositoryAwareUserDetailsService userDetailsService,
                                  @Value("${secret-key}") String SECRET_KEY) {
@@ -32,8 +32,6 @@ public class AuthenticationService {
         this.userDetailsService = userDetailsService;
         this.SECRET_KEY = SECRET_KEY;
     }
-
-    private static Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     public LoginResponse login(LoginRequest loginRequest) throws Exception {
         try {

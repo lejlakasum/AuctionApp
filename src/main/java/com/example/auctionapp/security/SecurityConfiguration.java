@@ -22,11 +22,15 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private RepositoryAwareUserDetailsService myUserDetailService;
+    private final RepositoryAwareUserDetailsService myUserDetailService;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    public SecurityConfiguration(RepositoryAwareUserDetailsService myUserDetailService,
+                                 JwtRequestFilter jwtRequestFilter) {
+        this.myUserDetailService = myUserDetailService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

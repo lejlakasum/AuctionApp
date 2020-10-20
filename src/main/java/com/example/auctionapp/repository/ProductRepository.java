@@ -15,14 +15,15 @@ import java.util.List;
 
 public class ProductRepository extends BaseRepository<Product> {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     public static final Integer MAX_RESULT = 3;
     public static final Integer MAX_RESULT_FEATURE = 4;
     public static final Integer MAX_RESULT_ARRIVALS = 8;
     public static final Integer MAX_RESULT_COLLECTIONS = 10;
     public static final Integer MAX_TOP_RATED = 5;
+
+    public ProductRepository(Class<Product> resourceClass, EntityManager entityManager) {
+        super(resourceClass, entityManager);
+    }
 
     public List<Product> findRelatedProducts(Long productId, Long subcategoryId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();

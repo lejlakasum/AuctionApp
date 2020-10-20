@@ -22,8 +22,12 @@ import java.util.List;
 @RequestMapping("/image")
 public class ImageController implements IBaseController<ImageDto> {
 
+    private final ImageService imageService;
+
     @Autowired
-    private ImageService imageService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @GetMapping()
     public ResponseEntity<List<ImageDto>> getAll() {

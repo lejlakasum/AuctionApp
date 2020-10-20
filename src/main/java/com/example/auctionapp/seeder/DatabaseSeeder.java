@@ -31,25 +31,31 @@ import java.util.Set;
 @Transactional
 public class DatabaseSeeder {
 
-    @Autowired
-    private BaseRepository<Role> roleRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BaseRepository<Category> categoryRepository;
-    @Autowired
-    private BaseRepository<Subcategory> subcategoryRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private BaseRepository<Rating> ratingRepository;
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
+    private final PasswordEncoder passwordEncoder;
 
-    private static Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
-    private PasswordEncoder passwordEncoder;
+    private final BaseRepository<Role> roleRepository;
+    private final UserRepository userRepository;
+    private final BaseRepository<Category> categoryRepository;
+    private final BaseRepository<Subcategory> subcategoryRepository;
+    private final ProductRepository productRepository;
+    private final BaseRepository<Rating> ratingRepository;
 
     @Autowired
-    public DatabaseSeeder(PasswordEncoder passwordEncoder) {
+    public DatabaseSeeder(PasswordEncoder passwordEncoder,
+                          BaseRepository<Role> roleRepository,
+                          UserRepository userRepository,
+                          BaseRepository<Category> categoryRepository,
+                          BaseRepository<Subcategory> subcategoryRepository,
+                          ProductRepository productRepository,
+                          BaseRepository<Rating> ratingRepository) {
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+        this.subcategoryRepository = subcategoryRepository;
+        this.productRepository = productRepository;
+        this.ratingRepository = ratingRepository;
     }
 
     @EventListener

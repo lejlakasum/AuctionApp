@@ -14,56 +14,48 @@ import com.example.auctionapp.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @Configuration
 public class RepositoryConfiguration {
 
+    @PersistenceContext
+    EntityManager entityManager;
+
     @Bean
     BaseRepository<Image> imageRepository() {
-        BaseRepository<Image> rep = new BaseRepository<Image>();
-        rep.setResourceClass(Image.class);
-        return rep;
+        return new BaseRepository<>(Image.class, entityManager);
     }
 
     @Bean
     BaseRepository<Role> roleRepository() {
-        BaseRepository<Role> rep = new BaseRepository<Role>();
-        rep.setResourceClass(Role.class);
-        return rep;
+        return new BaseRepository<>(Role.class, entityManager);
     }
 
     @Bean
     ProductRepository productRepository() {
-        ProductRepository rep = new ProductRepository();
-        rep.setResourceClass(Product.class);
-        return rep;
+        return new ProductRepository(Product.class, entityManager);
     }
 
     @Bean
     BaseRepository<Subcategory> subcategoryRepository() {
-        BaseRepository<Subcategory> rep = new BaseRepository<Subcategory>();
-        rep.setResourceClass(Subcategory.class);
-        return rep;
+        return new BaseRepository<>(Subcategory.class, entityManager);
     }
 
     @Bean
     UserRepository userRepository() {
-        UserRepository rep = new UserRepository();
-        rep.setResourceClass(User.class);
-        return rep;
+        return new UserRepository(User.class, entityManager);
     }
 
     @Bean
-    BaseRepository<Rating> ratingyRepository() {
-        BaseRepository<Rating> rep = new BaseRepository<Rating>();
-        rep.setResourceClass(Rating.class);
-        return rep;
+    BaseRepository<Rating> ratingRepository() {
+        return new BaseRepository<>(Rating.class, entityManager);
     }
 
     @Bean
     CategoryRepository categoryRepository() {
-        CategoryRepository rep = new CategoryRepository();
-        rep.setResourceClass(Category.class);
-        return rep;
+        return new CategoryRepository(Category.class, entityManager);
     }
 
 }

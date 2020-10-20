@@ -22,16 +22,21 @@ import java.util.stream.Collectors;
 @Transactional
 public class ProductService implements IBaseService<ProductDto> {
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
     private static final String RESOURCE_NAME = "Product";
 
-    @Autowired
-    ProductRepository repository;
-    @Autowired
-    BaseRepository<Subcategory> subcategoryRepository;
-    @Autowired
-    UserRepository userRepository;
+    private final ProductRepository repository;
+    private final BaseRepository<Subcategory> subcategoryRepository;
+    private final UserRepository userRepository;
 
-    private static Logger logger = LoggerFactory.getLogger(ProductService.class);
+    @Autowired
+    public ProductService(ProductRepository repository,
+                          BaseRepository<Subcategory> subcategoryRepository,
+                          UserRepository userRepository) {
+        this.repository = repository;
+        this.subcategoryRepository = subcategoryRepository;
+        this.userRepository = userRepository;
+    }
 
     public List<ProductDto> getAll() {
 

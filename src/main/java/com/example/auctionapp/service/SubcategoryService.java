@@ -20,14 +20,17 @@ import java.util.stream.Collectors;
 @Transactional
 public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
+    private static final Logger logger = LoggerFactory.getLogger(SubcategoryService.class);
     private static final String RESOURCE_NAME = "Subcategory";
 
-    @Autowired
     BaseRepository<Subcategory> repository;
-    @Autowired
     CategoryRepository categoryRepository;
 
-    private static Logger logger = LoggerFactory.getLogger(SubcategoryService.class);
+    @Autowired
+    public SubcategoryService(BaseRepository<Subcategory> repository, CategoryRepository categoryRepository) {
+        this.repository = repository;
+        this.categoryRepository = categoryRepository;
+    }
 
     public List<SubcategoryDto> getAll() {
 
