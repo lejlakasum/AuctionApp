@@ -5,9 +5,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Table(name = "user_entity")
@@ -30,6 +32,9 @@ public class User extends Resource {
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", updatable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Bid> bids;
 
     public User() {
     }
@@ -80,5 +85,9 @@ public class User extends Resource {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
     }
 }

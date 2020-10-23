@@ -1,5 +1,6 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.CategoryDto;
 import com.example.auctionapp.dto.CollectionDto;
@@ -40,7 +41,7 @@ public class CategoryService implements IBaseService<CategoryDto> {
         List<Category> categories = repository.findAll();
 
         List<CategoryDto> categoryDtos = categories.stream().map(
-                category -> { return mapCategoryToCategoryDto(category);
+                category -> { return MappingUtility.mapCategoryToCategoryDto(category);
                 }
         ).collect(Collectors.toList());
 
@@ -52,7 +53,7 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
         Category category = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
-        return mapCategoryToCategoryDto(category);
+        return MappingUtility.mapCategoryToCategoryDto(category);
     }
 
     public List<CollectionDto> findFeatureCategories() {
@@ -60,7 +61,7 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
         for (String category: featureCategories) {
             collectionDtos.add(new CollectionDto(
-                    mapCategoryToCategoryDto(repository.findByName(category)),
+                    MappingUtility.mapCategoryToCategoryDto(repository.findByName(category)),
                     productRepository.getCollectionLowestPrice(category)));
 
         }
@@ -74,7 +75,7 @@ public class CategoryService implements IBaseService<CategoryDto> {
                                                         new Image(resource.getImageUrl()))
         );
         logger.info("Category with id " + category.getId() + " created");
-        return mapCategoryToCategoryDto(category);
+        return MappingUtility.mapCategoryToCategoryDto(category);
     }
 
 
@@ -88,7 +89,7 @@ public class CategoryService implements IBaseService<CategoryDto> {
         Category category = repository.update(resourceToUpdate);
         logger.info("Category with id " + category.getId() + " updated");
 
-        return mapCategoryToCategoryDto(category);
+        return MappingUtility.mapCategoryToCategoryDto(category);
     }
 
 
@@ -98,16 +99,5 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
         repository.deleteById(id);
         logger.info("Category with id " + id + " deleted");
-    }
-
-    private CategoryDto mapCategoryToCategoryDto(Category category) {
-
-        return new CategoryDto(
-                category.getId(),
-                category.getDateCreated(),
-                category.getLastModifiedDate(),
-                category.getName(),
-                category.getImage().getUrl()
-        );
     }
 }

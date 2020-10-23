@@ -1,5 +1,6 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.exception.BadRequestException;
@@ -43,7 +44,7 @@ public class UserService implements IBaseService<UserDto> {
 
         List<User> users = userRepository.findAll();
         List<UserDto> userDtos = users.stream().map(
-                user -> {return mapUserToUserDto(user);
+                user -> {return MappingUtility.mapUserToUserDto(user);
                 }
         ).collect(Collectors.toList());
 
@@ -54,7 +55,7 @@ public class UserService implements IBaseService<UserDto> {
     public UserDto getById(Long id) {
 
         User user = RepositoryUtility.findIfExist(userRepository, id, RESOURCE_NAME);
-        return mapUserToUserDto(user);
+        return MappingUtility.mapUserToUserDto(user);
     }
 
 
@@ -77,7 +78,7 @@ public class UserService implements IBaseService<UserDto> {
 
         logger.info("User with id " + user.getId() + " created");
 
-        return mapUserToUserDto(user);
+        return MappingUtility.mapUserToUserDto(user);
     }
 
 
@@ -92,7 +93,7 @@ public class UserService implements IBaseService<UserDto> {
 
         logger.info("User with id " + user.getId() + " updated");
 
-        return mapUserToUserDto(user);
+        return MappingUtility.mapUserToUserDto(user);
     }
 
 
@@ -103,17 +104,6 @@ public class UserService implements IBaseService<UserDto> {
         userRepository.deleteById(id);
 
         logger.info("User with id " + id + " deleted");
-    }
-
-    private UserDto mapUserToUserDto(User user) {
-        return new UserDto(user.getId(),
-                user.getDateCreated(),
-                user.getLastModifiedDate(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getRole().getId()
-        );
     }
 
     private boolean userAlreadyExist(String email) {

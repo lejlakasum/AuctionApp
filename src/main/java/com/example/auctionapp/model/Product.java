@@ -49,6 +49,9 @@ public class Product extends Resource {
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     private User user;
 
+    @OneToMany(mappedBy = "product")
+    private List<Bid> bids;
+
     public Product() {
     }
 
@@ -142,5 +145,9 @@ public class Product extends Resource {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
     }
 }

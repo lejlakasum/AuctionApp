@@ -47,9 +47,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/role", "/role/*")
                 .denyAll()
-                .antMatchers(HttpMethod.POST, "/category", "/subcategory").hasAuthority(RoleEnum.ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/category", "/subcategory").hasAuthority(RoleEnum.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*").hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/category", "/subcategory")
+                .hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/category", "/subcategory")
+                .hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*")
+                .hasAuthority(RoleEnum.ADMIN.name())
+
+                .antMatchers(HttpMethod.GET, "/bid", "/bid/*")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
+                .antMatchers(HttpMethod.POST, "/bid", "/bid/*")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
+                .antMatchers(HttpMethod.PUT, "/bid", "/bid/*")
+                .denyAll()
+                .antMatchers(HttpMethod.DELETE, "/bid", "/bid/*")
+                .denyAll()
+
                 .antMatchers(HttpMethod.GET, "/category", "/category/*",
                                                         "/subcategory", "/subcategory/*",
                                                         "/product", "/product/*", "/product/*/*",

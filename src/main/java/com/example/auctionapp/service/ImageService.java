@@ -1,5 +1,6 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.ImageDto;
 import com.example.auctionapp.model.Image;
@@ -48,7 +49,7 @@ public class ImageService implements IBaseService<ImageDto> {
 
         Image image = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
-        return mapImageToImageDto(image);
+        return MappingUtility.mapImageToImageDto(image);
     }
 
 
@@ -56,7 +57,7 @@ public class ImageService implements IBaseService<ImageDto> {
 
         Image image = repository.create(new Image(resource.getUrl()));
         logger.info("Image with id " + image.getId() + " created");
-        return mapImageToImageDto(image);
+        return MappingUtility.mapImageToImageDto(image);
     }
 
 
@@ -69,7 +70,7 @@ public class ImageService implements IBaseService<ImageDto> {
         Image image = repository.update(resourceToUpdate);
         logger.info("Image with id " + image.getId() + " updated");
 
-        return mapImageToImageDto(image);
+        return MappingUtility.mapImageToImageDto(image);
     }
 
 
@@ -79,13 +80,5 @@ public class ImageService implements IBaseService<ImageDto> {
 
         repository.deleteById(id);
         logger.info("Image with id " + id + " deleted");
-    }
-
-    private ImageDto mapImageToImageDto(Image image) {
-        return new ImageDto(image.getId(),
-                image.getDateCreated(),
-                image.getLastModifiedDate(),
-                image.getUrl()
-        );
     }
 }
