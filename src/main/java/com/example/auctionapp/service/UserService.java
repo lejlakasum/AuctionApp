@@ -4,6 +4,7 @@ import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.exception.BadRequestException;
+import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
@@ -30,14 +31,17 @@ public class UserService implements IBaseService<UserDto> {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final BaseRepository<Role> roleRepository;
+    private final BaseRepository<Image> imageRepository;
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder,
                        UserRepository userRepository,
-                       BaseRepository<Role> roleRepository) {
+                       BaseRepository<Role> roleRepository,
+                       BaseRepository<Image> imageRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.imageRepository = imageRepository;
     }
 
     public List<UserDto> getAll() {
@@ -68,12 +72,14 @@ public class UserService implements IBaseService<UserDto> {
         }
 
         Role role = roleRepository.findById(USER_ROLE_ID);
+        Image image = imageRepository.create(new Image(resource.getImageUrl()));
 
         User user = userRepository.create(new User(resource.getFirstName(),
                 resource.getLastName(),
                 resource.getEmail(),
                 passwordEncoder.encode(resource.getPassword()),
-                role)
+                role,
+                image)
         );
 
         logger.info("User with id " + user.getId() + " created");

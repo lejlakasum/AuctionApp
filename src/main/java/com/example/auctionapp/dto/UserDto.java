@@ -21,6 +21,8 @@ public class UserDto extends BaseResourceDto {
 
     private List<BidDto> bids;
 
+    private String imageUrl;
+
     public UserDto() {
     }
 
@@ -44,12 +46,14 @@ public class UserDto extends BaseResourceDto {
                    String lastName,
                    String email,
                    Long roleId,
-                   List<BidDto> bids) {
+                   List<BidDto> bids,
+                   String imageUrl) {
         super(id, dateCreated, lastModifiedDate);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.bids = bids;
+        this.imageUrl = imageUrl;
     }
 
     public String getFirstName() {
@@ -86,5 +90,13 @@ public class UserDto extends BaseResourceDto {
 
     public List<BidDto> getBids() {
         return bids;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

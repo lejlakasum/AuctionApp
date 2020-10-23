@@ -13,6 +13,7 @@ import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +41,14 @@ public class MappingUtility {
                 }
         ).collect(Collectors.toList());
 
-        List<BidDto> bids = product.getBids().stream().map(
-                bid -> {return mapBidToBidDto(bid);
-                }
-        ).collect(Collectors.toList());
-
+        List<BidDto> bids = new ArrayList<>();
+        if(product.getBids()!=null) {
+            bids = product.getBids().stream().map(
+                    bid -> {
+                        return mapBidToBidDto(bid);
+                    }
+            ).collect(Collectors.toList());
+        }
         return new ProductDto(product.getId(),
                 product.getDateCreated(),
                 product.getLastModifiedDate(),
@@ -98,11 +102,13 @@ public class MappingUtility {
     }
 
     public static UserDto mapUserToUserDto(User user) {
-
-        List<BidDto> bids = user.getBids().stream().map(
-                bid -> {return mapBidToBidDto(bid);
-                }
-        ).collect(Collectors.toList());
+        List<BidDto> bids = new ArrayList<>();
+        if(user.getBids()!=null) {
+            bids = user.getBids().stream().map(
+                    bid -> {return mapBidToBidDto(bid);
+                    }
+            ).collect(Collectors.toList());
+        }
 
         return new UserDto(user.getId(),
                 user.getDateCreated(),
@@ -111,7 +117,8 @@ public class MappingUtility {
                 user.getLastName(),
                 user.getEmail(),
                 user.getRole().getId(),
-                bids
+                bids,
+                user.getImage().getUrl()
         );
     }
 }

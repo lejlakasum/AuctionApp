@@ -40,6 +40,7 @@ public class DatabaseSeeder {
     private final BaseRepository<Subcategory> subcategoryRepository;
     private final ProductRepository productRepository;
     private final BaseRepository<Rating> ratingRepository;
+    private final BaseRepository<Image> imageRepository;
 
     @Autowired
     public DatabaseSeeder(PasswordEncoder passwordEncoder,
@@ -48,7 +49,8 @@ public class DatabaseSeeder {
                           BaseRepository<Category> categoryRepository,
                           BaseRepository<Subcategory> subcategoryRepository,
                           ProductRepository productRepository,
-                          BaseRepository<Rating> ratingRepository) {
+                          BaseRepository<Rating> ratingRepository,
+                          BaseRepository<Image> imageRepository) {
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -56,6 +58,7 @@ public class DatabaseSeeder {
         this.subcategoryRepository = subcategoryRepository;
         this.productRepository = productRepository;
         this.ratingRepository = ratingRepository;
+        this.imageRepository = imageRepository;
     }
 
     @EventListener
@@ -82,12 +85,14 @@ public class DatabaseSeeder {
     private void seedUserTable() {
         List<User> users = userRepository.findAll();
         if(users.isEmpty()) {
+            Image image = imageRepository.create(new Image("https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"));
             userRepository.create(new User(
                "Roger",
                "Federer",
                "roger@mail.com",
                     passwordEncoder.encode("password"),
-                    roleRepository.findById(1L)
+                    roleRepository.findById(1L),
+                    image
             ));
 
             userRepository.create(new User(
@@ -95,7 +100,8 @@ public class DatabaseSeeder {
                     "Nadal",
                     "rafa@mail.com",
                     passwordEncoder.encode("password"),
-                    roleRepository.findById(2L)
+                    roleRepository.findById(2L),
+                    image
             ));
 
             userRepository.create(new User(
@@ -103,15 +109,18 @@ public class DatabaseSeeder {
                     "Joker",
                     "nole@mail.com",
                     passwordEncoder.encode("password"),
-                    roleRepository.findById(3L)
+                    roleRepository.findById(3L),
+                    image
             ));
 
+            Image image2 = imageRepository.create(new Image("https://www.shareicon.net/data/512x512/2016/07/26/802031_user_512x512.png"));
             userRepository.create(new User(
                     "Serena",
                     "Williams",
                     "serena@mail.com",
                     passwordEncoder.encode("password"),
-                    roleRepository.findById(3L)
+                    roleRepository.findById(3L),
+                    image2
             ));
 
             logger.info("User table seeded");
