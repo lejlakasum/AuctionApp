@@ -10,13 +10,15 @@ public class BidDto extends BaseResourceDto {
 
     private String userName;
 
+    private String userImage;
+
     @NotNull
     private Long productId;
 
     private String productName;
 
     @NotNull
-    private LocalDateTime bidTime;
+    private Long bidTime;
 
     @NotNull
     private Double bidAmount;
@@ -27,13 +29,17 @@ public class BidDto extends BaseResourceDto {
     public BidDto(Long id,
                   LocalDateTime dateCreated,
                   LocalDateTime lastModifiedDate,
-                  Long userId, String userName,
-                  Long productId, String productName,
-                  LocalDateTime bidTime,
+                  Long userId,
+                  String userName,
+                  String userImage,
+                  Long productId,
+                  String productName,
+                  Long bidTime,
                   Double bidAmount) {
         super(id, dateCreated, lastModifiedDate);
         this.userId = userId;
         this.userName = userName;
+        this.userImage = userImage;
         this.productId = productId;
         this.productName = productName;
         this.bidTime = bidTime;
@@ -72,11 +78,11 @@ public class BidDto extends BaseResourceDto {
         this.productName = productName;
     }
 
-    public LocalDateTime getBidTime() {
+    public Long getBidTime() {
         return bidTime;
     }
 
-    public void setBidTime(LocalDateTime bidTime) {
+    public void setBidTime(Long bidTime) {
         this.bidTime = bidTime;
     }
 
@@ -86,5 +92,13 @@ public class BidDto extends BaseResourceDto {
 
     public void setBidAmount(Double bidAmount) {
         this.bidAmount = bidAmount;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 }

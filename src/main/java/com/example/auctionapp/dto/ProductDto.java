@@ -26,10 +26,10 @@ public class ProductDto extends BaseResourceDto{
     private Long subcategoryId;
 
     @NotNull
-    private LocalDateTime auctionStartDate;
+    private Long auctionStartDate;
 
     @NotNull
-    private LocalDateTime auctionEndDate;
+    private Long auctionEndDate;
 
     private List<String> imagesUrl;
 
@@ -50,8 +50,8 @@ public class ProductDto extends BaseResourceDto{
                       String description,
                       Double price,
                       Long subcategoryId,
-                      LocalDateTime auctionStartDate,
-                      LocalDateTime auctionEndDate,
+                      Long auctionStartDate,
+                      Long auctionEndDate,
                       List<String> imagesUrl,
                       Boolean feature,
                       Long userId,
@@ -102,19 +102,19 @@ public class ProductDto extends BaseResourceDto{
         this.subcategoryId = subcategoryId;
     }
 
-    public LocalDateTime getAuctionStartDate() {
+    public Long getAuctionStartDate() {
         return auctionStartDate;
     }
 
-    public void setAuctionStartDate(LocalDateTime auctionStartDate) {
+    public void setAuctionStartDate(Long auctionStartDate) {
         this.auctionStartDate = auctionStartDate;
     }
 
-    public LocalDateTime getAuctionEndDate() {
+    public Long getAuctionEndDate() {
         return auctionEndDate;
     }
 
-    public void setAuctionEndDate(LocalDateTime auctionEndDate) {
+    public void setAuctionEndDate(Long auctionEndDate) {
         this.auctionEndDate = auctionEndDate;
     }
 

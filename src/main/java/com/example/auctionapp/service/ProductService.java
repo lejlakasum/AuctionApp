@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,15 +108,16 @@ public class ProductService implements IBaseService<ProductDto> {
                 }
         ).collect(Collectors.toList());
 
-        Product product = repository.create(new Product(resource.getName(),
-                                                        resource.getDescription(),
-                                                        resource.getPrice(),
-                                                        subcategory,
-                                                        resource.getAuctionStartDate(),
-                                                        resource.getAuctionEndDate(),
-                                                        images,
-                                                        resource.getFeature(),
-                                                        user));
+        Product product = repository.create(new Product(
+                                            resource.getName(),
+                                            resource.getDescription(),
+                                            resource.getPrice(),
+                                            subcategory,
+                                            LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionStartDate()), ZoneOffset.UTC),
+                                            LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionEndDate()), ZoneOffset.UTC),
+                                            images,
+                                            resource.getFeature(),
+                                            user));
         logger.info("Product with id " + product.getId() + " created");
         return MappingUtility.mapProductToProductDto(product);
     }
@@ -128,8 +132,8 @@ public class ProductService implements IBaseService<ProductDto> {
         resourceToUpdate.setName(resource.getName());
         resourceToUpdate.setDescription(resource.getDescription());
         resourceToUpdate.setPrice(resource.getPrice());
-        resourceToUpdate.setAuctionStartDate(resource.getAuctionStartDate());
-        resourceToUpdate.setAuctionEndDate(resource.getAuctionEndDate());
+        resourceToUpdate.setAuctionStartDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionStartDate()), ZoneOffset.UTC));
+        resourceToUpdate.setAuctionEndDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionEndDate()), ZoneOffset.UTC));
         resourceToUpdate.setSubcategory(subcategory);
 
         Product product = repository.update(resourceToUpdate);

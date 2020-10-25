@@ -16,6 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +76,9 @@ public class UserService implements IBaseService<UserDto> {
         }
 
         Role role = roleRepository.findById(USER_ROLE_ID);
+        if(resource.getImageUrl()==null || resource.getImageUrl() == "") {
+            resource.setImageUrl("#");
+        }
         Image image = imageRepository.create(new Image(resource.getImageUrl()));
 
         User user = userRepository.create(new User(resource.getFirstName(),

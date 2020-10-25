@@ -13,6 +13,7 @@ import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
 
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,9 +28,10 @@ public class MappingUtility {
                 bid.getLastModifiedDate(),
                 bid.getUser().getId(),
                 bid.getUser().getFirstName() + " " + bid.getUser().getLastName(),
+                bid.getUser().getImage().getUrl(),
                 bid.getProduct().getId(),
                 bid.getProduct().getName(),
-                bid.getBidTime(),
+                bid.getBidTime().toInstant(ZoneOffset.UTC).toEpochMilli(),
                 bid.getBidAmount()
         );
     }
@@ -56,11 +58,11 @@ public class MappingUtility {
                 product.getDescription(),
                 product.getPrice(),
                 product.getSubcategory().getId(),
-                product.getAuctionStartDate(),
-                product.getAuctionEndDate(),
+                product.getAuctionStartDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
+                product.getAuctionEndDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
                 images,
                 product.getFeature(),
-                product.getId(),
+                product.getUser().getId(),
                 bids
         );
 

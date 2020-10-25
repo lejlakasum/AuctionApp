@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -176,7 +177,6 @@ public class DatabaseSeeder {
         User seller = users.get(2);
         User seller2 = users.get(3);
         List<Image> images = new ArrayList<>();
-
         if(products.isEmpty()) {
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_1.jpg?alt=media&token=8f659c7a-c046-416c-b7e5-25e91204eb9e"));
@@ -184,8 +184,8 @@ public class DatabaseSeeder {
                                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                                                 100.,
                                                 subcategories.get(2),
-                                                LocalDateTime.now().minusHours(35),
-                                                LocalDateTime.now().plusHours(22),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(35),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusHours(22),
                                                 images,
                                                 false,
                                                 seller
@@ -198,8 +198,8 @@ public class DatabaseSeeder {
                                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                                                 300.,
                                                 subcategories.get(2),
-                                                LocalDateTime.now().minusHours(50),
-                                                LocalDateTime.now().plusDays(5),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(50),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusDays(5),
                                                 images,
                                                 true,
                                                 seller
@@ -212,8 +212,8 @@ public class DatabaseSeeder {
                                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                                                 500.,
                                                 subcategories.get(2),
-                                                LocalDateTime.now().minusHours(3),
-                                                LocalDateTime.now().plusDays(3),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(3),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusDays(3),
                                                 images,
                                                 true,
                                                 seller
@@ -226,8 +226,8 @@ public class DatabaseSeeder {
                                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                                                 1000.,
                                                 subcategories.get(2),
-                                                LocalDateTime.now().minusHours(77),
-                                                LocalDateTime.now().plusHours(3),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
                                                 images,
                                                 false,
                                                 seller
@@ -240,8 +240,8 @@ public class DatabaseSeeder {
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                             1000.,
                             subcategories.get(2),
-                            LocalDateTime.now().minusHours(77),
-                            LocalDateTime.now().plusHours(3),
+                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
                             images,
                             false,
                             seller2
@@ -254,8 +254,8 @@ public class DatabaseSeeder {
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                             1000.,
                             subcategories.get(10),
-                            LocalDateTime.now().minusHours(77),
-                            LocalDateTime.now().plusHours(3),
+                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
                             images,
                             true,
                             seller2
@@ -268,8 +268,8 @@ public class DatabaseSeeder {
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                             1000.,
                             subcategories.get(8),
-                            LocalDateTime.now().minusHours(77),
-                            LocalDateTime.now().plusHours(3),
+                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
                             images,
                             true,
                             seller2
@@ -282,8 +282,8 @@ public class DatabaseSeeder {
                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
                             1000.,
                             subcategories.get(2),
-                            LocalDateTime.now().minusHours(77),
-                            LocalDateTime.now().plusHours(3),
+                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
                             images,
                             true,
                             seller2

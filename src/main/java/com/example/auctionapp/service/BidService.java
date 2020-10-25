@@ -15,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,11 +63,22 @@ public class BidService implements IBaseService<BidDto> {
 
     public BidDto add(BidDto resource) {
 
-        Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
-        User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
 
-        Bid bid = bidRepository.create(new Bid(user, product, resource.getBidTime(), resource.getBidAmount()));
-        logger.info("Bid with id " + bid.getId() + " created");
+        List<Bid> bids = bidRepository.findAll();
+        Double highestBid = bids.stream().mapToDouble(bid -> bid.getBidAmount()).max().orElse(0);
+
+            Bid bid = new Bid();
+        if(resource.getBidAmount() > highestBid) {
+            Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
+            User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
+            bid = bidRepository.create(new Bid(
+                    user,
+                    product,
+                    LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getBidTime()), ZoneOffset.UTC),
+                    resource.getBidAmount()));
+            logger.info("Bid with id " + bid.getId() + " created");
+        }
+
         return MappingUtility.mapBidToBidDto(bid);
     }
 
@@ -71,7 +86,7 @@ public class BidService implements IBaseService<BidDto> {
 
         Bid resourceToUpdate = RepositoryUtility.findIfExist(bidRepository, resource.getId(), RESOURCE_NAME);
 
-        resourceToUpdate.setBidTime(resource.getBidTime());
+        resourceToUpdate.setBidTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getBidTime()), ZoneOffset.UTC));
         resourceToUpdate.setBidAmount(resource.getBidAmount());
 
         Bid bid = bidRepository.update(resourceToUpdate);
