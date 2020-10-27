@@ -1,16 +1,10 @@
 package com.example.auctionapp.dto;
 
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Subcategory;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 public class ProductDto extends BaseResourceDto{
 
@@ -26,17 +20,20 @@ public class ProductDto extends BaseResourceDto{
     private Long subcategoryId;
 
     @NotNull
-    private LocalDateTime auctionStartDate;
+    private Long auctionStartDate;
 
     @NotNull
-    private LocalDateTime auctionEndDate;
+    private Long auctionEndDate;
 
+    @Size(min = 2)
     private List<String> imagesUrl;
 
     private Boolean feature;
 
     @NotNull
     private Long userId;
+
+    private List<BidDto> bids;
 
     public ProductDto() {
     }
@@ -48,11 +45,12 @@ public class ProductDto extends BaseResourceDto{
                       String description,
                       Double price,
                       Long subcategoryId,
-                      LocalDateTime auctionStartDate,
-                      LocalDateTime auctionEndDate,
+                      Long auctionStartDate,
+                      Long auctionEndDate,
                       List<String> imagesUrl,
                       Boolean feature,
-                      Long userId) {
+                      Long userId,
+                      List<BidDto> bids) {
 
         super(id, dateCreated, lastModifiedDate);
         this.name = name;
@@ -64,6 +62,7 @@ public class ProductDto extends BaseResourceDto{
         this.imagesUrl = imagesUrl;
         this.feature = feature;
         this.userId = userId;
+        this.bids = bids;
     }
 
     public String getName() {
@@ -98,19 +97,19 @@ public class ProductDto extends BaseResourceDto{
         this.subcategoryId = subcategoryId;
     }
 
-    public LocalDateTime getAuctionStartDate() {
+    public Long getAuctionStartDate() {
         return auctionStartDate;
     }
 
-    public void setAuctionStartDate(LocalDateTime auctionStartDate) {
+    public void setAuctionStartDate(Long auctionStartDate) {
         this.auctionStartDate = auctionStartDate;
     }
 
-    public LocalDateTime getAuctionEndDate() {
+    public Long getAuctionEndDate() {
         return auctionEndDate;
     }
 
-    public void setAuctionEndDate(LocalDateTime auctionEndDate) {
+    public void setAuctionEndDate(Long auctionEndDate) {
         this.auctionEndDate = auctionEndDate;
     }
 
@@ -136,5 +135,9 @@ public class ProductDto extends BaseResourceDto{
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public List<BidDto> getBids() {
+        return bids;
     }
 }

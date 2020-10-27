@@ -1,13 +1,16 @@
 package com.example.auctionapp.model;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Table(name = "user_entity")
@@ -31,15 +34,20 @@ public class User extends Resource {
     @JoinColumn(name = "role_id", referencedColumnName = "id", updatable = false)
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false)
+    private Image image;
+
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, Role role) {
+    public User(String firstName, String lastName, String email, String password, Role role, Image image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.image = image;
     }
 
     public String getFirstName() {
@@ -80,5 +88,13 @@ public class User extends Resource {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

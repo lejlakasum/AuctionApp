@@ -1,5 +1,6 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.SubcategoryDto;
 import com.example.auctionapp.model.Category;
@@ -36,7 +37,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
         List<Subcategory> subcategories = repository.findAll();
         List<SubcategoryDto> subcategoryDtos = subcategories.stream().map(
-                subcategory -> {return mapSubcategoryToDto(subcategory);
+                subcategory -> {return MappingUtility.mapSubcategoryToDto(subcategory);
                 }
         ).collect(Collectors.toList());
 
@@ -48,7 +49,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
         Subcategory subcategory = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
 
-        return mapSubcategoryToDto(subcategory);
+        return MappingUtility.mapSubcategoryToDto(subcategory);
     }
 
 
@@ -58,7 +59,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
         Subcategory subcategory = repository.create(new Subcategory(resource.getName(), category));
         logger.info("Subcategory with id " + subcategory.getId() + " created");
-        return mapSubcategoryToDto(subcategory);
+        return MappingUtility.mapSubcategoryToDto(subcategory);
     }
 
 
@@ -74,7 +75,7 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
         Subcategory subcategory = repository.update(resourceToUpdate);
         logger.info("Subcategory with id " + subcategory.getId() + " updated");
 
-        return mapSubcategoryToDto(subcategory);
+        return MappingUtility.mapSubcategoryToDto(subcategory);
     }
 
 
@@ -84,14 +85,5 @@ public class SubcategoryService implements IBaseService<SubcategoryDto> {
 
         repository.deleteById(id);
         logger.info("Subcategory with id " + id + " deleted");
-    }
-
-    private SubcategoryDto mapSubcategoryToDto(Subcategory subcategory) {
-        return new SubcategoryDto(subcategory.getId(),
-                subcategory.getDateCreated(),
-                subcategory.getLastModifiedDate(),
-                subcategory.getName(),
-                subcategory.getCategory().getId()
-        );
     }
 }

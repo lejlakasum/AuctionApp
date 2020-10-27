@@ -3,6 +3,7 @@ package com.example.auctionapp.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UserDto extends BaseResourceDto {
 
@@ -17,6 +18,8 @@ public class UserDto extends BaseResourceDto {
 
     @NotBlank(message = "Password can't be blank")
     private String password;
+
+    private String imageUrl;
 
     public UserDto() {
     }
@@ -34,11 +37,19 @@ public class UserDto extends BaseResourceDto {
         this.password = password;
     }
 
-    public UserDto(Long id, LocalDateTime dateCreated, LocalDateTime lastModifiedDate, String firstName, String lastName, String email, Long roleId) {
+    public UserDto(Long id,
+                   LocalDateTime dateCreated,
+                   LocalDateTime lastModifiedDate,
+                   String firstName,
+                   String lastName,
+                   String email,
+                   Long roleId,
+                   String imageUrl) {
         super(id, dateCreated, lastModifiedDate);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.imageUrl = imageUrl;
     }
 
     public String getFirstName() {
@@ -71,5 +82,13 @@ public class UserDto extends BaseResourceDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
