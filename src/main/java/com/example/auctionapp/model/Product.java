@@ -39,7 +39,7 @@ public class Product extends Resource {
 
     @NotNull
     private LocalDateTime auctionEndDate;
-
+    @Size(min = 2)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
@@ -48,6 +48,9 @@ public class Product extends Resource {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
     private User user;
+
+    @OneToMany(mappedBy = "product")
+    private List<Bid> bids;
 
     public Product() {
     }
@@ -142,5 +145,9 @@ public class Product extends Resource {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
     }
 }

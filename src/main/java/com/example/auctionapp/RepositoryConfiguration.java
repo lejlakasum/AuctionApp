@@ -1,5 +1,6 @@
 package com.example.auctionapp;
 
+import com.example.auctionapp.model.Bid;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
@@ -56,6 +57,11 @@ public class RepositoryConfiguration {
     @Bean
     CategoryRepository categoryRepository() {
         return new CategoryRepository(Category.class, entityManager);
+    }
+
+    @Bean
+    BaseRepository<Bid> bidRepository() {
+        return new BaseRepository<>(Bid.class, entityManager);
     }
 
 }
