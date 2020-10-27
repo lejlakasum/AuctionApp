@@ -1,16 +1,10 @@
 package com.example.auctionapp.dto;
 
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Subcategory;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 public class ProductDto extends BaseResourceDto{
 
@@ -31,6 +25,7 @@ public class ProductDto extends BaseResourceDto{
     @NotNull
     private Long auctionEndDate;
 
+    @Size(min = 2)
     private List<String> imagesUrl;
 
     private Boolean feature;

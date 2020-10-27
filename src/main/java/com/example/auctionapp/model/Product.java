@@ -39,7 +39,7 @@ public class Product extends Resource {
 
     @NotNull
     private LocalDateTime auctionEndDate;
-
+    @Size(min = 2)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 

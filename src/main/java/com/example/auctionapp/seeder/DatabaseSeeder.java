@@ -178,10 +178,13 @@ public class DatabaseSeeder {
         User seller2 = users.get(3);
         List<Image> images = new ArrayList<>();
         if(products.isEmpty()) {
+            final String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
+
+
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_1.jpg?alt=media&token=8f659c7a-c046-416c-b7e5-25e91204eb9e"));
             productRepository.create(new Product("Black Jacket",
-                                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                                                description,
                                                 100.,
                                                 subcategories.get(2),
                                                 LocalDateTime.now(ZoneOffset.UTC).minusHours(35),
@@ -194,8 +197,9 @@ public class DatabaseSeeder {
 
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F9YR98_AS05.jpg?alt=media&token=67ae4719-dfc0-40f8-8b54-d83f9ec89992"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F9YR98_AS05.jpg?alt=media&token=67ae4719-dfc0-40f8-8b54-d83f9ec89992"));
             productRepository.create(new Product("Brown Jacket",
-                                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                                                description,
                                                 300.,
                                                 subcategories.get(2),
                                                 LocalDateTime.now(ZoneOffset.UTC).minusHours(50),
@@ -208,8 +212,9 @@ public class DatabaseSeeder {
 
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2FCMW772_UR5_01_bynder_defined_type_product_01.jpg?alt=media&token=3fcce00d-42d4-47bd-931f-57b64dd9aafa"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2FCMW772_UR5_01_bynder_defined_type_product_01.jpg?alt=media&token=3fcce00d-42d4-47bd-931f-57b64dd9aafa"));
             productRepository.create(new Product("Blue Jacket",
-                                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                                                description,
                                                 500.,
                                                 subcategories.get(2),
                                                 LocalDateTime.now(ZoneOffset.UTC).minusHours(3),
@@ -222,8 +227,9 @@ public class DatabaseSeeder {
 
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2FMens_White_Leather_Motorcycle_Jacket__45131_zoom.jpg?alt=media&token=9116965a-e04a-436b-9206-242559b88ee8"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2FMens_White_Leather_Motorcycle_Jacket__45131_zoom.jpg?alt=media&token=9116965a-e04a-436b-9206-242559b88ee8"));
             productRepository.create(new Product("White Jacket",
-                                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                                                description,
                                                 1000.,
                                                 subcategories.get(2),
                                                 LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
@@ -236,57 +242,61 @@ public class DatabaseSeeder {
 
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
             productRepository.create(new Product("White Jacket",
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                            1000.,
-                            subcategories.get(2),
-                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
-                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
-                            images,
-                            false,
-                            seller2
+                                                description,
+                                                1000.,
+                                                subcategories.get(2),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
+                                                images,
+                                                false,
+                                                seller2
                     )
             );
 
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F71320MVSdWL._SL1500_.jpg?alt=media&token=9086fc51-9fa9-4419-bfc3-c84694a7c6b6"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F71320MVSdWL._SL1500_.jpg?alt=media&token=9086fc51-9fa9-4419-bfc3-c84694a7c6b6"));
             productRepository.create(new Product("Lenovo Tablet",
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                            1000.,
-                            subcategories.get(10),
-                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
-                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
-                            images,
-                            true,
-                            seller2
+                                                description,
+                                                1000.,
+                                                subcategories.get(10),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
+                                                images,
+                                                true,
+                                                seller2
                     )
             );
 
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F1-42-9714512230_xxl.webp?alt=media&token=f772ad4c-b352-41c2-bf2c-a320c11166e5"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F1-42-9714512230_xxl.webp?alt=media&token=f772ad4c-b352-41c2-bf2c-a320c11166e5"));
             productRepository.create(new Product("Tennis shoes",
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                            1000.,
-                            subcategories.get(8),
-                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
-                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
-                            images,
-                            true,
-                            seller2
+                                                description,
+                                                1000.,
+                                                subcategories.get(8),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
+                                                images,
+                                                true,
+                                                seller2
                     )
             );
 
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
+            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
             productRepository.create(new Product("White Jacket",
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-                            1000.,
-                            subcategories.get(2),
-                            LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
-                            LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
-                            images,
-                            true,
-                            seller2
+                                                description,
+                                                1000.,
+                                                subcategories.get(2),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
+                                                LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
+                                                images,
+                                                true,
+                                                seller2
                     )
             );
 

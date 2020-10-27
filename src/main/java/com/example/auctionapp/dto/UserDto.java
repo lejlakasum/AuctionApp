@@ -19,8 +19,6 @@ public class UserDto extends BaseResourceDto {
     @NotBlank(message = "Password can't be blank")
     private String password;
 
-    private List<BidDto> bids;
-
     private String imageUrl;
 
     public UserDto() {
@@ -46,13 +44,11 @@ public class UserDto extends BaseResourceDto {
                    String lastName,
                    String email,
                    Long roleId,
-                   List<BidDto> bids,
                    String imageUrl) {
         super(id, dateCreated, lastModifiedDate);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.bids = bids;
         this.imageUrl = imageUrl;
     }
 
@@ -86,10 +82,6 @@ public class UserDto extends BaseResourceDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<BidDto> getBids() {
-        return bids;
     }
 
     public String getImageUrl() {

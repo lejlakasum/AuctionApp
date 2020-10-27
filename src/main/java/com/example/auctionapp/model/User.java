@@ -34,9 +34,6 @@ public class User extends Resource {
     @JoinColumn(name = "role_id", referencedColumnName = "id", updatable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private List<Bid> bids;
-
     @ManyToOne
     @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false)
     private Image image;
@@ -91,10 +88,6 @@ public class User extends Resource {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public List<Bid> getBids() {
-        return bids;
     }
 
     public Image getImage() {

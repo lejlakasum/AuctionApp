@@ -3,6 +3,7 @@ package com.example.auctionapp.service;
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.BidDto;
+import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.model.Bid;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.User;
@@ -64,20 +65,20 @@ public class BidService implements IBaseService<BidDto> {
     public BidDto add(BidDto resource) {
 
 
-        List<Bid> bids = bidRepository.findAll();
+        List<Bid> bids = productRepository.findById(resource.getProductId()).getBids();
         Double highestBid = bids.stream().mapToDouble(bid -> bid.getBidAmount()).max().orElse(0);
 
-            Bid bid = new Bid();
-        if(resource.getBidAmount() > highestBid) {
-            Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
-            User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
-            bid = bidRepository.create(new Bid(
-                    user,
-                    product,
-                    LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getBidTime()), ZoneOffset.UTC),
-                    resource.getBidAmount()));
-            logger.info("Bid with id " + bid.getId() + " created");
+        if(resource.getBidAmount() <= highestBid) {
+            throw new BadRequestException("Bid must be higher than " + highestBid);
         }
+        Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
+        User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
+        Bid bid = bidRepository.create(new Bid(
+                user,
+                product,
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getBidTime()), ZoneOffset.UTC),
+                resource.getBidAmount()));
+        logger.info("Bid with id " + bid.getId() + " created");
 
         return MappingUtility.mapBidToBidDto(bid);
     }

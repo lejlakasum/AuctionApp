@@ -2,6 +2,7 @@ package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
+import com.example.auctionapp.Util.TimeUtility;
 import com.example.auctionapp.dto.ProductDto;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
@@ -16,9 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,8 +111,8 @@ public class ProductService implements IBaseService<ProductDto> {
                                             resource.getDescription(),
                                             resource.getPrice(),
                                             subcategory,
-                                            LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionStartDate()), ZoneOffset.UTC),
-                                            LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionEndDate()), ZoneOffset.UTC),
+                                            TimeUtility.timestampToLocalDateTime(resource.getAuctionStartDate()),
+                                            TimeUtility.timestampToLocalDateTime(resource.getAuctionEndDate()),
                                             images,
                                             resource.getFeature(),
                                             user));
@@ -132,8 +130,8 @@ public class ProductService implements IBaseService<ProductDto> {
         resourceToUpdate.setName(resource.getName());
         resourceToUpdate.setDescription(resource.getDescription());
         resourceToUpdate.setPrice(resource.getPrice());
-        resourceToUpdate.setAuctionStartDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionStartDate()), ZoneOffset.UTC));
-        resourceToUpdate.setAuctionEndDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getAuctionEndDate()), ZoneOffset.UTC));
+        resourceToUpdate.setAuctionStartDate(TimeUtility.timestampToLocalDateTime(resource.getAuctionStartDate()));
+        resourceToUpdate.setAuctionEndDate(TimeUtility.timestampToLocalDateTime(resource.getAuctionEndDate()));
         resourceToUpdate.setSubcategory(subcategory);
 
         Product product = repository.update(resourceToUpdate);

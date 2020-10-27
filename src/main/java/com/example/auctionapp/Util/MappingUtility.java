@@ -13,7 +13,6 @@ import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.model.User;
 
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public class MappingUtility {
                 bid.getUser().getImage().getUrl(),
                 bid.getProduct().getId(),
                 bid.getProduct().getName(),
-                bid.getBidTime().toInstant(ZoneOffset.UTC).toEpochMilli(),
+                TimeUtility.LocalDateTimeToTimestamp(bid.getBidTime()),
                 bid.getBidAmount()
         );
     }
@@ -39,9 +38,9 @@ public class MappingUtility {
     public static ProductDto mapProductToProductDto(Product product) {
 
         List<String> images = product.getImages().stream().map(
-                image -> {return image.getUrl();
-                }
-        ).collect(Collectors.toList());
+                     image -> {return image.getUrl();
+                     }
+            ).collect(Collectors.toList());
 
         List<BidDto> bids = new ArrayList<>();
         if(product.getBids()!=null) {
@@ -58,8 +57,8 @@ public class MappingUtility {
                 product.getDescription(),
                 product.getPrice(),
                 product.getSubcategory().getId(),
-                product.getAuctionStartDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
-                product.getAuctionEndDate().toInstant(ZoneOffset.UTC).toEpochMilli(),
+                TimeUtility.LocalDateTimeToTimestamp(product.getAuctionStartDate()),
+                TimeUtility.LocalDateTimeToTimestamp(product.getAuctionEndDate()),
                 images,
                 product.getFeature(),
                 product.getUser().getId(),
@@ -104,13 +103,6 @@ public class MappingUtility {
     }
 
     public static UserDto mapUserToUserDto(User user) {
-        List<BidDto> bids = new ArrayList<>();
-        if(user.getBids()!=null) {
-            bids = user.getBids().stream().map(
-                    bid -> {return mapBidToBidDto(bid);
-                    }
-            ).collect(Collectors.toList());
-        }
 
         return new UserDto(user.getId(),
                 user.getDateCreated(),
@@ -119,7 +111,6 @@ public class MappingUtility {
                 user.getLastName(),
                 user.getEmail(),
                 user.getRole().getId(),
-                bids,
                 user.getImage().getUrl()
         );
     }

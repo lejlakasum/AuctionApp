@@ -4,7 +4,6 @@ import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Rating;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -34,7 +33,7 @@ public class ProductRepository extends BaseRepository<Product> {
         q.select(resource);
         Predicate predicateForSubcategory = cb.equal(resource.get("subcategory").get("id"), subcategoryId);
         Predicate predicateForProduct = cb.notEqual(resource.get("id"), productId);
-        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now(ZoneOffset.UTC));
+        Predicate predicateForEndDate = getPredicateForEndDate(resource, cb);
         q.where(
                 cb.and(
                         predicateForProduct,
@@ -56,7 +55,7 @@ public class ProductRepository extends BaseRepository<Product> {
         q.select(resource);
 
         Predicate predicateForFeature = cb.equal(resource.get("feature"), true);
-        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now(ZoneOffset.UTC));
+        Predicate predicateForEndDate = getPredicateForEndDate(resource, cb);
         q.where(
                 cb.and(predicateForFeature,
                         predicateForEndDate)
@@ -74,7 +73,7 @@ public class ProductRepository extends BaseRepository<Product> {
         Root<Product> resource = q.from(Product.class);
         q.select(resource);
 
-        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now(ZoneOffset.UTC));
+        Predicate predicateForEndDate = getPredicateForEndDate(resource, cb);
         Predicate predicateForStartDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionStartDate"),
                                                                   LocalDateTime.now(ZoneOffset.UTC).minusHours(48));
 
@@ -115,7 +114,7 @@ public class ProductRepository extends BaseRepository<Product> {
         Root<Product> resource = q.from(Product.class);
         q.select(resource);
 
-        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now(ZoneOffset.UTC));
+        Predicate predicateForEndDate = getPredicateForEndDate(resource, cb);
         Predicate predicateForFeature = cb.equal(resource.get("feature"), feature);
         Predicate predicateForCategory = cb.equal(resource.get("subcategory").get("category").get("id"), categoryId);
 
@@ -152,7 +151,7 @@ public class ProductRepository extends BaseRepository<Product> {
                 .orderBy(cb.desc(cb.avg(rating.get("grade"))));
 
 
-        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(product.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now(ZoneOffset.UTC));
+        Predicate predicateForEndDate = getPredicateForEndDate(product, cb);
 
         List<Rating> users = entityManager.createQuery(ratingQuery).setMaxResults(MAX_TOP_RATED).getResultList();
 
@@ -175,7 +174,7 @@ public class ProductRepository extends BaseRepository<Product> {
         Root<Product> resource = q.from(Product.class);
         q.select(resource);
 
-        Predicate predicateForEndDate = cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now(ZoneOffset.UTC));
+        Predicate predicateForEndDate = getPredicateForEndDate(resource, cb);
         Predicate predicateForFeature = cb.equal(resource.get("feature"), true);
         Predicate predicateForCategory = cb.like(resource.get("subcategory").get("category").get("name"), categoryName);
 
@@ -189,6 +188,10 @@ public class ProductRepository extends BaseRepository<Product> {
         Double lowestPrice = entityManager.createQuery(q).getResultList().get(0).getPrice();
 
         return lowestPrice;
+    }
+
+    private static Predicate getPredicateForEndDate(Root<Product> resource, CriteriaBuilder cb) {
+        return cb.greaterThanOrEqualTo(resource.<LocalDateTime>get("auctionEndDate"), LocalDateTime.now(ZoneOffset.UTC));
     }
 
 }
