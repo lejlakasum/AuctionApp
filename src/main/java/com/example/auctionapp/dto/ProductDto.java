@@ -28,6 +28,7 @@ public class ProductDto extends BaseResourceDto{
     @Size(min = 2)
     private List<String> imagesUrl;
 
+    @NotNull
     private Boolean feature;
 
     @NotNull

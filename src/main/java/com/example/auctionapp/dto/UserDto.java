@@ -19,6 +19,7 @@ public class UserDto extends BaseResourceDto {
     @NotBlank(message = "Password can't be blank")
     private String password;
 
+    @NotBlank
     private String imageUrl;
 
     public UserDto() {
