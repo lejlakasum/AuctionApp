@@ -1,5 +1,6 @@
 package com.example.auctionapp.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -8,6 +9,7 @@ public class CategoryDto extends BaseResourceDto {
     @NotNull
     private String name;
 
+    @NotBlank
     private String imageUrl;
 
     public CategoryDto() {

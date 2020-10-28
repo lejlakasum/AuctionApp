@@ -3,6 +3,7 @@ package com.example.auctionapp.dto;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+
 public class BidDto extends BaseResourceDto {
 
     @NotNull

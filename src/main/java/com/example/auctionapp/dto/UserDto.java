@@ -3,7 +3,6 @@ package com.example.auctionapp.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class UserDto extends BaseResourceDto {
 
@@ -19,6 +18,7 @@ public class UserDto extends BaseResourceDto {
     @NotBlank(message = "Password can't be blank")
     private String password;
 
+    @NotBlank
     private String imageUrl;
 
     public UserDto() {

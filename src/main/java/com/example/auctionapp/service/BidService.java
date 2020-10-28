@@ -2,6 +2,7 @@ package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
+import com.example.auctionapp.Util.TimeUtility;
 import com.example.auctionapp.dto.BidDto;
 import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.model.Bid;
@@ -64,13 +65,10 @@ public class BidService implements IBaseService<BidDto> {
 
     public BidDto add(BidDto resource) {
 
-
-        List<Bid> bids = productRepository.findById(resource.getProductId()).getBids();
-        Double highestBid = bids.stream().mapToDouble(bid -> bid.getBidAmount()).max().orElse(0);
-
-        if(resource.getBidAmount() <= highestBid) {
-            throw new BadRequestException("Bid must be higher than " + highestBid);
+        if(!validateBidDto(resource)) {
+            throw new BadRequestException("Bid is not valid");
         }
+
         Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
         User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
         Bid bid = bidRepository.create(new Bid(
@@ -84,6 +82,10 @@ public class BidService implements IBaseService<BidDto> {
     }
 
     public BidDto update(BidDto resource) {
+
+        if(!validateBidDto(resource)) {
+            throw new BadRequestException("Bid is not valid");
+        }
 
         Bid resourceToUpdate = RepositoryUtility.findIfExist(bidRepository, resource.getId(), RESOURCE_NAME);
 
@@ -103,6 +105,25 @@ public class BidService implements IBaseService<BidDto> {
 
         bidRepository.deleteById(id);
         logger.info("Bid with id " + id + " deleted");
+    }
+
+    private boolean validateBidDto(BidDto bidDto) {
+
+        Product product = productRepository.findById(bidDto.getProductId());
+        Double highestBid = product.getBids().stream().mapToDouble(bid -> bid.getBidAmount()).max().orElse(0);
+
+        if (bidDto.getBidAmount() <= highestBid) {
+            return false;
+        }
+
+        Long auctionStart = TimeUtility.LocalDateTimeToTimestamp(product.getAuctionStartDate());
+        Long auctionEnd = TimeUtility.LocalDateTimeToTimestamp(product.getAuctionEndDate());
+
+        if(bidDto.getBidTime() <= auctionStart || bidDto.getBidTime() >= auctionEnd) {
+            return false;
+        }
+
+        return true;
     }
 
 }
