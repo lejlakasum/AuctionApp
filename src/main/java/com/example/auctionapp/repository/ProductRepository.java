@@ -185,7 +185,11 @@ public class ProductRepository extends BaseRepository<Product> {
         );
         q.orderBy(cb.asc(resource.get("price")));
 
-        Double lowestPrice = entityManager.createQuery(q).getResultList().get(0).getPrice();
+        List<Product> resultList = entityManager.createQuery(q).getResultList();
+        Double lowestPrice = 0.;
+        if(!resultList.isEmpty()) {
+            lowestPrice = resultList.get(0).getPrice();
+        }
 
         return lowestPrice;
     }
