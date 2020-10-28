@@ -1,11 +1,14 @@
 package com.example.auctionapp.dto;
 
+import com.example.auctionapp.customValidator.ProductVerifier;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@ProductVerifier
 public class ProductDto extends BaseResourceDto{
 
     @NotBlank
