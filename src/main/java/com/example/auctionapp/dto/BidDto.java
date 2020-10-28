@@ -1,8 +1,16 @@
 package com.example.auctionapp.dto;
 
+import com.example.auctionapp.customValidator.BidVerifier;
+
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+
+@BidVerifier(
+        productId = "productId",
+        bidTime = "bidTime",
+        bidAmount = "bidAmount"
+)
 public class BidDto extends BaseResourceDto {
 
     @NotNull

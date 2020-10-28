@@ -64,13 +64,6 @@ public class BidService implements IBaseService<BidDto> {
 
     public BidDto add(BidDto resource) {
 
-
-        List<Bid> bids = productRepository.findById(resource.getProductId()).getBids();
-        Double highestBid = bids.stream().mapToDouble(bid -> bid.getBidAmount()).max().orElse(0);
-
-        if(resource.getBidAmount() <= highestBid) {
-            throw new BadRequestException("Bid must be higher than " + highestBid);
-        }
         Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
         User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
         Bid bid = bidRepository.create(new Bid(
