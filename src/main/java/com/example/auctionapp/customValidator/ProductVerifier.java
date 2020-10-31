@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ProductVerifier {
-    String message() default "Bid is not valid";
+    String message() default "Product is not valid";
     Class<?>[] groups() default {};
     Class<?>[] payload() default {};
 }

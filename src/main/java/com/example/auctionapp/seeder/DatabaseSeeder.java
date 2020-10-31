@@ -243,7 +243,7 @@ public class DatabaseSeeder {
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
-            productRepository.create(new Product("White Jacket",
+            productRepository.create(new Product("Black Jacket",
                                                 description,
                                                 1000.,
                                                 subcategories.get(2),
@@ -288,7 +288,7 @@ public class DatabaseSeeder {
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F7324_4.jpg?alt=media&token=fd714986-4dc8-4af8-8593-071d155344c6"));
-            productRepository.create(new Product("White Jacket",
+            productRepository.create(new Product("Black Jacket",
                                                 description,
                                                 1000.,
                                                 subcategories.get(2),
