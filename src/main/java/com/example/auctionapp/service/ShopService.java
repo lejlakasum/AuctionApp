@@ -1,0 +1,72 @@
+package com.example.auctionapp.service;
+
+import com.example.auctionapp.dto.FilterDto.FilterCategoryDto;
+import com.example.auctionapp.dto.FilterDto.FilterPriceDto;
+import com.example.auctionapp.dto.FilterDto.FilterSubcategoryDto;
+import com.example.auctionapp.dto.FilterDto.FiltersResponseDto;
+import com.example.auctionapp.enumeration.ColorEnum;
+import com.example.auctionapp.enumeration.SizeEnum;
+import com.example.auctionapp.model.Category;
+import com.example.auctionapp.model.Subcategory;
+import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.CategoryRepository;
+import com.example.auctionapp.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import javax.persistence.Tuple;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@Transactional
+public class ShopService {
+
+    private final BaseRepository<Subcategory> subcategoryRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
+    @Autowired
+    public ShopService(BaseRepository<Subcategory> subcategoryRepository,
+                       ProductRepository productRepository,
+                       CategoryRepository categoryRepository) {
+        this.subcategoryRepository = subcategoryRepository;
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
+    public FiltersResponseDto getShopFilters() {
+
+        List<String> colors = Arrays.stream(ColorEnum.values()).map(name -> {
+            return name.toString();
+        }).collect(Collectors.toList());
+
+        List<String> sizes = Arrays.stream(SizeEnum.values()).map(name -> {
+            if(name.toString().contains("_")) {
+                return name.toString().replace("_", " ");
+            }
+            return name.toString();
+        }).collect(Collectors.toList());
+
+        List<FilterCategoryDto> filterCategories = new ArrayList<>();
+        List<Category> categories = categoryRepository.findAll();
+
+        for(Category category : categories) {
+            List<FilterSubcategoryDto> filterSubcategories = new ArrayList<>();
+            for(Subcategory subcategory: category.getSubcategories()) {
+                Long count = productRepository.getProductsCountBySubcategory(subcategory.getId());
+                filterSubcategories.add(new FilterSubcategoryDto(subcategory.getId(), subcategory.getName(), count));
+            }
+            filterCategories.add(new FilterCategoryDto(category.getId(), category.getName(), filterSubcategories));
+        }
+
+        FilterPriceDto prices = productRepository.getPricesInfo();
+
+        return new FiltersResponseDto(colors, sizes, filterCategories, prices);
+    }
+
+}

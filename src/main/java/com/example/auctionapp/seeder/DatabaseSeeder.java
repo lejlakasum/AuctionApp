@@ -164,6 +164,18 @@ public class DatabaseSeeder {
             subcategoryRepository.create(new Subcategory("Tablet", categories.get(6)));
             subcategoryRepository.create(new Subcategory("TV", categories.get(6)));
             subcategoryRepository.create(new Subcategory("Laptop", categories.get(6)));
+            subcategoryRepository.create(new Subcategory("Neckles", categories.get(2)));
+            subcategoryRepository.create(new Subcategory("Bracelet", categories.get(2)));
+            subcategoryRepository.create(new Subcategory("Shirt", categories.get(4)));
+            subcategoryRepository.create(new Subcategory("Sports Crop", categories.get(4)));
+            subcategoryRepository.create(new Subcategory("Nokia", categories.get(7)));
+            subcategoryRepository.create(new Subcategory("Samsung", categories.get(7)));
+            subcategoryRepository.create(new Subcategory("Dell", categories.get(8)));
+            subcategoryRepository.create(new Subcategory("Hp", categories.get(8)));
+            subcategoryRepository.create(new Subcategory("Acer", categories.get(8)));
+            subcategoryRepository.create(new Subcategory("Desk", categories.get(9)));
+            subcategoryRepository.create(new Subcategory("Bench", categories.get(9)));
+
 
 
             logger.info("Subcategory table seeded");
@@ -246,7 +258,7 @@ public class DatabaseSeeder {
             productRepository.create(new Product("Black Jacket",
                                                 description,
                                                 1000.,
-                                                subcategories.get(2),
+                                                subcategories.get(1),
                                                 LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
                                                 LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
                                                 images,

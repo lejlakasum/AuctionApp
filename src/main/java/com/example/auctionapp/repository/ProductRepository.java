@@ -1,9 +1,14 @@
 package com.example.auctionapp.repository;
 
+import com.example.auctionapp.dto.FilterDto.FilterPriceDto;
+import com.example.auctionapp.dto.FilterDto.FilterSubcategoryDto;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Rating;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.Tuple;
+import javax.persistence.TupleElement;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -192,6 +197,54 @@ public class ProductRepository extends BaseRepository<Product> {
         }
 
         return lowestPrice;
+    }
+
+    public Long getProductsCountBySubcategory(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Tuple> q = cb.createTupleQuery();
+        Root<Product> resource = q.from(Product.class);
+
+        Predicate predicateForEndDate = getPredicateForEndDate(resource, cb);
+        Predicate predicatedorSubcategory = cb.equal(resource.get("subcategory").get("id"), id);
+
+        q.multiselect(cb.count(resource.get("id")))
+                .where(
+                        cb.and(predicateForEndDate, predicatedorSubcategory)
+                );
+
+        List<Tuple> result = entityManager.createQuery(q).getResultList();
+
+        if(!result.isEmpty()) {
+            return (Long) result.get(0).get(0);
+        }
+
+        return 0L;
+
+    }
+
+    public FilterPriceDto getPricesInfo() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Tuple> q = cb.createTupleQuery();
+        Root<Product> resource = q.from(Product.class);
+
+        Predicate predicateForEndDate = getPredicateForEndDate(resource, cb);
+
+        q.multiselect(cb.min(resource.get("price")), cb.max(resource.get("price")), cb.avg(resource.get("price")))
+                .where(predicateForEndDate);
+
+        Tuple result = entityManager.createQuery(q).getResultList().get(0);
+
+        Query pricesQuery = entityManager.createNativeQuery("SELECT count(id), round(cast(price as numeric), -1) FROM public.product GROUP BY price ORDER BY price");
+
+        List<Tuple> pricesTuple = pricesQuery.getResultList();
+
+        return new FilterPriceDto((Double) result.get(0),
+                                  (Double) result.get(1),
+                                  (Double) result.get(2),
+                                  pricesTuple
+        );
     }
 
     private static Predicate getPredicateForEndDate(Root<Product> resource, CriteriaBuilder cb) {
