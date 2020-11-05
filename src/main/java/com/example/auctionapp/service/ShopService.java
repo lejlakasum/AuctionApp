@@ -1,12 +1,17 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.Util.EnumUtility;
+import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.dto.FilterDto.FilterCategoryDto;
 import com.example.auctionapp.dto.FilterDto.FilterPriceDto;
 import com.example.auctionapp.dto.FilterDto.FilterSubcategoryDto;
 import com.example.auctionapp.dto.FilterDto.FiltersResponseDto;
+import com.example.auctionapp.dto.ProductDto;
+import com.example.auctionapp.dto.SearchRequest;
 import com.example.auctionapp.enumeration.ColorEnum;
 import com.example.auctionapp.enumeration.SizeEnum;
 import com.example.auctionapp.model.Category;
+import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.CategoryRepository;
@@ -41,16 +46,9 @@ public class ShopService {
 
     public FiltersResponseDto getShopFilters() {
 
-        List<String> colors = Arrays.stream(ColorEnum.values()).map(name -> {
-            return name.toString();
-        }).collect(Collectors.toList());
+        List<String> colors = EnumUtility.getColors();
 
-        List<String> sizes = Arrays.stream(SizeEnum.values()).map(name -> {
-            if(name.toString().contains("_")) {
-                return name.toString().replace("_", " ");
-            }
-            return name.toString();
-        }).collect(Collectors.toList());
+        List<String> sizes = EnumUtility.getSizes();
 
         List<FilterCategoryDto> filterCategories = new ArrayList<>();
         List<Category> categories = categoryRepository.findAll();
@@ -67,6 +65,11 @@ public class ShopService {
         FilterPriceDto prices = productRepository.getPricesInfo();
 
         return new FiltersResponseDto(colors, sizes, filterCategories, prices);
+    }
+
+    public List<ProductDto> searchProducts(SearchRequest searchRequest) {
+
+        return MappingUtility.mapProductListToDtoList(productRepository.getSearchProducts(searchRequest));
     }
 
 }

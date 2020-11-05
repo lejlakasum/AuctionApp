@@ -19,7 +19,7 @@ public abstract class Resource {
 
     @CreationTimestamp
     @Column(name = "date_created", updatable = false)
-    private LocalDateTime dateCreated;
+    private LocalDateTime date_created;
 
     @UpdateTimestamp
     @Column(name = "last_modified_date")
@@ -29,7 +29,7 @@ public abstract class Resource {
     }
 
     public Resource(LocalDateTime dateCreated, LocalDateTime lastModifiedDate) {
-        this.dateCreated = dateCreated;
+        this.date_created = dateCreated;
         this.lastModifiedDate = lastModifiedDate;
     }
 
@@ -42,12 +42,12 @@ public abstract class Resource {
         this.id = id;
     }
 
-    public LocalDateTime getDateCreated() {
-        return dateCreated;
+    public LocalDateTime getDate_created() {
+        return date_created;
     }
 
-    public void setDateCreated(LocalDateTime dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setDate_created(LocalDateTime dateCreated) {
+        this.date_created = dateCreated;
     }
 
     public LocalDateTime getLastModifiedDate() {

@@ -39,6 +39,10 @@ public class ProductDto extends BaseResourceDto{
 
     private List<BidDto> bids;
 
+    private String color;
+
+    private String size;
+
     public ProductDto() {
     }
 
@@ -54,7 +58,9 @@ public class ProductDto extends BaseResourceDto{
                       List<String> imagesUrl,
                       Boolean feature,
                       Long userId,
-                      List<BidDto> bids) {
+                      List<BidDto> bids,
+                      String color,
+                      String size) {
 
         super(id, dateCreated, lastModifiedDate);
         this.name = name;
@@ -67,6 +73,8 @@ public class ProductDto extends BaseResourceDto{
         this.feature = feature;
         this.userId = userId;
         this.bids = bids;
+        this.color = color;
+        this.size = size;
     }
 
     public String getName() {
@@ -143,5 +151,21 @@ public class ProductDto extends BaseResourceDto{
 
     public List<BidDto> getBids() {
         return bids;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

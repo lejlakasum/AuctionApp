@@ -52,6 +52,10 @@ public class Product extends Resource {
     @OneToMany(mappedBy = "product")
     private List<Bid> bids;
 
+    private String color;
+
+    private String size;
+
     public Product() {
     }
 
@@ -63,7 +67,9 @@ public class Product extends Resource {
                    LocalDateTime auctionEndDate,
                    List<Image> images,
                    Boolean feature,
-                   User user) {
+                   User user,
+                   String color,
+                   String size) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -73,6 +79,8 @@ public class Product extends Resource {
         this.images = images;
         this.feature=feature;
         this.user=user;
+        this.color = color;
+        this.size = size;
     }
 
     public String getName() {
@@ -149,5 +157,21 @@ public class Product extends Resource {
 
     public List<Bid> getBids() {
         return bids;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

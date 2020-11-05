@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,7 @@ public class ImageService implements IBaseService<ImageDto> {
         List<ImageDto> imageDtos = images.stream().map(
                 image -> { return new ImageDto(
                         image.getId(),
-                        image.getDateCreated(),
+                        image.getDate_created(),
                         image.getLastModifiedDate(),
                         image.getUrl());
                 }

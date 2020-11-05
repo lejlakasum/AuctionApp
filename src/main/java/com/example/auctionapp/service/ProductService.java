@@ -115,7 +115,9 @@ public class ProductService implements IBaseService<ProductDto> {
                                             TimeUtility.timestampToLocalDateTime(resource.getAuctionEndDate()),
                                             images,
                                             resource.getFeature(),
-                                            user));
+                                            user,
+                                            resource.getColor(),
+                                            resource.getSize()));
         logger.info("Product with id " + product.getId() + " created");
         return MappingUtility.mapProductToProductDto(product);
     }
@@ -133,6 +135,8 @@ public class ProductService implements IBaseService<ProductDto> {
         resourceToUpdate.setAuctionStartDate(TimeUtility.timestampToLocalDateTime(resource.getAuctionStartDate()));
         resourceToUpdate.setAuctionEndDate(TimeUtility.timestampToLocalDateTime(resource.getAuctionEndDate()));
         resourceToUpdate.setSubcategory(subcategory);
+        resourceToUpdate.setColor(resource.getColor());
+        resourceToUpdate.setSize(resource.getSize());
 
         Product product = repository.update(resourceToUpdate);
         logger.info("Product with id " + product.getId() + " updated");
