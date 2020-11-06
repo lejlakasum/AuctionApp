@@ -34,7 +34,7 @@ public class ImageService implements IBaseService<ImageDto> {
         List<ImageDto> imageDtos = images.stream().map(
                 image -> { return new ImageDto(
                         image.getId(),
-                        image.getDate_created(),
+                        image.getDateCreated(),
                         image.getLastModifiedDate(),
                         image.getUrl());
                 }

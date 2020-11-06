@@ -10,18 +10,14 @@ import java.util.stream.Collectors;
 public class EnumUtility {
 
     public static List<String> getColors() {
-
         return Arrays.stream(ColorEnum.values()).map(name -> {
-            return name.toString();
+            return name.label;
         }).collect(Collectors.toList());
     }
 
     public static List<String> getSizes() {
         return Arrays.stream(SizeEnum.values()).map(name -> {
-            if(name.toString().contains("_")) {
-                return name.toString().replace("_", " ");
-            }
-            return name.toString();
+            return name.label;
         }).collect(Collectors.toList());
     }
 }

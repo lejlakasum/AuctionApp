@@ -1,22 +1,43 @@
 package com.example.auctionapp.dto;
 
+import com.example.auctionapp.customValidator.ColorConstraint;
+import com.example.auctionapp.customValidator.SizeConstraint;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class SearchRequest {
 
+    @NotNull
     private String name;
 
+    @NotNull
     private Long subcategoryId;
 
+    @NotNull
+    @ColorConstraint
     private String color;
 
+    @NotNull
+    @SizeConstraint
     private String size;
 
+    @NotNull
+    @Min(-1)
     private Double minPrice;
 
+    @NotNull
+    @Min(-1)
     private Double maxPrice;
 
+    @NotNull
     private String order;
 
+    @Min(1)
     private Integer pageNumber;
+
+    @Min(1)
+    private Integer pageSize;
 
     public SearchRequest(String name,
                          Long subcategoryId,
@@ -25,7 +46,8 @@ public class SearchRequest {
                          Double minPrice,
                          Double maxPrice,
                          String order,
-                         Integer pageNumber) {
+                         Integer pageNumber,
+                         Integer pageSize) {
         this.name = name;
         this.subcategoryId = subcategoryId;
         this.color = color;
@@ -34,6 +56,7 @@ public class SearchRequest {
         this.maxPrice = maxPrice;
         this.order = order;
         this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
     }
 
     public String getName() {
@@ -98,5 +121,13 @@ public class SearchRequest {
 
     public void setPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

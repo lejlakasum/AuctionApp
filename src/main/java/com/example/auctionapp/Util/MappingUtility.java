@@ -23,7 +23,7 @@ public class MappingUtility {
 
         return new BidDto(
                 bid.getId(),
-                bid.getDate_created(),
+                bid.getDateCreated(),
                 bid.getLastModifiedDate(),
                 bid.getUser().getId(),
                 bid.getUser().getFirstName() + " " + bid.getUser().getLastName(),
@@ -51,7 +51,7 @@ public class MappingUtility {
             ).collect(Collectors.toList());
         }
         return new ProductDto(product.getId(),
-                product.getDate_created(),
+                product.getDateCreated(),
                 product.getLastModifiedDate(),
                 product.getName(),
                 product.getDescription(),
@@ -63,8 +63,8 @@ public class MappingUtility {
                 product.getFeature(),
                 product.getUser().getId(),
                 bids,
-                product.getColor(),
-                product.getSize()
+                product.getColor().label,
+                product.getSize().label
         );
 
     }
@@ -80,7 +80,7 @@ public class MappingUtility {
 
         return new CategoryDto(
                 category.getId(),
-                category.getDate_created(),
+                category.getDateCreated(),
                 category.getLastModifiedDate(),
                 category.getName(),
                 category.getImage().getUrl()
@@ -89,7 +89,7 @@ public class MappingUtility {
 
     public static ImageDto mapImageToImageDto(Image image) {
         return new ImageDto(image.getId(),
-                image.getDate_created(),
+                image.getDateCreated(),
                 image.getLastModifiedDate(),
                 image.getUrl()
         );
@@ -97,7 +97,7 @@ public class MappingUtility {
 
     public static SubcategoryDto mapSubcategoryToDto(Subcategory subcategory) {
         return new SubcategoryDto(subcategory.getId(),
-                subcategory.getDate_created(),
+                subcategory.getDateCreated(),
                 subcategory.getLastModifiedDate(),
                 subcategory.getName(),
                 subcategory.getCategory().getId()
@@ -107,7 +107,7 @@ public class MappingUtility {
     public static UserDto mapUserToUserDto(User user) {
 
         return new UserDto(user.getId(),
-                user.getDate_created(),
+                user.getDateCreated(),
                 user.getLastModifiedDate(),
                 user.getFirstName(),
                 user.getLastName(),

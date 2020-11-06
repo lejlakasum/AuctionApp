@@ -2,6 +2,8 @@ package com.example.auctionapp.customValidator;
 
 import com.example.auctionapp.Util.EnumUtility;
 import com.example.auctionapp.dto.ProductDto;
+import com.example.auctionapp.enumeration.ColorEnum;
+import com.example.auctionapp.enumeration.SizeEnum;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,25 +19,6 @@ public class ProductVerifierValidator implements ConstraintValidator<ProductVeri
         if(value.getAuctionStartDate() > value.getAuctionEndDate()) {
             return false;
         }
-
-        List<String> colors = EnumUtility.getColors()
-                                         .stream()
-                                         .map(color -> {return color.toLowerCase();})
-                                         .collect(Collectors.toList());
-
-        if(!colors.contains(value.getColor().toLowerCase())) {
-            return false;
-        }
-
-        List<String> sizes = EnumUtility.getSizes()
-                                        .stream()
-                                        .map(size -> {return size.toLowerCase();})
-                                        .collect(Collectors.toList());
-
-        if(!sizes.contains(value.getSize().toLowerCase())) {
-            return false;
-        }
-
 
         return true;
     }

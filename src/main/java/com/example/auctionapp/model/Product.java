@@ -1,5 +1,7 @@
 package com.example.auctionapp.model;
 
+import com.example.auctionapp.enumeration.ColorEnum;
+import com.example.auctionapp.enumeration.SizeEnum;
 import org.aspectj.lang.annotation.Before;
 import org.hibernate.validator.constraints.Length;
 
@@ -52,9 +54,9 @@ public class Product extends Resource {
     @OneToMany(mappedBy = "product")
     private List<Bid> bids;
 
-    private String color;
+    private ColorEnum color;
 
-    private String size;
+    private SizeEnum size;
 
     public Product() {
     }
@@ -68,8 +70,8 @@ public class Product extends Resource {
                    List<Image> images,
                    Boolean feature,
                    User user,
-                   String color,
-                   String size) {
+                   ColorEnum color,
+                   SizeEnum size) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -159,19 +161,19 @@ public class Product extends Resource {
         return bids;
     }
 
-    public String getColor() {
+    public ColorEnum getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(ColorEnum color) {
         this.color = color;
     }
 
-    public String getSize() {
+    public SizeEnum getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(SizeEnum size) {
         this.size = size;
     }
 }

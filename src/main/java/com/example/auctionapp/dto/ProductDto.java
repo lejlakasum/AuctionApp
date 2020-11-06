@@ -1,8 +1,11 @@
 package com.example.auctionapp.dto;
 
+import com.example.auctionapp.customValidator.ColorConstraint;
 import com.example.auctionapp.customValidator.ProductVerifier;
+import com.example.auctionapp.customValidator.SizeConstraint;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -39,8 +42,12 @@ public class ProductDto extends BaseResourceDto{
 
     private List<BidDto> bids;
 
+    @NotEmpty
+    @ColorConstraint
     private String color;
 
+    @NotEmpty
+    @SizeConstraint
     private String size;
 
     public ProductDto() {

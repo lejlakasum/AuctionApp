@@ -1,13 +1,13 @@
 package com.example.auctionapp.Util.Search;
 
 import com.example.auctionapp.dto.SearchRequest;
+import com.example.auctionapp.enumeration.ColorEnum;
+import com.example.auctionapp.enumeration.SizeEnum;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 public class SearchQueryFactory {
-
-    private static final Integer PAGE_SIZE = 9;
 
     public static TypedQuery createQuery(SearchRequest searchRequest, EntityManager entityManager) {
         QueryBuilder queryBuilder = new QueryBuilder(entityManager);
@@ -21,11 +21,11 @@ public class SearchQueryFactory {
         }
 
         if(!searchRequest.getColor().isEmpty()) {
-            queryBuilder.withColor(searchRequest.getColor());
+            queryBuilder.withColor(ColorEnum.fromValue(searchRequest.getColor()));
         }
 
         if(!searchRequest.getSize().isEmpty()) {
-            queryBuilder.withSize(searchRequest.getSize());
+            queryBuilder.withSize(SizeEnum.fromValue(searchRequest.getSize()));
         }
 
         if(searchRequest.getMinPrice() >= 0 && searchRequest.getMaxPrice() >= 0) {
@@ -44,7 +44,7 @@ public class SearchQueryFactory {
                 break;
         }
 
-        queryBuilder.withPageSize(PAGE_SIZE);
+        queryBuilder.withPageSize(searchRequest.getPageSize());
         queryBuilder.withPageNumber(searchRequest.getPageNumber());
         queryBuilder.withAuctionNotEnded();
 

@@ -1,6 +1,8 @@
 package com.example.auctionapp.seeder;
 
+import com.example.auctionapp.enumeration.ColorEnum;
 import com.example.auctionapp.enumeration.RoleEnum;
+import com.example.auctionapp.enumeration.SizeEnum;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
@@ -204,8 +206,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 false,
                                                 seller,
-                                            "Black",
-                                            "Medium"
+                                                ColorEnum.BLACK,
+                                                SizeEnum.MEDIUM
                                                 )
             );
 
@@ -221,8 +223,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 true,
                                                 seller,
-                                            "Brown",
-                                            "Large"
+                                                ColorEnum.BROWN,
+                                                SizeEnum.LARGE
                                                 )
             );
 
@@ -238,8 +240,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 true,
                                                 seller,
-                                                "Blue",
-                                                "Extra Large"
+                                                ColorEnum.BLUE,
+                                                SizeEnum.EXTRA_LARGE
                     )
             );
 
@@ -255,8 +257,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 false,
                                                 seller,
-                                                "White",
-                                                "Small"
+                                                ColorEnum.WHITE,
+                                                SizeEnum.SMALL
                     )
             );
 
@@ -272,8 +274,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 false,
                                                 seller2,
-                                            "Black",
-                                            "Small"
+                                            ColorEnum.BLACK,
+                                            SizeEnum.SMALL
                     )
             );
 
@@ -289,8 +291,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 true,
                                                 seller2,
-                                                "Black",
-                                                "Medium"
+                                                ColorEnum.BLACK,
+                                                SizeEnum.MEDIUM
                     )
             );
 
@@ -306,8 +308,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 true,
                                                 seller2,
-                                            "White",
-                                            "Large"
+                                                ColorEnum.WHITE,
+                                                SizeEnum.LARGE
                     )
             );
 
@@ -323,8 +325,8 @@ public class DatabaseSeeder {
                                                 images,
                                                 true,
                                                 seller2,
-                                                "Black",
-                                                "Medium"
+                                                ColorEnum.BLACK,
+                                                SizeEnum.MEDIUM
                     )
             );
 
@@ -340,8 +342,8 @@ public class DatabaseSeeder {
                             images,
                             true,
                             seller2,
-                            "Black",
-                            "Medium"
+                            ColorEnum.BLACK,
+                            SizeEnum.MEDIUM
                     )
             );
 
@@ -357,8 +359,8 @@ public class DatabaseSeeder {
                             images,
                             true,
                             seller2,
-                            "White",
-                            "Large"
+                            ColorEnum.WHITE,
+                            SizeEnum.LARGE
                     )
             );
 
@@ -374,8 +376,8 @@ public class DatabaseSeeder {
                             images,
                             true,
                             seller2,
-                            "Black",
-                            "Medium"
+                            ColorEnum.BLACK,
+                            SizeEnum.MEDIUM
                     )
             );
 

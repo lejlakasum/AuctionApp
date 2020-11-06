@@ -33,7 +33,7 @@ public class RoleService implements IBaseService<RoleDto> {
         List<RoleDto> roleDtos = roles.stream().map(
                 role -> {return new RoleDto(
                                     role.getId(),
-                                    role.getDate_created(),
+                                    role.getDateCreated(),
                                     role.getLastModifiedDate(),
                                     role.getName());
                 }
@@ -46,14 +46,14 @@ public class RoleService implements IBaseService<RoleDto> {
     public RoleDto getById(Long id) {
 
         Role role = RepositoryUtility.findIfExist(repository, id, RESOURCE_NAME);
-        return new RoleDto(role.getId(), role.getDate_created(), role.getLastModifiedDate(), role.getName());
+        return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
 
     public RoleDto add(RoleDto resource) {
         Role role = repository.create(new Role(resource.getName()));
         logger.info("Role with id " + role.getId() + " created");
-        return new RoleDto(role.getId(), role.getDate_created(), role.getLastModifiedDate(), role.getName());
+        return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
 
@@ -64,7 +64,7 @@ public class RoleService implements IBaseService<RoleDto> {
         Role role = repository.update(resourceToUpdate);
         logger.info("Role with id " + role.getId() + " updated");
 
-        return new RoleDto(role.getId(), role.getDate_created(), role.getLastModifiedDate(), role.getName());
+        return new RoleDto(role.getId(), role.getDateCreated(), role.getLastModifiedDate(), role.getName());
     }
 
 
