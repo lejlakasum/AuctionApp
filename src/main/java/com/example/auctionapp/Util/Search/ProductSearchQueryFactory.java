@@ -3,14 +3,15 @@ package com.example.auctionapp.Util.Search;
 import com.example.auctionapp.dto.SearchRequest;
 import com.example.auctionapp.enumeration.ColorEnum;
 import com.example.auctionapp.enumeration.SizeEnum;
+import com.example.auctionapp.model.Product;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-public class SearchQueryFactory {
+public class ProductSearchQueryFactory {
 
     public static TypedQuery createQuery(SearchRequest searchRequest, EntityManager entityManager) {
-        QueryBuilder queryBuilder = new QueryBuilder(entityManager);
+        ProductQueryBuilder queryBuilder = new ProductQueryBuilder(Product.class,entityManager);
 
         if(!searchRequest.getName().isEmpty()) {
             queryBuilder.withName(searchRequest.getName());

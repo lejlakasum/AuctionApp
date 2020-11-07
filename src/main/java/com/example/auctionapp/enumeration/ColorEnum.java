@@ -1,5 +1,7 @@
 package com.example.auctionapp.enumeration;
 
+import com.example.auctionapp.exception.BadRequestException;
+
 public enum ColorEnum {
     BLACK ("Black"),
     WHITE ("White"),
@@ -20,6 +22,11 @@ public enum ColorEnum {
     }
 
     public static ColorEnum fromValue(String color) {
-        return ColorEnum.valueOf(color.toUpperCase());
+        for (ColorEnum value : ColorEnum.values()) {
+            if(value.label.equals(color)) {
+                return value;
+            }
+        }
+        throw new BadRequestException("Color does not exist");
     }
 }

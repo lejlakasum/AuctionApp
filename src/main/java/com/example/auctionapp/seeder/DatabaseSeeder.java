@@ -13,7 +13,6 @@ import com.example.auctionapp.model.User;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
-import com.example.auctionapp.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,8 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+
 
 @Component
 @Transactional

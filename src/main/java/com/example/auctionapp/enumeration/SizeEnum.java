@@ -1,5 +1,7 @@
 package com.example.auctionapp.enumeration;
 
+import com.example.auctionapp.exception.BadRequestException;
+
 public enum SizeEnum {
     EXTRA_SMALL ("Extra Small"),
     SMALL ("Small"),
@@ -15,9 +17,11 @@ public enum SizeEnum {
 
     public static SizeEnum fromValue(String size) {
 
-            if(size.contains(" ")) {
-                size = size.replace(" ", "_");
+        for (SizeEnum value : SizeEnum.values()) {
+            if(value.label.equals(size)) {
+                return value;
             }
-        return SizeEnum.valueOf(size.toUpperCase());
+        }
+        throw new BadRequestException("Size does not exist");
     }
 }

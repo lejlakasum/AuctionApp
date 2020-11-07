@@ -1,8 +1,7 @@
 package com.example.auctionapp.repository;
 
-import com.example.auctionapp.Util.Search.SearchQueryFactory;
+import com.example.auctionapp.Util.Search.ProductSearchQueryFactory;
 import com.example.auctionapp.dto.FilterDto.FilterPriceDto;
-import com.example.auctionapp.dto.FilterDto.FilterSubcategoryDto;
 import com.example.auctionapp.dto.SearchRequest;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Rating;
@@ -10,11 +9,9 @@ import com.example.auctionapp.model.Rating;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
-import javax.persistence.TupleElement;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
@@ -252,7 +249,7 @@ public class ProductRepository extends BaseRepository<Product> {
 
     public List<Product> getSearchProducts(SearchRequest searchRequest) {
 
-        TypedQuery query = SearchQueryFactory.createQuery(searchRequest, entityManager);
+        TypedQuery query = ProductSearchQueryFactory.createQuery(searchRequest, entityManager);
 
         return query.getResultList();
     }
