@@ -6,6 +6,7 @@ import com.example.auctionapp.dto.CategoryDto;
 import com.example.auctionapp.dto.CollectionDto;
 import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Image;
+import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.CategoryRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import org.slf4j.Logger;
@@ -29,11 +30,15 @@ public class CategoryService implements IBaseService<CategoryDto> {
 
     private final CategoryRepository repository;
     private final ProductRepository productRepository;
+    private final BaseRepository<Image> imageRepository;
 
     @Autowired
-    public CategoryService(CategoryRepository repository, ProductRepository productRepository) {
+    public CategoryService(CategoryRepository repository,
+                           ProductRepository productRepository,
+                           BaseRepository<Image> imageRepository) {
         this.repository = repository;
         this.productRepository = productRepository;
+        this.imageRepository = imageRepository;
     }
 
     public List<CategoryDto> getAll() {
@@ -82,9 +87,11 @@ public class CategoryService implements IBaseService<CategoryDto> {
     public CategoryDto update(CategoryDto resource) {
 
         Category resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
+        Image oldImage = imageRepository.findById(resourceToUpdate.getImage().getId());
+        oldImage.setUrl(resource.getImageUrl());
 
         resourceToUpdate.setName(resource.getName());
-        resourceToUpdate.setImage(new Image(resource.getImageUrl()));
+        resourceToUpdate.setImage(oldImage);
 
         Category category = repository.update(resourceToUpdate);
         logger.info("Category with id " + category.getId() + " updated");
