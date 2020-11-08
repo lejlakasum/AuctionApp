@@ -1,6 +1,5 @@
 package com.example.auctionapp.service;
 
-import com.example.auctionapp.Util.EnumUtility;
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.dto.FilterDto.FilterCategoryDto;
 import com.example.auctionapp.dto.FilterDto.FilterPriceDto;
@@ -11,21 +10,16 @@ import com.example.auctionapp.dto.SearchRequest;
 import com.example.auctionapp.enumeration.ColorEnum;
 import com.example.auctionapp.enumeration.SizeEnum;
 import com.example.auctionapp.model.Category;
-import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.CategoryRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -46,9 +40,9 @@ public class ShopService {
 
     public FiltersResponseDto getShopFilters() {
 
-        List<String> colors = EnumUtility.getColors();
+        List<String> colors = ColorEnum.getColors();
 
-        List<String> sizes = EnumUtility.getSizes();
+        List<String> sizes = SizeEnum.getSizes();
 
         List<FilterCategoryDto> filterCategories = new ArrayList<>();
         List<Category> categories = categoryRepository.findAll();

@@ -63,8 +63,8 @@ public class MappingUtility {
                 product.getFeature(),
                 product.getUser().getId(),
                 bids,
-                product.getColor().label,
-                product.getSize().label
+                product.getColor().getLabel(),
+                product.getSize().getLabel()
         );
 
     }
