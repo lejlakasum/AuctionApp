@@ -43,14 +43,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login", "/user")
+                .antMatchers(HttpMethod.POST, "/login", "/user", "/shop")
                 .permitAll()
 
                 .antMatchers(HttpMethod.GET, "/category", "/category/*",
                         "/subcategory", "/subcategory/*",
                         "/product", "/product/*", "/product/*/*",
                         "/image", "/image/*",
-                        "/shop", "/shop/*")
+                        "/shop/*")
                 .permitAll()
 
                 .antMatchers(HttpMethod.GET,  "/swagger-resources/**",
@@ -91,10 +91,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
                 .antMatchers(HttpMethod.PUT, "/image", "/image/*", "/user", "/user/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
-                .antMatchers(HttpMethod.DELETE, "/image", "/image/*", "/user", "/user/*")
+                .antMatchers(HttpMethod.DELETE, "/image", "/image/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
 
                 .antMatchers(HttpMethod.GET, "/user")
+                .hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/user/*")
                 .hasAuthority(RoleEnum.ADMIN.name())
                 .antMatchers(HttpMethod.GET, "/user/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
