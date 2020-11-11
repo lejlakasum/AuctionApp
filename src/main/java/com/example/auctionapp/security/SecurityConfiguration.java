@@ -43,10 +43,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login", "/user")
+                .antMatchers(HttpMethod.POST, "/login", "/user", "/shop")
                 .permitAll()
+
+                .antMatchers(HttpMethod.GET, "/category", "/category/*",
+                        "/subcategory", "/subcategory/*",
+                        "/product", "/product/*", "/product/*/*",
+                        "/image", "/image/*",
+                        "/shop/*")
+                .permitAll()
+
+                .antMatchers(HttpMethod.GET,  "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/v2/api-docs",
+                        "/webjars/**",
+                        "/csrf",
+                        "/").permitAll()
+
                 .antMatchers("/role", "/role/*")
                 .denyAll()
+
                 .antMatchers(HttpMethod.POST, "/category", "/subcategory")
                 .hasAuthority(RoleEnum.ADMIN.name())
                 .antMatchers(HttpMethod.PUT, "/category", "/subcategory")
@@ -63,21 +79,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/bid", "/bid/*")
                 .denyAll()
 
-                .antMatchers(HttpMethod.GET, "/category", "/category/*",
-                                                        "/subcategory", "/subcategory/*",
-                                                        "/product", "/product/*", "/product/*/*",
-                                                        "/image", "/image*")
-                .permitAll()
-                .antMatchers(HttpMethod.POST, "/product").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())
-                .antMatchers(HttpMethod.POST, "/image").hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
-                .antMatchers(HttpMethod.GET,  "/swagger-resources/**",
-                                                         "/swagger-ui.html",
-                                                         "/v2/api-docs",
-                                                         "/webjars/**",
-                                                         "/csrf",
-                                                         "/").permitAll()
+
+                .antMatchers(HttpMethod.POST, "/product")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())
+                .antMatchers(HttpMethod.PUT, "/product", "/product/*")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())
+                .antMatchers(HttpMethod.DELETE, "/product/*")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())
+
+                .antMatchers(HttpMethod.POST, "/image")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
+                .antMatchers(HttpMethod.PUT, "/image", "/image/*", "/user", "/user/*")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
+                .antMatchers(HttpMethod.DELETE, "/image", "/image/*")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
+
+                .antMatchers(HttpMethod.GET, "/user")
+                .hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/user/*")
+                .hasAuthority(RoleEnum.ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/user/*")
+                .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
+
+
                 .anyRequest()
-                .authenticated()
+                .denyAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

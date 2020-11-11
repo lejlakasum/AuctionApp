@@ -2,20 +2,25 @@ package com.example.auctionapp.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class UserDto extends BaseResourceDto {
 
     @NotBlank(message = "First name can't be blank")
+    @Pattern(regexp = "([A-Za-z0-9\\-\\s]*)")
     private String firstName;
 
     @NotBlank(message = "Last name can't be blank")
+    @Pattern(regexp = "([A-Za-z0-9\\-\\s]*)")
     private String lastName;
 
     @Email(message = "Email must be valid")
     private String email;
 
     @NotBlank(message = "Password can't be blank")
+    @Size(min = 5)
     private String password;
 
     @NotBlank
