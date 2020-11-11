@@ -4,6 +4,8 @@ import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.Util.TimeUtility;
 import com.example.auctionapp.dto.ProductDto;
+import com.example.auctionapp.enumeration.ColorEnum;
+import com.example.auctionapp.enumeration.SizeEnum;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
@@ -115,7 +117,9 @@ public class ProductService implements IBaseService<ProductDto> {
                                             TimeUtility.timestampToLocalDateTime(resource.getAuctionEndDate()),
                                             images,
                                             resource.getFeature(),
-                                            user));
+                                            user,
+                                            ColorEnum.fromValue(resource.getColor()),
+                                            SizeEnum.fromValue(resource.getSize())));
         logger.info("Product with id " + product.getId() + " created");
         return MappingUtility.mapProductToProductDto(product);
     }
@@ -133,6 +137,8 @@ public class ProductService implements IBaseService<ProductDto> {
         resourceToUpdate.setAuctionStartDate(TimeUtility.timestampToLocalDateTime(resource.getAuctionStartDate()));
         resourceToUpdate.setAuctionEndDate(TimeUtility.timestampToLocalDateTime(resource.getAuctionEndDate()));
         resourceToUpdate.setSubcategory(subcategory);
+        resourceToUpdate.setColor(ColorEnum.fromValue(resource.getColor()));
+        resourceToUpdate.setSize(SizeEnum.fromValue(resource.getSize()));
 
         Product product = repository.update(resourceToUpdate);
         logger.info("Product with id " + product.getId() + " updated");

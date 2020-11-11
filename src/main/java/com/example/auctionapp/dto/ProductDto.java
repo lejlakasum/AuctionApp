@@ -1,8 +1,11 @@
 package com.example.auctionapp.dto;
 
+import com.example.auctionapp.customValidator.ColorConstraint;
 import com.example.auctionapp.customValidator.ProductVerifier;
+import com.example.auctionapp.customValidator.SizeConstraint;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -39,6 +42,14 @@ public class ProductDto extends BaseResourceDto{
 
     private List<BidDto> bids;
 
+    @NotEmpty
+    @ColorConstraint
+    private String color;
+
+    @NotEmpty
+    @SizeConstraint
+    private String size;
+
     public ProductDto() {
     }
 
@@ -54,7 +65,9 @@ public class ProductDto extends BaseResourceDto{
                       List<String> imagesUrl,
                       Boolean feature,
                       Long userId,
-                      List<BidDto> bids) {
+                      List<BidDto> bids,
+                      String color,
+                      String size) {
 
         super(id, dateCreated, lastModifiedDate);
         this.name = name;
@@ -67,6 +80,8 @@ public class ProductDto extends BaseResourceDto{
         this.feature = feature;
         this.userId = userId;
         this.bids = bids;
+        this.color = color;
+        this.size = size;
     }
 
     public String getName() {
@@ -143,5 +158,21 @@ public class ProductDto extends BaseResourceDto{
 
     public List<BidDto> getBids() {
         return bids;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }
