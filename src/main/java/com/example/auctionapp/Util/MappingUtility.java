@@ -5,6 +5,7 @@ import com.example.auctionapp.dto.CategoryDto;
 import com.example.auctionapp.dto.ImageDto;
 import com.example.auctionapp.dto.ProductDto;
 import com.example.auctionapp.dto.SubcategoryDto;
+import com.example.auctionapp.dto.UserBidDto;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.model.Bid;
 import com.example.auctionapp.model.Category;
@@ -15,6 +16,7 @@ import com.example.auctionapp.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 public class MappingUtility {
@@ -114,6 +116,20 @@ public class MappingUtility {
                 user.getEmail(),
                 user.getRole().getId(),
                 user.getImage().getUrl()
+        );
+    }
+
+    public static UserBidDto mapBidToUserBidDto(Bid bid) {
+        Double highestBid = bid.getProduct().getBids().stream().mapToDouble(b -> b.getBidAmount()).max().getAsDouble();
+
+        return new UserBidDto(
+                bid.getProduct().getId(),
+                bid.getProduct().getName(),
+                TimeUtility.LocalDateTimeToTimestamp(bid.getProduct().getAuctionEndDate()),
+                bid.getBidAmount(),
+                highestBid,
+                bid.getProduct().getBids().size(),
+                bid.getProduct().getImages().get(0).getUrl()
         );
     }
 }

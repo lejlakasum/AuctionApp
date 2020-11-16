@@ -1,5 +1,6 @@
 package com.example.auctionapp.controller;
 
+import com.example.auctionapp.dto.UserBidDto;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,12 @@ public class UserController implements IBaseController<UserDto> {
     public ResponseEntity<UserDto> getById(@PathVariable Long id) {
 
         return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/bids")
+    public ResponseEntity<List<UserBidDto>> getBidsByUser(@PathVariable Long id) {
+
+        return new ResponseEntity<>(userService.getBidsByUser(id), HttpStatus.OK);
     }
 
     @PostMapping()

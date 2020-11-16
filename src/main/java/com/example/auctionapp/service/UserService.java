@@ -2,8 +2,10 @@ package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
+import com.example.auctionapp.dto.UserBidDto;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.exception.BadRequestException;
+import com.example.auctionapp.model.Bid;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Role;
 import com.example.auctionapp.model.User;
@@ -66,6 +68,16 @@ public class UserService implements IBaseService<UserDto> {
         return MappingUtility.mapUserToUserDto(user);
     }
 
+    public List<UserBidDto> getBidsByUser(Long userId) {
+
+        List<Bid> bids = userRepository.getBidsByUser(userId);
+
+        List<UserBidDto> userBids = bids.stream().map(bid -> {
+            return MappingUtility.mapBidToUserBidDto(bid);
+        }).collect(Collectors.toList());
+
+        return userBids;
+    }
 
     public UserDto add(UserDto resource) {
 
