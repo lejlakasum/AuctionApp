@@ -2,6 +2,7 @@ package com.example.auctionapp.Util;
 
 import com.example.auctionapp.dto.BidDto;
 import com.example.auctionapp.dto.CategoryDto;
+import com.example.auctionapp.dto.CountryDto;
 import com.example.auctionapp.dto.ImageDto;
 import com.example.auctionapp.dto.ProductDto;
 import com.example.auctionapp.dto.SubcategoryDto;
@@ -9,6 +10,7 @@ import com.example.auctionapp.dto.UserBidDto;
 import com.example.auctionapp.dto.UserDto;
 import com.example.auctionapp.model.Bid;
 import com.example.auctionapp.model.Category;
+import com.example.auctionapp.model.Country;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
@@ -131,5 +133,17 @@ public class MappingUtility {
                 bid.getProduct().getBids().size(),
                 bid.getProduct().getImages().get(0).getUrl()
         );
+    }
+
+    public static CountryDto mapCountryToCountryDto(Country country) {
+        List<String> cities = country.getCities().stream().map(city -> {return city.getName();})
+                .collect(Collectors.toList());
+
+        return new CountryDto(
+                country.getId(),
+                country.getDateCreated(),
+                country.getLastModifiedDate(),
+                country.getName(),
+                cities);
     }
 }

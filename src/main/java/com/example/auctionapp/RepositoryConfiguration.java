@@ -1,13 +1,6 @@
 package com.example.auctionapp;
 
-import com.example.auctionapp.model.Bid;
-import com.example.auctionapp.model.Category;
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.Rating;
-import com.example.auctionapp.model.Role;
-import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.model.*;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.CategoryRepository;
 import com.example.auctionapp.repository.ProductRepository;
@@ -63,5 +56,11 @@ public class RepositoryConfiguration {
     BaseRepository<Bid> bidRepository() {
         return new BaseRepository<>(Bid.class, entityManager);
     }
+
+    @Bean
+    BaseRepository<Country> countryRepository() { return new BaseRepository<>(Country.class, entityManager);}
+
+    @Bean
+    BaseRepository<City> cityRepository() { return new BaseRepository<>(City.class, entityManager);}
 
 }

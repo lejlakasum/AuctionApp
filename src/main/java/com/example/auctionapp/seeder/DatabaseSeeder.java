@@ -4,6 +4,8 @@ import com.example.auctionapp.enumeration.ColorEnum;
 import com.example.auctionapp.enumeration.RoleEnum;
 import com.example.auctionapp.enumeration.SizeEnum;
 import com.example.auctionapp.model.Category;
+import com.example.auctionapp.model.City;
+import com.example.auctionapp.model.Country;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Rating;
@@ -42,6 +44,8 @@ public class DatabaseSeeder {
     private final ProductRepository productRepository;
     private final BaseRepository<Rating> ratingRepository;
     private final BaseRepository<Image> imageRepository;
+    private final BaseRepository<City> cityRepository;
+    private final BaseRepository<Country> countryRepository;
 
     @Autowired
     public DatabaseSeeder(PasswordEncoder passwordEncoder,
@@ -51,7 +55,10 @@ public class DatabaseSeeder {
                           BaseRepository<Subcategory> subcategoryRepository,
                           ProductRepository productRepository,
                           BaseRepository<Rating> ratingRepository,
-                          BaseRepository<Image> imageRepository) {
+                          BaseRepository<Image> imageRepository,
+                          BaseRepository<City> cityRepository,
+                          BaseRepository<Country> countryRepository
+                          ) {
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -60,6 +67,8 @@ public class DatabaseSeeder {
         this.productRepository = productRepository;
         this.ratingRepository = ratingRepository;
         this.imageRepository = imageRepository;
+        this.cityRepository = cityRepository;
+        this.countryRepository = countryRepository;
     }
 
     @EventListener
@@ -70,6 +79,34 @@ public class DatabaseSeeder {
         seedSubcategoryTable();
         seedProductTable();
         seedRatingTable();
+        seedCountryTable();
+        seedCityTable();
+    }
+
+    private void seedCountryTable() {
+        List<Country> countries = countryRepository.findAll();
+        if(countries.isEmpty()) {
+            countryRepository.create(new Country("Bosnia and Herzegovina"));
+            countryRepository.create(new Country("Croatia"));
+            countryRepository.create(new Country("Germany"));
+        }
+    }
+
+    private void seedCityTable() {
+        List<City> cities = cityRepository.findAll();
+        if(cities.isEmpty()) {
+            cityRepository.create(new City("Jajce", "70101", countryRepository.findById(1L)));
+            cityRepository.create(new City("Sarajevo", "71000", countryRepository.findById(1L)));
+            cityRepository.create(new City("Mostar", "88000", countryRepository.findById(1L)));
+
+            cityRepository.create(new City("Zagreb", "10000", countryRepository.findById(2L)));
+            cityRepository.create(new City("Split", "21000", countryRepository.findById(2L)));
+            cityRepository.create(new City("Varazdin", "42000", countryRepository.findById(2L)));
+
+            cityRepository.create(new City("Berlin", "10115", countryRepository.findById(3L)));
+            cityRepository.create(new City("Hamburg", "20095", countryRepository.findById(3L)));
+            cityRepository.create(new City("Dresden", "01067", countryRepository.findById(3L)));
+        }
     }
 
     private void seedRoleTable() {
