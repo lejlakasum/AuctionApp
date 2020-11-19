@@ -1,5 +1,6 @@
 package com.example.auctionapp.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,11 +14,15 @@ public class City extends Resource{
 
     private String zipCode;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id", referencedColumnName = "id", updatable = false)
     private Country country;
 
     public City() {
+    }
+
+    public City(Country country) {
+        this.country = country;
     }
 
     public City(String name, String zipCode, Country country) {

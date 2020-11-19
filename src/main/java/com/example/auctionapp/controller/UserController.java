@@ -1,7 +1,7 @@
 package com.example.auctionapp.controller;
 
 import com.example.auctionapp.dto.UserBidDto;
-import com.example.auctionapp.dto.UserDto;
+import com.example.auctionapp.dto.UserAccountDto;
 import com.example.auctionapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-public class UserController implements IBaseController<UserDto> {
+public class UserController implements IBaseController<UserAccountDto> {
 
     private final UserService userService;
 
@@ -30,12 +30,12 @@ public class UserController implements IBaseController<UserDto> {
     }
 
     @GetMapping()
-    public ResponseEntity<List<UserDto>> getAll() {
+    public ResponseEntity<List<UserAccountDto>> getAll() {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
+    public ResponseEntity<UserAccountDto> getById(@PathVariable Long id) {
 
         return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
@@ -48,14 +48,14 @@ public class UserController implements IBaseController<UserDto> {
 
     @PostMapping()
     @Valid
-    public ResponseEntity<UserDto> add(@Valid @RequestBody UserDto resource) {
+    public ResponseEntity<UserAccountDto> add(@Valid @RequestBody UserAccountDto resource) {
 
         return new ResponseEntity<>(userService.add(resource), HttpStatus.CREATED);
     }
 
     @PutMapping()
     @Valid
-    public ResponseEntity<UserDto> update(@Valid @RequestBody UserDto resource) {
+    public ResponseEntity<UserAccountDto> update(@Valid @RequestBody UserAccountDto resource) {
 
         return new ResponseEntity<>(userService.update(resource), HttpStatus.OK);
     }

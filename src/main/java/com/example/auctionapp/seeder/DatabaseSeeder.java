@@ -3,15 +3,7 @@ package com.example.auctionapp.seeder;
 import com.example.auctionapp.enumeration.ColorEnum;
 import com.example.auctionapp.enumeration.RoleEnum;
 import com.example.auctionapp.enumeration.SizeEnum;
-import com.example.auctionapp.model.Category;
-import com.example.auctionapp.model.City;
-import com.example.auctionapp.model.Country;
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.Rating;
-import com.example.auctionapp.model.Role;
-import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.model.*;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
@@ -121,44 +113,50 @@ public class DatabaseSeeder {
     }
 
     private void seedUserTable() {
-        List<User> users = userRepository.findAll();
-        if(users.isEmpty()) {
+        List<UserAccount> userAccounts = userRepository.findAll();
+        if(userAccounts.isEmpty()) {
             Image image = imageRepository.create(new Image("https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg"));
-            userRepository.create(new User(
-               "Roger",
-               "Federer",
-               "roger@mail.com",
-                    passwordEncoder.encode("password"),
-                    roleRepository.findById(1L),
-                    image
+            userRepository.create(new UserAccount(
+                   new UserRegisterInformation(
+                           "Roger",
+                           "Federer",
+                           "roger@mail.com",
+                           passwordEncoder.encode("password"),
+                           roleRepository.findById(1L),
+                           image
+                   ),
+                    new UserDetails()
             ));
 
-            userRepository.create(new User(
-                    "Rafa",
+            userRepository.create(new UserAccount(
+                   new UserRegisterInformation( "Rafa",
                     "Nadal",
                     "rafa@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(2L),
-                    image
+                    image),
+                    new UserDetails()
             ));
 
-            userRepository.create(new User(
-                    "Nole",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("Nole",
                     "Joker",
                     "nole@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(3L),
-                    image
+                    image),
+                    new UserDetails()
             ));
 
             Image image2 = imageRepository.create(new Image("https://www.shareicon.net/data/512x512/2016/07/26/802031_user_512x512.png"));
-            userRepository.create(new User(
-                    "Serena",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("Serena",
                     "Williams",
                     "serena@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(3L),
-                    image2
+                    image2),
+                    new UserDetails()
             ));
 
             logger.info("User table seeded");
@@ -222,9 +220,9 @@ public class DatabaseSeeder {
     private void seedProductTable() {
         List<Product> products = productRepository.findAll();
         List<Subcategory> subcategories = subcategoryRepository.findAll();
-        List<User> users = userRepository.findAll();
-        User seller = users.get(2);
-        User seller2 = users.get(3);
+        List<UserAccount> userAccounts = userRepository.findAll();
+        UserAccount seller = userAccounts.get(2);
+        UserAccount seller2 = userAccounts.get(3);
         List<Image> images = new ArrayList<>();
         if(products.isEmpty()) {
             final String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
@@ -247,7 +245,7 @@ public class DatabaseSeeder {
             );
 
             images=new ArrayList<>();
-            images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F9YR98_AS05.jpg?alt=media&token=67ae4719-dfc0-40f8-8b54-d83f9ec89992"));
+            images.add(new Image("https://pngimg.com/uploads/leather_jacket/leather_jacket_PNG35.png"));
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F9YR98_AS05.jpg?alt=media&token=67ae4719-dfc0-40f8-8b54-d83f9ec89992"));
             productRepository.create(new Product("Brown Jacket",
                                                 description,
@@ -422,15 +420,15 @@ public class DatabaseSeeder {
 
     private void seedRatingTable() {
         List<Rating> ratings = ratingRepository.findAll();
-        List<User> users = userRepository.findAll();
+        List<UserAccount> userAccounts = userRepository.findAll();
         if(ratings.isEmpty()) {
 
-            ratingRepository.create(new Rating(5, "", users.get(2)));
-            ratingRepository.create(new Rating(3, "", users.get(2)));
-            ratingRepository.create(new Rating(4, "", users.get(2)));
-            ratingRepository.create(new Rating(3, "", users.get(3)));
-            ratingRepository.create(new Rating(3, "", users.get(3)));
-            ratingRepository.create(new Rating(4, "", users.get(3)));
+            ratingRepository.create(new Rating(5, "", userAccounts.get(2)));
+            ratingRepository.create(new Rating(3, "", userAccounts.get(2)));
+            ratingRepository.create(new Rating(4, "", userAccounts.get(2)));
+            ratingRepository.create(new Rating(3, "", userAccounts.get(3)));
+            ratingRepository.create(new Rating(3, "", userAccounts.get(3)));
+            ratingRepository.create(new Rating(4, "", userAccounts.get(3)));
 
             logger.info("Rating table seeded");
         }

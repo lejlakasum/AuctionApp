@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class UserDto extends BaseResourceDto {
+public class UserRegisterDto extends BaseResourceDto {
 
     @NotBlank(message = "First name can't be blank")
     @Pattern(regexp = "([A-Za-z0-9\\-\\s]*)")
@@ -26,10 +26,10 @@ public class UserDto extends BaseResourceDto {
     @NotBlank
     private String imageUrl;
 
-    public UserDto() {
+    public UserRegisterDto() {
     }
 
-    public UserDto(Long id,
+    public UserRegisterDto(Long id,
                    LocalDateTime dateCreated,
                    LocalDateTime lastModifiedDate,
                    String firstName,
@@ -42,7 +42,7 @@ public class UserDto extends BaseResourceDto {
         this.password = password;
     }
 
-    public UserDto(Long id,
+    public UserRegisterDto(Long id,
                    LocalDateTime dateCreated,
                    LocalDateTime lastModifiedDate,
                    String firstName,

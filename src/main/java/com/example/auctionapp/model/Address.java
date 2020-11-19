@@ -1,8 +1,10 @@
 package com.example.auctionapp.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,11 +15,15 @@ public class Address extends Resource {
 
     private String state;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id", referencedColumnName = "id", updatable = false)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "city_id", referencedColumnName = "id")
     private City city;
 
     public Address() {
+    }
+
+    public Address(City city) {
+        this.city = city;
     }
 
     public Address(String street, String state, City city) {

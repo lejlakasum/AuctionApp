@@ -1,24 +1,11 @@
 package com.example.auctionapp.Util;
 
-import com.example.auctionapp.dto.BidDto;
-import com.example.auctionapp.dto.CategoryDto;
-import com.example.auctionapp.dto.CountryDto;
-import com.example.auctionapp.dto.ImageDto;
-import com.example.auctionapp.dto.ProductDto;
-import com.example.auctionapp.dto.SubcategoryDto;
-import com.example.auctionapp.dto.UserBidDto;
-import com.example.auctionapp.dto.UserDto;
-import com.example.auctionapp.model.Bid;
-import com.example.auctionapp.model.Category;
-import com.example.auctionapp.model.Country;
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.dto.*;
+import com.example.auctionapp.model.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 public class MappingUtility {
@@ -30,8 +17,8 @@ public class MappingUtility {
                 bid.getDateCreated(),
                 bid.getLastModifiedDate(),
                 bid.getUser().getId(),
-                bid.getUser().getFirstName() + " " + bid.getUser().getLastName(),
-                bid.getUser().getImage().getUrl(),
+                bid.getUser().getUserLoginInformation().getFirstName() + " " + bid.getUser().getUserLoginInformation().getLastName(),
+                bid.getUser().getUserLoginInformation().getImage().getUrl(),
                 bid.getProduct().getId(),
                 bid.getProduct().getName(),
                 TimeUtility.LocalDateTimeToTimestamp(bid.getBidTime()),
@@ -108,16 +95,91 @@ public class MappingUtility {
         );
     }
 
-    public static UserDto mapUserToUserDto(User user) {
+    public static AddressDto mapAddressToAddressDto(Address address) {
 
-        return new UserDto(user.getId(),
-                user.getDateCreated(),
-                user.getLastModifiedDate(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getRole().getId(),
-                user.getImage().getUrl()
+        if(address == null) {
+            return new AddressDto();
+        }
+
+        return new AddressDto(
+                address.getStreet(),
+                address.getCity().getCountry().getName(),
+                address.getState(),
+                address.getCity().getName(),
+                address.getCity().getZipCode()
+                );
+    }
+
+    public static CardInformationDto mapCardToCardDto(CardInformation cardInformation) {
+
+        if(cardInformation == null) {
+            return new CardInformationDto();
+        }
+        String yearExp = "";
+        String monthExp = "";
+        if(cardInformation.getCardExpiration() != null) {
+            yearExp = Integer.toString(cardInformation.getCardExpiration().getYear());
+            monthExp = cardInformation.getCardExpiration().getMonth().toString();
+        }
+
+        return new CardInformationDto(
+                cardInformation.getNameOnCard(),
+                cardInformation.getCardNumber(),
+                yearExp,
+                monthExp,
+                cardInformation.getCvc(),
+                cardInformation.getPaypal(),
+                cardInformation.getCreditCard()
+        );
+    }
+
+    public static UserRegisterDto mapUserRegisterToUserRegisterDto(UserRegisterInformation registerInformation) {
+
+        return new UserRegisterDto(
+                registerInformation.getId(),
+                registerInformation.getDateCreated(),
+                registerInformation.getLastModifiedDate(),
+                registerInformation.getFirstName(),
+                registerInformation.getLastName(),
+                registerInformation.getEmail(),
+                registerInformation.getRole().getId(),
+                registerInformation.getImage().getUrl()
+        );
+    }
+
+    public static UserDetailsDto mapUserDetailsToUserDetailsDto(UserDetails userDetails) {
+
+        if(userDetails == null) {
+            return new UserDetailsDto();
+        }
+
+        Long birthDate = TimeUtility.LocalDateTimeToTimestamp(LocalDateTime.of(1900,1,1,0,0));
+
+        if(userDetails.getBirthDate()!=null) {
+            birthDate = TimeUtility.LocalDateTimeToTimestamp(userDetails.getBirthDate());
+        }
+
+        String gender = "";
+        if(userDetails.getGender() != null) {
+            gender = userDetails.getGender().label;
+        }
+
+        return new UserDetailsDto(
+                userDetails.getPhoneNumber(),
+                birthDate,
+                gender,
+                mapAddressToAddressDto(userDetails.getAddress()),
+                mapCardToCardDto(userDetails.getCardInformation())
+        );
+    }
+
+    public static UserAccountDto mapUserToUserDto(UserAccount userAccount) {
+
+        return new UserAccountDto(userAccount.getId(),
+                userAccount.getDateCreated(),
+                userAccount.getLastModifiedDate(),
+                mapUserRegisterToUserRegisterDto(userAccount.getUserLoginInformation()),
+                mapUserDetailsToUserDetailsDto(userAccount.getUserDetails())
         );
     }
 
@@ -136,9 +198,15 @@ public class MappingUtility {
     }
 
     public static CountryDto mapCountryToCountryDto(Country country) {
-        List<String> cities = country.getCities().stream().map(city -> {return city.getName();})
-                .collect(Collectors.toList());
 
+        List<String> cities = new ArrayList<>();
+
+        if(country.getCities() != null) {
+            cities = country.getCities().stream().map(city -> {
+                return city.getName();
+            })
+                    .collect(Collectors.toList());
+        }
         return new CountryDto(
                 country.getId(),
                 country.getDateCreated(),

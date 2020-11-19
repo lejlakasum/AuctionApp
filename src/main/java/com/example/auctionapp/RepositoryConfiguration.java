@@ -39,7 +39,7 @@ public class RepositoryConfiguration {
 
     @Bean
     UserRepository userRepository() {
-        return new UserRepository(User.class, entityManager);
+        return new UserRepository(UserAccount.class, entityManager);
     }
 
     @Bean

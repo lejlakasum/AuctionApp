@@ -1,9 +1,8 @@
 package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.MappingUtility;
-import com.example.auctionapp.dto.CategoryDto;
+import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.CountryDto;
-import com.example.auctionapp.model.Category;
 import com.example.auctionapp.model.Country;
 import com.example.auctionapp.repository.BaseRepository;
 import org.slf4j.Logger;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class CountryService {
+public class CountryService implements IBaseService<CountryDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(CountryService.class);
     private static final String RESOURCE_NAME = "Country";
@@ -39,5 +38,40 @@ public class CountryService {
         ).collect(Collectors.toList());
 
         return countryDto;
+    }
+
+    public CountryDto getById(Long id) {
+
+        Country country = RepositoryUtility.findIfExist(countryRepository, id, RESOURCE_NAME);
+
+        return MappingUtility.mapCountryToCountryDto(country);
+    }
+
+    public CountryDto add(CountryDto resource) {
+        Country country = countryRepository.create(new Country(resource.getName()));
+        logger.info("Country with id " + country.getId() + " created");
+        return MappingUtility.mapCountryToCountryDto(country);
+    }
+
+
+    public CountryDto update(CountryDto resource) {
+
+        Country resourceToUpdate = RepositoryUtility.findIfExist(countryRepository, resource.getId(), RESOURCE_NAME);
+
+        resourceToUpdate.setName(resource.getName());
+
+        Country country = countryRepository.update(resourceToUpdate);
+        logger.info("Country with id " + country.getId() + " updated");
+
+        return MappingUtility.mapCountryToCountryDto(country);
+    }
+
+
+    public void deleteById(Long id) {
+
+        RepositoryUtility.findIfExist(countryRepository, id, RESOURCE_NAME);
+
+        countryRepository.deleteById(id);
+        logger.info("Country with id " + id + " deleted");
     }
 }

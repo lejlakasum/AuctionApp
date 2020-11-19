@@ -63,11 +63,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/role", "/role/*")
                 .denyAll()
 
-                .antMatchers(HttpMethod.POST, "/category", "/subcategory")
+                .antMatchers(HttpMethod.POST, "/category", "/subcategory", "/country")
                 .hasAuthority(RoleEnum.ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/category", "/subcategory")
+                .antMatchers(HttpMethod.PUT, "/category", "/subcategory", "/country")
                 .hasAuthority(RoleEnum.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*")
+                .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*", "/country/*")
                 .hasAuthority(RoleEnum.ADMIN.name())
 
                 .antMatchers(HttpMethod.GET, "/bid", "/bid/*", "/user/*/bids", "/country")
