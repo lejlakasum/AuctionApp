@@ -4,7 +4,7 @@ import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.Util.TimeUtility;
 import com.example.auctionapp.dto.UserBidDto;
-import com.example.auctionapp.dto.UserAccountDto;
+import com.example.auctionapp.dto.UserDtos.UserAccountDto;
 import com.example.auctionapp.enumeration.GenderEnum;
 import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.model.*;
@@ -134,7 +134,6 @@ public class UserService implements IBaseService<UserAccountDto> {
         countryToUpdate.setName(resource.getUserDetails().getAddress().getCountry());
         cityToUpdate.setCountry(countryToUpdate);
         cityToUpdate.setName(resource.getUserDetails().getAddress().getCity());
-        cityToUpdate.setZipCode(resource.getUserDetails().getAddress().getZipCode());
         addressToUpdate.setCity(cityToUpdate);
 
         addressToUpdate.setState(resource.getUserDetails().getAddress().getState());

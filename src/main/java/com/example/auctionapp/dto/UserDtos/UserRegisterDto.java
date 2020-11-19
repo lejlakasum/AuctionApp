@@ -1,4 +1,6 @@
-package com.example.auctionapp.dto;
+package com.example.auctionapp.dto.UserDtos;
+
+import com.example.auctionapp.dto.BaseResourceDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

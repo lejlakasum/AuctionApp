@@ -2,7 +2,7 @@ package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
-import com.example.auctionapp.dto.CountryDto;
+import com.example.auctionapp.dto.UserDtos.CountryDto;
 import com.example.auctionapp.model.Country;
 import com.example.auctionapp.repository.BaseRepository;
 import org.slf4j.Logger;

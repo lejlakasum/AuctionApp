@@ -1,7 +1,7 @@
 package com.example.auctionapp.controller;
 
 import com.example.auctionapp.dto.UserBidDto;
-import com.example.auctionapp.dto.UserAccountDto;
+import com.example.auctionapp.dto.UserDtos.UserAccountDto;
 import com.example.auctionapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

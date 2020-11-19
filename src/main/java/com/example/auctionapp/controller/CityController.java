@@ -1,7 +1,7 @@
 package com.example.auctionapp.controller;
 
-import com.example.auctionapp.dto.UserDtos.CountryDto;
-import com.example.auctionapp.service.CountryService;
+import com.example.auctionapp.dto.UserDtos.CityDto;
+import com.example.auctionapp.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,46 +18,46 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/country")
-public class CountryController implements IBaseController<CountryDto> {
+@RequestMapping("/city")
+public class CityController implements IBaseController<CityDto> {
 
-    private final CountryService countryService;
+    private final CityService cityService;
 
     @Autowired
-    public CountryController(CountryService categoryService) {
-        this.countryService = categoryService;
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
     }
 
     @GetMapping()
-    public ResponseEntity<List<CountryDto>> getAll() {
+    public ResponseEntity<List<CityDto>> getAll() {
 
-        return new ResponseEntity<>(countryService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(cityService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CountryDto> getById(@PathVariable Long id) {
+    public ResponseEntity<CityDto> getById(@PathVariable Long id) {
 
-        return new ResponseEntity<>(countryService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(cityService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping()
     @Valid
-    public ResponseEntity<CountryDto> add(@Valid @RequestBody CountryDto resource) {
+    public ResponseEntity<CityDto> add(@Valid @RequestBody CityDto resource) {
 
-        return new ResponseEntity<>(countryService.add(resource), HttpStatus.CREATED);
+        return new ResponseEntity<>(cityService.add(resource), HttpStatus.CREATED);
     }
 
     @PutMapping()
     @Valid
-    public ResponseEntity<CountryDto>  update(@Valid @RequestBody CountryDto resource) {
+    public ResponseEntity<CityDto>  update(@Valid @RequestBody CityDto resource) {
 
-        return new ResponseEntity<>(countryService.update(resource), HttpStatus.OK);
+        return new ResponseEntity<>(cityService.update(resource), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 
-        countryService.deleteById(id);
+        cityService.deleteById(id);
 
         return ResponseEntity.noContent().build();
     }

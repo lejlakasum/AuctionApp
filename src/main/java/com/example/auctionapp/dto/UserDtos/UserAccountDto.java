@@ -1,10 +1,8 @@
-package com.example.auctionapp.dto;
+package com.example.auctionapp.dto.UserDtos;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import com.example.auctionapp.dto.BaseResourceDto;
+
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class UserAccountDto extends BaseResourceDto {

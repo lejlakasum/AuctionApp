@@ -15,6 +15,8 @@ public class Address extends Resource {
 
     private String state;
 
+    private String zipCode;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "city_id", referencedColumnName = "id")
     private City city;
@@ -26,9 +28,10 @@ public class Address extends Resource {
         this.city = city;
     }
 
-    public Address(String street, String state, City city) {
+    public Address(String street, String state, String zipCode, City city) {
         this.street = street;
         this.state = state;
+        this.zipCode = zipCode;
         this.city = city;
     }
 
@@ -46,6 +49,14 @@ public class Address extends Resource {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public City getCity() {

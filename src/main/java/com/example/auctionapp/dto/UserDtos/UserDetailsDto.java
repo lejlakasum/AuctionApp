@@ -1,7 +1,5 @@
-package com.example.auctionapp.dto;
+package com.example.auctionapp.dto.UserDtos;
 
-
-import java.time.LocalDate;
 
 public class UserDetailsDto {
 

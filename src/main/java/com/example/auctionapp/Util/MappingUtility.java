@@ -1,6 +1,13 @@
 package com.example.auctionapp.Util;
 
 import com.example.auctionapp.dto.*;
+import com.example.auctionapp.dto.UserDtos.AddressDto;
+import com.example.auctionapp.dto.UserDtos.CardInformationDto;
+import com.example.auctionapp.dto.UserDtos.CityDto;
+import com.example.auctionapp.dto.UserDtos.CountryDto;
+import com.example.auctionapp.dto.UserDtos.UserAccountDto;
+import com.example.auctionapp.dto.UserDtos.UserDetailsDto;
+import com.example.auctionapp.dto.UserDtos.UserRegisterDto;
 import com.example.auctionapp.model.*;
 
 import java.time.LocalDateTime;
@@ -106,7 +113,7 @@ public class MappingUtility {
                 address.getCity().getCountry().getName(),
                 address.getState(),
                 address.getCity().getName(),
-                address.getCity().getZipCode()
+                address.getZipCode()
                 );
     }
 
@@ -213,5 +220,17 @@ public class MappingUtility {
                 country.getLastModifiedDate(),
                 country.getName(),
                 cities);
+    }
+
+    public static CityDto mapCityToCityDto(City city) {
+
+        return new CityDto(
+                city.getId(),
+                city.getDateCreated(),
+                city.getLastModifiedDate(),
+                city.getName(),
+                city.getCountry().getId(),
+                city.getCountry().getName()
+        );
     }
 }

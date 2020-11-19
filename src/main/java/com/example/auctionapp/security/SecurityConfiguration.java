@@ -63,14 +63,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/role", "/role/*")
                 .denyAll()
 
-                .antMatchers(HttpMethod.POST, "/category", "/subcategory", "/country")
+                .antMatchers(HttpMethod.POST, "/category", "/subcategory", "/country", "/city")
                 .hasAuthority(RoleEnum.ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/category", "/subcategory", "/country")
+                .antMatchers(HttpMethod.PUT, "/category", "/subcategory", "/country", "/city")
                 .hasAuthority(RoleEnum.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*", "/country/*")
+                .antMatchers(HttpMethod.DELETE, "/category/*", "/subcategory/*", "/country/*", "/city/*")
                 .hasAuthority(RoleEnum.ADMIN.name())
 
-                .antMatchers(HttpMethod.GET, "/bid", "/bid/*", "/user/*/bids", "/country")
+                .antMatchers(HttpMethod.GET, "/bid", "/bid/*", "/user/*/bids", "/country", "/country/*", "/city", "/city/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST, "/bid", "/bid/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())

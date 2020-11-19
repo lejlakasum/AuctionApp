@@ -87,17 +87,17 @@ public class DatabaseSeeder {
     private void seedCityTable() {
         List<City> cities = cityRepository.findAll();
         if(cities.isEmpty()) {
-            cityRepository.create(new City("Jajce", "70101", countryRepository.findById(1L)));
-            cityRepository.create(new City("Sarajevo", "71000", countryRepository.findById(1L)));
-            cityRepository.create(new City("Mostar", "88000", countryRepository.findById(1L)));
+            cityRepository.create(new City("Jajce", countryRepository.findById(1L)));
+            cityRepository.create(new City("Sarajevo", countryRepository.findById(1L)));
+            cityRepository.create(new City("Mostar", countryRepository.findById(1L)));
 
-            cityRepository.create(new City("Zagreb", "10000", countryRepository.findById(2L)));
-            cityRepository.create(new City("Split", "21000", countryRepository.findById(2L)));
-            cityRepository.create(new City("Varazdin", "42000", countryRepository.findById(2L)));
+            cityRepository.create(new City("Zagreb",  countryRepository.findById(2L)));
+            cityRepository.create(new City("Split", countryRepository.findById(2L)));
+            cityRepository.create(new City("Varazdin", countryRepository.findById(2L)));
 
-            cityRepository.create(new City("Berlin", "10115", countryRepository.findById(3L)));
-            cityRepository.create(new City("Hamburg", "20095", countryRepository.findById(3L)));
-            cityRepository.create(new City("Dresden", "01067", countryRepository.findById(3L)));
+            cityRepository.create(new City("Berlin", countryRepository.findById(3L)));
+            cityRepository.create(new City("Hamburg", countryRepository.findById(3L)));
+            cityRepository.create(new City("Dresden", countryRepository.findById(3L)));
         }
     }
 

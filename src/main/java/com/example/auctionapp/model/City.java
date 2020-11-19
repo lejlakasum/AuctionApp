@@ -12,9 +12,7 @@ public class City extends Resource{
 
     private String name;
 
-    private String zipCode;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "country_id", referencedColumnName = "id", updatable = false)
     private Country country;
 
@@ -25,9 +23,8 @@ public class City extends Resource{
         this.country = country;
     }
 
-    public City(String name, String zipCode, Country country) {
+    public City(String name, Country country) {
         this.name = name;
-        this.zipCode = zipCode;
         this.country = country;
     }
 
@@ -37,14 +34,6 @@ public class City extends Resource{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
     }
 
     public Country getCountry() {
