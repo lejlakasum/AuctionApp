@@ -114,6 +114,60 @@ public class DatabaseSeeder {
                     image
             ));
 
+            userRepository.create(new User(
+                    "User",
+                    "First",
+                    "tester1@mail.com",
+                    passwordEncoder.encode("password"),
+                    roleRepository.findById(2L),
+                    image
+            ));
+
+            userRepository.create(new User(
+                    "User",
+                    "Second",
+                    "tester2@mail.com",
+                    passwordEncoder.encode("password"),
+                    roleRepository.findById(2L),
+                    image
+            ));
+
+            userRepository.create(new User(
+                    "Seller",
+                    "First",
+                    "seller1@mail.com",
+                    passwordEncoder.encode("password"),
+                    roleRepository.findById(3L),
+                    image
+            ));
+
+            userRepository.create(new User(
+                    "Seller",
+                    "Second",
+                    "seller2@mail.com",
+                    passwordEncoder.encode("password"),
+                    roleRepository.findById(3L),
+                    image
+            ));
+
+            userRepository.create(new User(
+                    "Admin",
+                    "First",
+                    "admin1@mail.com",
+                    passwordEncoder.encode("password"),
+                    roleRepository.findById(1L),
+                    image
+            ));
+
+            userRepository.create(new User(
+                    "Admin",
+                    "Second",
+                    "admin2@mail.com",
+                    passwordEncoder.encode("password"),
+                    roleRepository.findById(1L),
+                    image
+            ));
+
             Image image2 = imageRepository.create(new Image("https://www.shareicon.net/data/512x512/2016/07/26/802031_user_512x512.png"));
             userRepository.create(new User(
                     "Serena",
