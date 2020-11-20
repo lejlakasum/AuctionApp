@@ -33,7 +33,7 @@ public class CardInformarionService implements IBaseService<CardInformationDto> 
         List<CardInformation> cardInformations = repository.findAll();
 
         List<CardInformationDto> cardInformationDtos = cardInformations.stream().map(
-                category -> { return MappingUtility.mapCardToCardDto(category);
+                cardInformation -> { return MappingUtility.mapCardToCardDto(cardInformation);
                 }
         ).collect(Collectors.toList());
 

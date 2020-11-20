@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAuthority(RoleEnum.ADMIN.name())
 
                 .antMatchers(HttpMethod.GET, "/bid", "/bid/*", "/user/*/bids", "/country", "/country/*", "/city", "/city/*",
-                        "/card-info", "/card-info/*")
+                        "/card-info", "/card-info/*", "/address", "/address/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST, "/bid", "/bid/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
@@ -88,11 +88,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/product/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name())
 
-                .antMatchers(HttpMethod.POST, "/image", "/card-info")
+                .antMatchers(HttpMethod.POST, "/image", "/card-info", "/address")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
-                .antMatchers(HttpMethod.PUT, "/image", "/image/*", "/user", "/user/*", "/card-info")
+                .antMatchers(HttpMethod.PUT, "/image", "/image/*", "/user", "/user/*", "/card-info", "/address")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
-                .antMatchers(HttpMethod.DELETE, "/image", "/image/*", "/card-info/*")
+                .antMatchers(HttpMethod.DELETE, "/image", "/image/*", "/card-info/*", "/address/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
 
                 .antMatchers(HttpMethod.GET, "/user")

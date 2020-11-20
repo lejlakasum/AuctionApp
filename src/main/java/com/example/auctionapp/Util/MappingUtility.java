@@ -109,11 +109,13 @@ public class MappingUtility {
         }
 
         return new AddressDto(
+                address.getId(),
+                address.getDateCreated(),
+                address.getLastModifiedDate(),
                 address.getStreet(),
-                address.getCity().getCountry().getName(),
                 address.getState(),
-                address.getCity().getName(),
-                address.getZipCode()
+                address.getZipCode(),
+                mapCityToCityDto(address.getCity())
                 );
     }
 

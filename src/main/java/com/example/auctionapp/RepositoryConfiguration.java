@@ -68,4 +68,9 @@ public class RepositoryConfiguration {
         return new BaseRepository<>(CardInformation.class, entityManager);
     }
 
+    @Bean
+    BaseRepository<Address> addressRepository() {
+        return new BaseRepository<>(Address.class, entityManager);
+    }
+
 }

@@ -5,7 +5,7 @@ import com.example.auctionapp.dto.BaseResourceDto;
 import java.time.LocalDateTime;
 
 public class CardInformationDto extends BaseResourceDto {
-    
+
     private String nameOnCard;
 
     private String cardNumber;

@@ -1,26 +1,34 @@
 package com.example.auctionapp.dto.UserDtos;
 
-public class AddressDto {
+import com.example.auctionapp.dto.BaseResourceDto;
+
+import java.time.LocalDateTime;
+
+public class AddressDto extends BaseResourceDto {
 
     private String street;
 
-    private String country;
-
     private String state;
 
-    private String city;
-
     private String zipCode;
+
+    private CityDto city;
 
     public AddressDto() {
     }
 
-    public AddressDto(String street, String country, String state, String city, String zipCode) {
+    public AddressDto(Long id,
+                      LocalDateTime dateCreated,
+                      LocalDateTime lastModifiedDate,
+                      String street,
+                      String state,
+                      String zipCode,
+                      CityDto city) {
+        super(id, dateCreated, lastModifiedDate);
         this.street = street;
-        this.country = country;
         this.state = state;
-        this.city = city;
         this.zipCode = zipCode;
+        this.city = city;
     }
 
     public String getStreet() {
@@ -31,14 +39,6 @@ public class AddressDto {
         this.street = street;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getState() {
         return state;
     }
@@ -47,11 +47,11 @@ public class AddressDto {
         this.state = state;
     }
 
-    public String getCity() {
+    public CityDto getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(CityDto city) {
         this.city = city;
     }
 
