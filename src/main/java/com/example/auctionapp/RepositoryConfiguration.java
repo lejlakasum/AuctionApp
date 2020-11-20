@@ -63,4 +63,9 @@ public class RepositoryConfiguration {
     @Bean
     BaseRepository<City> cityRepository() { return new BaseRepository<>(City.class, entityManager);}
 
+    @Bean
+    BaseRepository<CardInformation> cardInformationRepository() {
+        return new BaseRepository<>(CardInformation.class, entityManager);
+    }
+
 }

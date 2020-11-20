@@ -119,21 +119,14 @@ public class MappingUtility {
 
     public static CardInformationDto mapCardToCardDto(CardInformation cardInformation) {
 
-        if(cardInformation == null) {
-            return new CardInformationDto();
-        }
-        String yearExp = "";
-        String monthExp = "";
-        if(cardInformation.getCardExpiration() != null) {
-            yearExp = Integer.toString(cardInformation.getCardExpiration().getYear());
-            monthExp = cardInformation.getCardExpiration().getMonth().toString();
-        }
-
         return new CardInformationDto(
+                cardInformation.getId(),
+                cardInformation.getDateCreated(),
+                cardInformation.getLastModifiedDate(),
                 cardInformation.getNameOnCard(),
                 cardInformation.getCardNumber(),
-                yearExp,
-                monthExp,
+                cardInformation.getYearExpiration(),
+                cardInformation.getMonthExpiration(),
                 cardInformation.getCvc(),
                 cardInformation.getPaypal(),
                 cardInformation.getCreditCard()

@@ -1,7 +1,11 @@
 package com.example.auctionapp.dto.UserDtos;
 
-public class CardInformationDto {
+import com.example.auctionapp.dto.BaseResourceDto;
 
+import java.time.LocalDateTime;
+
+public class CardInformationDto extends BaseResourceDto {
+    
     private String nameOnCard;
 
     private String cardNumber;
@@ -19,13 +23,17 @@ public class CardInformationDto {
     public CardInformationDto() {
     }
 
-    public CardInformationDto(String nameOnCard,
+    public CardInformationDto(Long id,
+                              LocalDateTime dateCreated,
+                              LocalDateTime lastModifiedDate,
+                              String nameOnCard,
                               String cardNumber,
                               String yearExpiration,
                               String monthExpiration,
                               String cvc,
                               Boolean paypal,
                               Boolean creditCard) {
+        super(id, dateCreated, lastModifiedDate);
         this.nameOnCard = nameOnCard;
         this.cardNumber = cardNumber;
         this.yearExpiration = yearExpiration;

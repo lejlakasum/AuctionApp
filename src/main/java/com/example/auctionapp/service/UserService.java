@@ -106,69 +106,8 @@ public class UserService implements IBaseService<UserAccountDto> {
     public UserAccountDto update(UserAccountDto resource) {
         UserAccount resourceToUpdate = RepositoryUtility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
 
-        resourceToUpdate.getUserLoginInformation().setFirstName(resource.getUserRegister().getFirstName());
-        resourceToUpdate.getUserLoginInformation().setLastName(resource.getUserRegister().getLastName());
-        resourceToUpdate.getUserLoginInformation().setEmail(resource.getUserRegister().getEmail());
-
-        Image imageToUpdate = resourceToUpdate.getUserLoginInformation().getImage();
-        imageToUpdate.setUrl(resource.getUserRegister().getImageUrl());
-        resourceToUpdate.getUserLoginInformation().setImage(imageToUpdate);
-
-        UserDetails userDetailsToUpdate = resourceToUpdate.getUserDetails();
-        userDetailsToUpdate.setPhoneNumber(resource.getUserDetails().getPhoneNumber());
-        userDetailsToUpdate.setBirthDate(TimeUtility.timestampToLocalDateTime(resource.getUserDetails().getBirthDate()));
-        userDetailsToUpdate.setGender(GenderEnum.fromValue(resource.getUserDetails().getGender()));
-
-        Address addressToUpdate = userDetailsToUpdate.getAddress();
-        if(addressToUpdate == null) {
-            addressToUpdate = new Address();
-        }
-        City cityToUpdate = addressToUpdate.getCity();
-        if(cityToUpdate == null) {
-            cityToUpdate = new City();
-        }
-        Country countryToUpdate = cityToUpdate.getCountry();
-        if(countryToUpdate == null) {
-            countryToUpdate = new Country();
-        }
-        countryToUpdate.setName(resource.getUserDetails().getAddress().getCountry());
-        cityToUpdate.setCountry(countryToUpdate);
-        cityToUpdate.setName(resource.getUserDetails().getAddress().getCity());
-        addressToUpdate.setCity(cityToUpdate);
-
-        addressToUpdate.setState(resource.getUserDetails().getAddress().getState());
-        addressToUpdate.setStreet(resource.getUserDetails().getAddress().getStreet());
-
-        userDetailsToUpdate.setAddress(addressToUpdate);
-
-        CardInformation cardInformationToUpdate = userDetailsToUpdate.getCardInformation();
-        if(cardInformationToUpdate == null) {
-            cardInformationToUpdate = new CardInformation();
-        }
-        String yearExp = resource.getUserDetails().getCardInformation().getYearExpiration();
-        String monthExp = resource.getUserDetails().getCardInformation().getMonthExpiration();
-        if(yearExp!=null && !yearExp.isEmpty() &&  !monthExp.isEmpty()) {
-            cardInformationToUpdate.setCardExpiration(LocalDate.of(
-                    Integer.parseInt(yearExp),
-                    Integer.parseInt(monthExp),
-                    1
-            ));
-        }
-        cardInformationToUpdate.setCardNumber(resource.getUserDetails().getCardInformation().getCardNumber());
-        cardInformationToUpdate.setNameOnCard(resource.getUserDetails().getCardInformation().getNameOnCard());
-        cardInformationToUpdate.setCvc(resource.getUserDetails().getCardInformation().getCvc());
-        cardInformationToUpdate.setPaypal(resource.getUserDetails().getCardInformation().getPaypal());
-        cardInformationToUpdate.setCreditCard(resource.getUserDetails().getCardInformation().getCreditCard());
-
-        userDetailsToUpdate.setCardInformation(cardInformationToUpdate);
-
-        resourceToUpdate.setUserDetails(userDetailsToUpdate);
-
-        UserAccount userAccount = userRepository.update(resourceToUpdate);
-
-        logger.info("User with id " + userAccount.getId() + " updated");
-
-        return MappingUtility.mapUserToUserDto(userAccount);
+        //TODO updating
+        return MappingUtility.mapUserToUserDto(resourceToUpdate);
     }
 
 

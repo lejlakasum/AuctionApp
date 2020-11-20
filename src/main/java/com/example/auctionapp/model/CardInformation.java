@@ -12,7 +12,9 @@ public class CardInformation extends Resource {
 
     private String cardNumber;
 
-    private LocalDate cardExpiration;
+    private String yearExpiration;
+
+    private String monthExpiration;
 
     private String cvc;
 
@@ -25,13 +27,15 @@ public class CardInformation extends Resource {
 
     public CardInformation(String nameOnCard,
                            String cardNumber,
-                           LocalDate cardExpiration,
+                           String yearExpiration,
+                           String monthExpiration,
                            String cvc,
                            Boolean paypal,
                            Boolean creditCard) {
         this.nameOnCard = nameOnCard;
         this.cardNumber = cardNumber;
-        this.cardExpiration = cardExpiration;
+        this.yearExpiration = yearExpiration;
+        this.monthExpiration = monthExpiration;
         this.cvc = cvc;
         this.paypal = paypal;
         this.creditCard = creditCard;
@@ -53,12 +57,20 @@ public class CardInformation extends Resource {
         this.cardNumber = cardNumber;
     }
 
-    public LocalDate getCardExpiration() {
-        return cardExpiration;
+    public String getYearExpiration() {
+        return yearExpiration;
     }
 
-    public void setCardExpiration(LocalDate cardExpiration) {
-        this.cardExpiration = cardExpiration;
+    public void setYearExpiration(String yearExpiration) {
+        this.yearExpiration = yearExpiration;
+    }
+
+    public String getMonthExpiration() {
+        return monthExpiration;
+    }
+
+    public void setMonthExpiration(String monthExpiration) {
+        this.monthExpiration = monthExpiration;
     }
 
     public String getCvc() {
