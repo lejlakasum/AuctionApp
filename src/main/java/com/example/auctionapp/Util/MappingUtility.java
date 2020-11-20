@@ -121,6 +121,10 @@ public class MappingUtility {
 
     public static CardInformationDto mapCardToCardDto(CardInformation cardInformation) {
 
+        if(cardInformation == null) {
+            return new CardInformationDto();
+        }
+
         return new CardInformationDto(
                 cardInformation.getId(),
                 cardInformation.getDateCreated(),
@@ -167,6 +171,9 @@ public class MappingUtility {
         }
 
         return new UserDetailsDto(
+                userDetails.getId(),
+                userDetails.getDateCreated(),
+                userDetails.getLastModifiedDate(),
                 userDetails.getPhoneNumber(),
                 birthDate,
                 gender,
@@ -218,6 +225,10 @@ public class MappingUtility {
     }
 
     public static CityDto mapCityToCityDto(City city) {
+
+        if(city == null) {
+            return null;
+        }
 
         return new CityDto(
                 city.getId(),

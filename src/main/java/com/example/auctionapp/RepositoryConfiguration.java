@@ -73,4 +73,14 @@ public class RepositoryConfiguration {
         return new BaseRepository<>(Address.class, entityManager);
     }
 
+    @Bean
+    BaseRepository<UserRegisterInformation> userRegisterInformationRepository() {
+        return new BaseRepository<>(UserRegisterInformation.class, entityManager);
+    }
+
+    @Bean
+    BaseRepository<UserDetails> userDetailsRepository() {
+        return new BaseRepository<>(UserDetails.class, entityManager);
+    }
+
 }

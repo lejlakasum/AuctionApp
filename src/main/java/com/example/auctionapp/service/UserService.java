@@ -27,22 +27,19 @@ public class UserService implements IBaseService<UserAccountDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String RESOURCE_NAME = "User";
-    private static final Long USER_ROLE_ID = 2L;
 
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final BaseRepository<Role> roleRepository;
-    private final BaseRepository<Image> imageRepository;
+
+    private final UserRegisterService userRegisterService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder,
-                       UserRepository userRepository,
-                       BaseRepository<Role> roleRepository,
-                       BaseRepository<Image> imageRepository) {
-        this.passwordEncoder = passwordEncoder;
+    public UserService(UserRepository userRepository,
+                       UserRegisterService userRegisterService,
+                       UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.imageRepository = imageRepository;
+        this.userRegisterService = userRegisterService;
+        this.userDetailsService = userDetailsService;
     }
 
     public List<UserAccountDto> getAll() {
@@ -76,24 +73,14 @@ public class UserService implements IBaseService<UserAccountDto> {
 
     public UserAccountDto add(UserAccountDto resource) {
 
-        if(userAlreadyExist(resource.getUserRegister().getEmail())) {
-            String message = "User with email " + resource.getUserRegister().getEmail() + " already registered";
-            logger.error(message);
-            throw new BadRequestException(message);
-        }
 
-        Role role = roleRepository.findById(USER_ROLE_ID);
-        Image image = imageRepository.create(new Image(resource.getUserRegister().getImageUrl()));
+        UserRegisterInformation userRegisterInformation = userRegisterService.add(resource.getUserRegister());
+
 
         UserAccount userAccount = userRepository.create(
                 new UserAccount(
-                        new UserRegisterInformation(resource.getUserRegister().getFirstName(),
-                                resource.getUserRegister().getLastName(),
-                                resource.getUserRegister().getEmail(),
-                                passwordEncoder.encode(resource.getUserRegister().getPassword()),
-                                role,
-                                image),
-                        new UserDetails(new Address(new City(new Country())), new CardInformation())
+                        userRegisterInformation,
+                        new UserDetails(new Address(), new CardInformation())
                 )
         );
 
@@ -106,8 +93,16 @@ public class UserService implements IBaseService<UserAccountDto> {
     public UserAccountDto update(UserAccountDto resource) {
         UserAccount resourceToUpdate = RepositoryUtility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
 
-        //TODO updating
-        return MappingUtility.mapUserToUserDto(resourceToUpdate);
+        UserRegisterInformation userRegisterInformation = userRegisterService.update(resource.getUserRegister());
+        UserDetails userDetails = userDetailsService.update(resource.getUserDetails());
+
+        resourceToUpdate.setUserLoginInformation(userRegisterInformation);
+        resourceToUpdate.setUserDetails(userDetails);
+
+        UserAccount userAccount = userRepository.update(resourceToUpdate);
+        logger.info("User with id " + resource.getId() + " updated");
+
+        return MappingUtility.mapUserToUserDto(userAccount);
     }
 
 
@@ -120,14 +115,5 @@ public class UserService implements IBaseService<UserAccountDto> {
         logger.info("User with id " + id + " deleted");
     }
 
-    private boolean userAlreadyExist(String email) {
 
-        try {
-            userRepository.findByEmail(email);
-        }
-        catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
 }

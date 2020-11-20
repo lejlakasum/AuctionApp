@@ -1,7 +1,11 @@
 package com.example.auctionapp.dto.UserDtos;
 
 
-public class UserDetailsDto {
+import com.example.auctionapp.dto.BaseResourceDto;
+
+import java.time.LocalDateTime;
+
+public class UserDetailsDto extends BaseResourceDto {
 
     private String phoneNumber;
 
@@ -16,11 +20,15 @@ public class UserDetailsDto {
     public UserDetailsDto() {
     }
 
-    public UserDetailsDto(String phoneNumber,
+    public UserDetailsDto(Long id,
+                          LocalDateTime dateCreated,
+                          LocalDateTime lastModifiedDate,
+                          String phoneNumber,
                           Long birthDate,
                           String gender,
                           AddressDto address,
                           CardInformationDto cardInformation) {
+        super(id, dateCreated, lastModifiedDate);
         this.phoneNumber = phoneNumber;
         this.birthDate = birthDate;
         this.gender = gender;

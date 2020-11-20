@@ -12,7 +12,7 @@ public class City extends Resource{
 
     private String name;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id", referencedColumnName = "id", updatable = false)
     private Country country;
 
