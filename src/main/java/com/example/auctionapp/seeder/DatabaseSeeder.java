@@ -125,7 +125,7 @@ public class DatabaseSeeder {
                            roleRepository.findById(1L),
                            image
                    ),
-                    new UserDetails()
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
             userRepository.create(new UserAccount(

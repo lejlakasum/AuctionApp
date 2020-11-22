@@ -2,16 +2,26 @@ package com.example.auctionapp.dto.UserDtos;
 
 import com.example.auctionapp.dto.BaseResourceDto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class AddressDto extends BaseResourceDto {
 
+    @NotEmpty
+    @Pattern(regexp = "^[A-Za-z0-9\\s\\-]*$")
     private String street;
 
+    @NotEmpty
+    @Pattern(regexp = "^[A-Za-z\\s\\-]*$")
     private String state;
 
+    @NotEmpty
+    @Pattern(regexp = "^[A-Za-z0-9\\s\\-]*$")
     private String zipCode;
 
+    @NotNull
     private CityDto city;
 
     public AddressDto() {

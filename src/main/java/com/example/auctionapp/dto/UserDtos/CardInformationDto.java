@@ -2,22 +2,37 @@ package com.example.auctionapp.dto.UserDtos;
 
 import com.example.auctionapp.dto.BaseResourceDto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class CardInformationDto extends BaseResourceDto {
 
+    @NotEmpty
+    @Pattern(regexp = "^[A-Za-z0-9\\s\\-]*$")
     private String nameOnCard;
 
+    @NotEmpty
+    @Pattern(regexp = "^[0-9]{4}\\-[0-9]{4}\\-[0-9]{4}\\-[0-9]{4}$")
     private String cardNumber;
 
+    @NotEmpty
+    @Size(min = 4, max = 4)
     private String yearExpiration;
 
+    @NotEmpty
     private String monthExpiration;
 
+    @NotEmpty
+    @Pattern(regexp = "^[0-9]{3,4}$")
     private String cvc;
 
+    @NotNull
     private Boolean paypal;
 
+    @NotNull
     private Boolean creditCard;
 
     public CardInformationDto() {

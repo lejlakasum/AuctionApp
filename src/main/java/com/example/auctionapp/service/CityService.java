@@ -6,6 +6,7 @@ import com.example.auctionapp.dto.UserDtos.CityDto;
 import com.example.auctionapp.model.City;
 import com.example.auctionapp.model.Country;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.CityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ public class CityService implements IBaseService<CityDto> {
     private static final Logger logger = LoggerFactory.getLogger(CityService.class);
     private static final String RESOURCE_NAME = "City";
 
-    BaseRepository<City> repository;
+    CityRepository repository;
     BaseRepository<Country> countryRepository;
 
     @Autowired
-    public CityService(BaseRepository<City> repository, BaseRepository<Country> countryRepository) {
+    public CityService(CityRepository repository, BaseRepository<Country> countryRepository) {
         this.repository = repository;
         this.countryRepository = countryRepository;
     }

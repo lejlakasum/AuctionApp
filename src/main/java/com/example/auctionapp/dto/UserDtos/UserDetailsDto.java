@@ -3,18 +3,27 @@ package com.example.auctionapp.dto.UserDtos;
 
 import com.example.auctionapp.dto.BaseResourceDto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class UserDetailsDto extends BaseResourceDto {
 
+    @NotEmpty
+    @Pattern(regexp = "^[0-9]+\\-[0-9]+\\-[0-9]+$")
     private String phoneNumber;
 
+    @NotNull
     private Long birthDate;
 
+    @NotEmpty
     private String gender;
 
+    @NotNull
     private AddressDto address;
 
+    @NotNull
     private CardInformationDto cardInformation;
 
     public UserDetailsDto() {

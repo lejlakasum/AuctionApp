@@ -2,10 +2,14 @@ package com.example.auctionapp.dto.UserDtos;
 
 import com.example.auctionapp.dto.BaseResourceDto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 public class CityDto extends BaseResourceDto {
 
+    @NotEmpty
+    @Pattern(regexp = "^[A-Za-z\\s\\-]*$")
     private String name;
 
     private Long countryId;

@@ -17,7 +17,7 @@ public class Address extends Resource {
 
     private String zipCode;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id", referencedColumnName = "id")
     private City city;
 

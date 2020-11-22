@@ -3,6 +3,7 @@ package com.example.auctionapp;
 import com.example.auctionapp.model.*;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.CategoryRepository;
+import com.example.auctionapp.repository.CityRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +62,7 @@ public class RepositoryConfiguration {
     BaseRepository<Country> countryRepository() { return new BaseRepository<>(Country.class, entityManager);}
 
     @Bean
-    BaseRepository<City> cityRepository() { return new BaseRepository<>(City.class, entityManager);}
+    CityRepository cityRepository() { return new CityRepository(City.class, entityManager);}
 
     @Bean
     BaseRepository<CardInformation> cardInformationRepository() {

@@ -3,9 +3,11 @@ package com.example.auctionapp.service;
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.dto.UserDtos.AddressDto;
+import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.model.Address;
 import com.example.auctionapp.model.City;
 import com.example.auctionapp.repository.BaseRepository;
+import com.example.auctionapp.repository.CityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,10 @@ public class AddressService implements IBaseService<AddressDto> {
     private static final String RESOURCE_NAME = "Address";
 
     BaseRepository<Address> repository;
-    BaseRepository<City> cityRepository;
+    CityRepository cityRepository;
 
     @Autowired
-    public AddressService(BaseRepository<Address> repository, BaseRepository<City> cityRepository) {
+    public AddressService(BaseRepository<Address> repository, CityRepository cityRepository) {
         this.repository = repository;
         this.cityRepository = cityRepository;
     }
@@ -66,7 +68,10 @@ public class AddressService implements IBaseService<AddressDto> {
 
         Address resourceToUpdate = RepositoryUtility.findIfExist(repository, resource.getId(), RESOURCE_NAME);
 
-        City city = RepositoryUtility.findIfExist(cityRepository, resource.getCity().getId(), "City");
+        City city = cityRepository.findByName(resource.getCity().getName());
+        if(city == null) {
+            throw new BadRequestException("Invalid city name");
+        }
 
         resourceToUpdate.setStreet(resource.getStreet());
         resourceToUpdate.setState(resource.getState());
