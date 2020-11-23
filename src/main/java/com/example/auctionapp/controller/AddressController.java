@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/user/address")
 public class AddressController implements IBaseController<AddressDto> {
 
     private final AddressService addressService;
