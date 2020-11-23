@@ -135,7 +135,7 @@ public class DatabaseSeeder {
                     passwordEncoder.encode("password"),
                     roleRepository.findById(2L),
                     image),
-                    new UserDetails()
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
             userRepository.create(new UserAccount(
@@ -145,61 +145,67 @@ public class DatabaseSeeder {
                     passwordEncoder.encode("password"),
                     roleRepository.findById(3L),
                     image),
-                    new UserDetails()
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
-            userRepository.create(new User(
-                    "User",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("User",
                     "First",
                     "tester1@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(2L),
-                    image
+                    image),
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
-            userRepository.create(new User(
-                    "User",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("User",
                     "Second",
                     "tester2@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(2L),
-                    image
+                    image),
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
-            userRepository.create(new User(
-                    "Seller",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("Seller",
                     "First",
                     "seller1@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(3L),
-                    image
+                    image),
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
-            userRepository.create(new User(
-                    "Seller",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("Seller",
                     "Second",
                     "seller2@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(3L),
-                    image
+                    image),
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
-            userRepository.create(new User(
-                    "Admin",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("Admin",
                     "First",
                     "admin1@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(1L),
-                    image
+                    image),
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
-            userRepository.create(new User(
-                    "Admin",
+            userRepository.create(new UserAccount(
+                    new UserRegisterInformation("Admin",
                     "Second",
                     "admin2@mail.com",
                     passwordEncoder.encode("password"),
                     roleRepository.findById(1L),
-                    image
+                    image),
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
             Image image2 = imageRepository.create(new Image("https://www.shareicon.net/data/512x512/2016/07/26/802031_user_512x512.png"));
@@ -210,7 +216,7 @@ public class DatabaseSeeder {
                     passwordEncoder.encode("password"),
                     roleRepository.findById(3L),
                     image2),
-                    new UserDetails()
+                    new UserDetails(new Address(), new CardInformation())
             ));
 
             logger.info("User table seeded");
