@@ -7,7 +7,7 @@ import com.example.auctionapp.dto.BidDto;
 import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.model.Bid;
 import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.model.UserAccount;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,9 +69,9 @@ public class BidService implements IBaseService<BidDto> {
         }
 
         Product product = RepositoryUtility.findIfExist(productRepository, resource.getProductId(), "Product");
-        User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
+        UserAccount userAccount = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
         Bid bid = bidRepository.create(new Bid(
-                user,
+                userAccount,
                 product,
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(resource.getBidTime()), ZoneOffset.UTC),
                 resource.getBidAmount()));

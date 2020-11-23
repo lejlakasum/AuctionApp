@@ -151,8 +151,8 @@ public class ProductRepository extends BaseRepository<Product> {
         CriteriaQuery<Rating> ratingQuery = cb.createQuery(Rating.class);
         Root<Rating> rating = ratingQuery.from(Rating.class);
 
-        ratingQuery.select(rating.get("user").get("id"))
-                .groupBy(rating.get("user").get("id"))
+        ratingQuery.select(rating.get("userAccount").get("id"))
+                .groupBy(rating.get("userAccount").get("id"))
                 .orderBy(cb.desc(cb.avg(rating.get("grade"))));
 
 
@@ -163,7 +163,7 @@ public class ProductRepository extends BaseRepository<Product> {
         productQuery.select(product)
                 .where(
                         cb.and(predicateForEndDate,
-                                cb.in(product.get("user").get("id")).value(users))
+                                cb.in(product.get("userAccount").get("id")).value(users))
                 );
 
         List<Product> result = entityManager.createQuery(productQuery).setMaxResults(MAX_RESULT_ARRIVALS).getResultList();

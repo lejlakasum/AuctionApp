@@ -19,15 +19,15 @@ public class Rating extends Resource {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    private User user;
+    private UserAccount userAccount;
 
     public Rating() {
     }
 
-    public Rating(@Min(1) @Max(5) Integer grade, String comment, User user) {
+    public Rating(@Min(1) @Max(5) Integer grade, String comment, UserAccount userAccount) {
         this.grade = grade;
         this.comment = comment;
-        this.user = user;
+        this.userAccount = userAccount;
     }
 
 

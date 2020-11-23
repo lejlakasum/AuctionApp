@@ -1,18 +1,16 @@
 package com.example.auctionapp.Util;
 
-import com.example.auctionapp.dto.BidDto;
-import com.example.auctionapp.dto.CategoryDto;
-import com.example.auctionapp.dto.ImageDto;
-import com.example.auctionapp.dto.ProductDto;
-import com.example.auctionapp.dto.SubcategoryDto;
-import com.example.auctionapp.dto.UserDto;
-import com.example.auctionapp.model.Bid;
-import com.example.auctionapp.model.Category;
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.dto.*;
+import com.example.auctionapp.dto.UserDtos.AddressDto;
+import com.example.auctionapp.dto.UserDtos.CardInformationDto;
+import com.example.auctionapp.dto.UserDtos.CityDto;
+import com.example.auctionapp.dto.UserDtos.CountryDto;
+import com.example.auctionapp.dto.UserDtos.UserAccountDto;
+import com.example.auctionapp.dto.UserDtos.UserDetailsDto;
+import com.example.auctionapp.dto.UserDtos.UserRegisterDto;
+import com.example.auctionapp.model.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +24,8 @@ public class MappingUtility {
                 bid.getDateCreated(),
                 bid.getLastModifiedDate(),
                 bid.getUser().getId(),
-                bid.getUser().getFirstName() + " " + bid.getUser().getLastName(),
-                bid.getUser().getImage().getUrl(),
+                bid.getUser().getUserLoginInformation().getFirstName() + " " + bid.getUser().getUserLoginInformation().getLastName(),
+                bid.getUser().getUserLoginInformation().getImage().getUrl(),
                 bid.getProduct().getId(),
                 bid.getProduct().getName(),
                 TimeUtility.LocalDateTimeToTimestamp(bid.getBidTime()),
@@ -104,16 +102,141 @@ public class MappingUtility {
         );
     }
 
-    public static UserDto mapUserToUserDto(User user) {
+    public static AddressDto mapAddressToAddressDto(Address address) {
 
-        return new UserDto(user.getId(),
-                user.getDateCreated(),
-                user.getLastModifiedDate(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getRole().getId(),
-                user.getImage().getUrl()
+        if(address == null) {
+            return new AddressDto();
+        }
+
+        return new AddressDto(
+                address.getId(),
+                address.getDateCreated(),
+                address.getLastModifiedDate(),
+                address.getStreet(),
+                address.getState(),
+                address.getZipCode(),
+                mapCityToCityDto(address.getCity())
+                );
+    }
+
+    public static CardInformationDto mapCardToCardDto(CardInformation cardInformation) {
+
+        if(cardInformation == null) {
+            return new CardInformationDto();
+        }
+
+        return new CardInformationDto(
+                cardInformation.getId(),
+                cardInformation.getDateCreated(),
+                cardInformation.getLastModifiedDate(),
+                cardInformation.getNameOnCard(),
+                cardInformation.getCardNumber(),
+                cardInformation.getYearExpiration(),
+                cardInformation.getMonthExpiration(),
+                cardInformation.getCvc(),
+                cardInformation.getPaypal(),
+                cardInformation.getCreditCard()
+        );
+    }
+
+    public static UserRegisterDto mapUserRegisterToUserRegisterDto(UserRegisterInformation registerInformation) {
+
+        return new UserRegisterDto(
+                registerInformation.getId(),
+                registerInformation.getDateCreated(),
+                registerInformation.getLastModifiedDate(),
+                registerInformation.getFirstName(),
+                registerInformation.getLastName(),
+                registerInformation.getEmail(),
+                registerInformation.getRole().getId(),
+                registerInformation.getImage().getUrl()
+        );
+    }
+
+    public static UserDetailsDto mapUserDetailsToUserDetailsDto(UserDetails userDetails) {
+
+        if(userDetails == null) {
+            return new UserDetailsDto();
+        }
+
+        Long birthDate = TimeUtility.LocalDateTimeToTimestamp(LocalDateTime.of(1900,1,1,0,0));
+
+        if(userDetails.getBirthDate()!=null) {
+            birthDate = TimeUtility.LocalDateTimeToTimestamp(userDetails.getBirthDate());
+        }
+
+        String gender = "";
+        if(userDetails.getGender() != null) {
+            gender = userDetails.getGender().label;
+        }
+
+        return new UserDetailsDto(
+                userDetails.getId(),
+                userDetails.getDateCreated(),
+                userDetails.getLastModifiedDate(),
+                userDetails.getPhoneNumber(),
+                birthDate,
+                gender,
+                mapAddressToAddressDto(userDetails.getAddress()),
+                mapCardToCardDto(userDetails.getCardInformation())
+        );
+    }
+
+    public static UserAccountDto mapUserToUserDto(UserAccount userAccount) {
+
+        return new UserAccountDto(userAccount.getId(),
+                userAccount.getDateCreated(),
+                userAccount.getLastModifiedDate(),
+                mapUserRegisterToUserRegisterDto(userAccount.getUserLoginInformation()),
+                mapUserDetailsToUserDetailsDto(userAccount.getUserDetails())
+        );
+    }
+
+    public static UserBidDto mapBidToUserBidDto(Bid bid) {
+        Double highestBid = bid.getProduct().getBids().stream().mapToDouble(b -> b.getBidAmount()).max().getAsDouble();
+
+        return new UserBidDto(
+                bid.getProduct().getId(),
+                bid.getProduct().getName(),
+                TimeUtility.LocalDateTimeToTimestamp(bid.getProduct().getAuctionEndDate()),
+                bid.getBidAmount(),
+                highestBid,
+                bid.getProduct().getBids().size(),
+                bid.getProduct().getImages().get(0).getUrl()
+        );
+    }
+
+    public static CountryDto mapCountryToCountryDto(Country country) {
+
+        List<String> cities = new ArrayList<>();
+
+        if(country.getCities() != null) {
+            cities = country.getCities().stream().map(city -> {
+                return city.getName();
+            })
+                    .collect(Collectors.toList());
+        }
+        return new CountryDto(
+                country.getId(),
+                country.getDateCreated(),
+                country.getLastModifiedDate(),
+                country.getName(),
+                cities);
+    }
+
+    public static CityDto mapCityToCityDto(City city) {
+
+        if(city == null) {
+            return null;
+        }
+
+        return new CityDto(
+                city.getId(),
+                city.getDateCreated(),
+                city.getLastModifiedDate(),
+                city.getName(),
+                city.getCountry().getId(),
+                city.getCountry().getName()
         );
     }
 }

@@ -1,7 +1,7 @@
 package com.example.auctionapp.security;
 
 
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.model.UserAccount;
 import com.example.auctionapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,9 +24,9 @@ public class RepositoryAwareUserDetailsService implements UserDetailsService {
 
     @Override
     public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repository.findByEmail(email);
+        UserAccount userAccount = repository.findByEmail(email);
 
-        List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole().getName()));
-        return new CustomUserDetails(user.getEmail(), user.getPassword(), authorities, user.getId());
+        List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(userAccount.getUserLoginInformation().getRole().getName()));
+        return new CustomUserDetails(userAccount.getUserLoginInformation().getEmail(), userAccount.getUserLoginInformation().getPassword(), authorities, userAccount.getId());
     }
 }
