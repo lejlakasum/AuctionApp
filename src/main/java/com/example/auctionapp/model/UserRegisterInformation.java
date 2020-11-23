@@ -1,21 +1,16 @@
 package com.example.auctionapp.model;
 
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
-@Table(name = "user_entity")
-public class User extends Resource {
-
+@Table(name = "user_login")
+public class UserRegisterInformation extends Resource {
     @NotBlank(message = "First name can't be blank")
     @Column(name = "first_name")
     private String firstName;
@@ -38,10 +33,12 @@ public class User extends Resource {
     @JoinColumn(name = "image_id", referencedColumnName = "id", updatable = false)
     private Image image;
 
-    public User() {
+
+
+    public UserRegisterInformation() {
     }
 
-    public User(String firstName, String lastName, String email, String password, Role role, Image image) {
+    public UserRegisterInformation(String firstName, String lastName, String email, String password, Role role, Image image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -49,6 +46,8 @@ public class User extends Resource {
         this.role = role;
         this.image = image;
     }
+
+
 
     public String getFirstName() {
         return firstName;

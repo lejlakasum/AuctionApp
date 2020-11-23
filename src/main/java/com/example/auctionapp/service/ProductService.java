@@ -9,7 +9,7 @@ import com.example.auctionapp.enumeration.SizeEnum;
 import com.example.auctionapp.model.Image;
 import com.example.auctionapp.model.Product;
 import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.model.UserAccount;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
@@ -101,7 +101,7 @@ public class ProductService implements IBaseService<ProductDto> {
     public ProductDto add(ProductDto resource) {
 
         Subcategory subcategory = RepositoryUtility.findIfExist(subcategoryRepository, resource.getSubcategoryId(), "Subcategory");
-        User user = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
+        UserAccount userAccount = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), "User");
 
         List<Image> images = resource.getImagesUrl().stream().map(
                 url -> {return new Image(url);
@@ -117,7 +117,7 @@ public class ProductService implements IBaseService<ProductDto> {
                                             TimeUtility.timestampToLocalDateTime(resource.getAuctionEndDate()),
                                             images,
                                             resource.getFeature(),
-                                            user,
+                userAccount,
                                             ColorEnum.fromValue(resource.getColor()),
                                             SizeEnum.fromValue(resource.getSize())));
         logger.info("Product with id " + product.getId() + " created");

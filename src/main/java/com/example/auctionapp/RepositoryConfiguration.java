@@ -1,15 +1,9 @@
 package com.example.auctionapp;
 
-import com.example.auctionapp.model.Bid;
-import com.example.auctionapp.model.Category;
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Product;
-import com.example.auctionapp.model.Rating;
-import com.example.auctionapp.model.Role;
-import com.example.auctionapp.model.Subcategory;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.model.*;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.CategoryRepository;
+import com.example.auctionapp.repository.CityRepository;
 import com.example.auctionapp.repository.ProductRepository;
 import com.example.auctionapp.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +40,7 @@ public class RepositoryConfiguration {
 
     @Bean
     UserRepository userRepository() {
-        return new UserRepository(User.class, entityManager);
+        return new UserRepository(UserAccount.class, entityManager);
     }
 
     @Bean
@@ -62,6 +56,32 @@ public class RepositoryConfiguration {
     @Bean
     BaseRepository<Bid> bidRepository() {
         return new BaseRepository<>(Bid.class, entityManager);
+    }
+
+    @Bean
+    BaseRepository<Country> countryRepository() { return new BaseRepository<>(Country.class, entityManager);}
+
+    @Bean
+    CityRepository cityRepository() { return new CityRepository(City.class, entityManager);}
+
+    @Bean
+    BaseRepository<CardInformation> cardInformationRepository() {
+        return new BaseRepository<>(CardInformation.class, entityManager);
+    }
+
+    @Bean
+    BaseRepository<Address> addressRepository() {
+        return new BaseRepository<>(Address.class, entityManager);
+    }
+
+    @Bean
+    BaseRepository<UserRegisterInformation> userRegisterInformationRepository() {
+        return new BaseRepository<>(UserRegisterInformation.class, entityManager);
+    }
+
+    @Bean
+    BaseRepository<UserDetails> userDetailsRepository() {
+        return new BaseRepository<>(UserDetails.class, entityManager);
     }
 
 }

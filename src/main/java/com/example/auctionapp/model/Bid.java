@@ -13,7 +13,7 @@ public class Bid extends Resource {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    private User user;
+    private UserAccount userAccount;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", updatable = false)
@@ -28,19 +28,19 @@ public class Bid extends Resource {
     public Bid() {
     }
 
-    public Bid(User user, Product product, LocalDateTime bidTime, Double bidAmount) {
-        this.user = user;
+    public Bid(UserAccount userAccount, Product product, LocalDateTime bidTime, Double bidAmount) {
+        this.userAccount = userAccount;
         this.product = product;
         this.bidTime = bidTime;
         this.bidAmount = bidAmount;
     }
 
-    public User getUser() {
-        return user;
+    public UserAccount getUser() {
+        return userAccount;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
 
     public Product getProduct() {

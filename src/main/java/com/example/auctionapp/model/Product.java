@@ -2,8 +2,6 @@ package com.example.auctionapp.model;
 
 import com.example.auctionapp.enumeration.ColorEnum;
 import com.example.auctionapp.enumeration.SizeEnum;
-import org.aspectj.lang.annotation.Before;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -49,7 +46,7 @@ public class Product extends Resource {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false)
-    private User user;
+    private UserAccount userAccount;
 
     @OneToMany(mappedBy = "product")
     private List<Bid> bids;
@@ -69,7 +66,7 @@ public class Product extends Resource {
                    LocalDateTime auctionEndDate,
                    List<Image> images,
                    Boolean feature,
-                   User user,
+                   UserAccount userAccount,
                    ColorEnum color,
                    SizeEnum size) {
         this.name = name;
@@ -80,7 +77,7 @@ public class Product extends Resource {
         this.auctionEndDate = auctionEndDate;
         this.images = images;
         this.feature=feature;
-        this.user=user;
+        this.userAccount = userAccount;
         this.color = color;
         this.size = size;
     }
@@ -149,12 +146,12 @@ public class Product extends Resource {
         this.feature = feature;
     }
 
-    public User getUser() {
-        return user;
+    public UserAccount getUser() {
+        return userAccount;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
 
     public List<Bid> getBids() {

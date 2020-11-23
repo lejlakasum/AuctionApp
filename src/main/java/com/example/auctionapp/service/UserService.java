@@ -2,11 +2,12 @@ package com.example.auctionapp.service;
 
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
-import com.example.auctionapp.dto.UserDto;
+import com.example.auctionapp.Util.TimeUtility;
+import com.example.auctionapp.dto.UserBidDto;
+import com.example.auctionapp.dto.UserDtos.UserAccountDto;
+import com.example.auctionapp.enumeration.GenderEnum;
 import com.example.auctionapp.exception.BadRequestException;
-import com.example.auctionapp.model.Image;
-import com.example.auctionapp.model.Role;
-import com.example.auctionapp.model.User;
+import com.example.auctionapp.model.*;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.UserRepository;
 import org.slf4j.Logger;
@@ -16,94 +17,92 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class UserService implements IBaseService<UserDto> {
+public class UserService implements IBaseService<UserAccountDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String RESOURCE_NAME = "User";
-    private static final Long USER_ROLE_ID = 2L;
 
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final BaseRepository<Role> roleRepository;
-    private final BaseRepository<Image> imageRepository;
+
+    private final UserRegisterService userRegisterService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder,
-                       UserRepository userRepository,
-                       BaseRepository<Role> roleRepository,
-                       BaseRepository<Image> imageRepository) {
-        this.passwordEncoder = passwordEncoder;
+    public UserService(UserRepository userRepository,
+                       UserRegisterService userRegisterService,
+                       UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.imageRepository = imageRepository;
+        this.userRegisterService = userRegisterService;
+        this.userDetailsService = userDetailsService;
     }
 
-    public List<UserDto> getAll() {
+    public List<UserAccountDto> getAll() {
 
-        List<User> users = userRepository.findAll();
-        List<UserDto> userDtos = users.stream().map(
+        List<UserAccount> userAccounts = userRepository.findAll();
+        List<UserAccountDto> userAccountDtos = userAccounts.stream().map(
                 user -> {return MappingUtility.mapUserToUserDto(user);
                 }
         ).collect(Collectors.toList());
 
-        return  userDtos;
+        return userAccountDtos;
     }
 
 
-    public UserDto getById(Long id) {
+    public UserAccountDto getById(Long id) {
 
-        User user = RepositoryUtility.findIfExist(userRepository, id, RESOURCE_NAME);
-        return MappingUtility.mapUserToUserDto(user);
+        UserAccount userAccount = RepositoryUtility.findIfExist(userRepository, id, RESOURCE_NAME);
+        return MappingUtility.mapUserToUserDto(userAccount);
     }
 
+    public List<UserBidDto> getBidsByUser(Long userId) {
 
-    public UserDto add(UserDto resource) {
+        List<Bid> bids = userRepository.getBidsByUser(userId);
 
-        if(userAlreadyExist(resource.getEmail())) {
-            String message = "User with email " + resource.getEmail() + " already registered";
-            logger.error(message);
-            throw new BadRequestException(message);
-        }
+        List<UserBidDto> userBids = bids.stream().map(bid -> {
+            return MappingUtility.mapBidToUserBidDto(bid);
+        }).collect(Collectors.toList());
 
-        Role role = roleRepository.findById(USER_ROLE_ID);
-        Image image = imageRepository.create(new Image(resource.getImageUrl()));
+        return userBids;
+    }
 
-        User user = userRepository.create(new User(resource.getFirstName(),
-                resource.getLastName(),
-                resource.getEmail(),
-                passwordEncoder.encode(resource.getPassword()),
-                role,
-                image)
+    public UserAccountDto add(UserAccountDto resource) {
+
+
+        UserRegisterInformation userRegisterInformation = userRegisterService.add(resource.getUserRegister());
+
+
+        UserAccount userAccount = userRepository.create(
+                new UserAccount(
+                        userRegisterInformation,
+                        new UserDetails(new Address(), new CardInformation())
+                )
         );
 
-        logger.info("User with id " + user.getId() + " created");
+        logger.info("User with id " + userAccount.getId() + " created");
 
-        return MappingUtility.mapUserToUserDto(user);
+        return MappingUtility.mapUserToUserDto(userAccount);
     }
 
 
-    public UserDto update(UserDto resource) {
-        User resourceToUpdate = RepositoryUtility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
+    public UserAccountDto update(UserAccountDto resource) {
+        UserAccount resourceToUpdate = RepositoryUtility.findIfExist(userRepository, resource.getId(), RESOURCE_NAME);
 
-        resourceToUpdate.setFirstName(resource.getFirstName());
-        resourceToUpdate.setLastName(resource.getLastName());
-        resourceToUpdate.setEmail(resource.getEmail());
+        UserRegisterInformation userRegisterInformation = userRegisterService.update(resource.getUserRegister());
+        UserDetails userDetails = userDetailsService.update(resource.getUserDetails());
 
-        User user = userRepository.update(resourceToUpdate);
+        resourceToUpdate.setUserLoginInformation(userRegisterInformation);
+        resourceToUpdate.setUserDetails(userDetails);
 
-        logger.info("User with id " + user.getId() + " updated");
+        UserAccount userAccount = userRepository.update(resourceToUpdate);
+        logger.info("User with id " + resource.getId() + " updated");
 
-        return MappingUtility.mapUserToUserDto(user);
+        return MappingUtility.mapUserToUserDto(userAccount);
     }
 
 
@@ -116,14 +115,5 @@ public class UserService implements IBaseService<UserDto> {
         logger.info("User with id " + id + " deleted");
     }
 
-    private boolean userAlreadyExist(String email) {
 
-        try {
-            userRepository.findByEmail(email);
-        }
-        catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
 }
