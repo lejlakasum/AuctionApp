@@ -249,7 +249,7 @@ public class DatabaseSeeder {
             subcategoryRepository.create(new Subcategory("Dress", categories.get(0)));
             subcategoryRepository.create(new Subcategory("Shirt", categories.get(0)));
             subcategoryRepository.create(new Subcategory("Jacket", categories.get(0)));
-            subcategoryRepository.create(new Subcategory("Waller", categories.get(1)));
+            subcategoryRepository.create(new Subcategory("Wallet", categories.get(1)));
             subcategoryRepository.create(new Subcategory("Belt", categories.get(1)));
             subcategoryRepository.create(new Subcategory("Desk", categories.get(5)));
             subcategoryRepository.create(new Subcategory("Boots", categories.get(3)));
@@ -392,7 +392,7 @@ public class DatabaseSeeder {
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F1-42-9714512230_xxl.webp?alt=media&token=f772ad4c-b352-41c2-bf2c-a320c11166e5"));
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F1-42-9714512230_xxl.webp?alt=media&token=f772ad4c-b352-41c2-bf2c-a320c11166e5"));
-            productRepository.create(new Product("Tennis shoes",
+            productRepository.create(new Product("Tennis Shoes",
                                                 description,
                                                 375.,
                                                 subcategories.get(8),
@@ -443,7 +443,7 @@ public class DatabaseSeeder {
             images=new ArrayList<>();
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F1-42-9714512230_xxl.webp?alt=media&token=f772ad4c-b352-41c2-bf2c-a320c11166e5"));
             images.add(new Image("https://firebasestorage.googleapis.com/v0/b/auction-internship-app.appspot.com/o/images%2F1-42-9714512230_xxl.webp?alt=media&token=f772ad4c-b352-41c2-bf2c-a320c11166e5"));
-            productRepository.create(new Product("Tennis shoes",
+            productRepository.create(new Product("Tennis Shoes",
                             description,
                             713.55,
                             subcategories.get(8),
