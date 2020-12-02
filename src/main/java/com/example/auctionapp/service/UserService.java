@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,6 +70,17 @@ public class UserService implements IBaseService<UserAccountDto> {
         }).collect(Collectors.toList());
 
         return userBids;
+    }
+
+    public List<UserBidDto> getProductsByUser(Long userId, Boolean active) {
+
+        List<Product> products = userRepository.getProductsByUser(userId, active);
+
+        List<UserBidDto> userProducts = products.stream().map(product -> {
+            return MappingUtility.mapProductToUserBidDto(product);
+        }).collect(Collectors.toList());
+
+        return userProducts;
     }
 
     public UserAccountDto add(UserAccountDto resource) {

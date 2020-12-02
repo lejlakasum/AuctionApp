@@ -239,4 +239,21 @@ public class MappingUtility {
                 city.getCountry().getName()
         );
     }
+
+    public static UserBidDto mapProductToUserBidDto(Product product) {
+        Double highestBid = 0.;
+        if(product.getBids().size() > 0) {
+            highestBid = product.getBids().stream().mapToDouble(b -> b.getBidAmount()).max().getAsDouble();
+        }
+
+        return new UserBidDto(
+                product.getId(),
+                product.getName(),
+                TimeUtility.LocalDateTimeToTimestamp(product.getAuctionEndDate()),
+                product.getPrice(),
+                highestBid,
+                product.getBids().size(),
+                product.getImages().get(0).getUrl()
+        );
+    }
 }

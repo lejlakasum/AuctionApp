@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -44,6 +45,12 @@ public class UserController implements IBaseController<UserAccountDto> {
     public ResponseEntity<List<UserBidDto>> getBidsByUser(@PathVariable Long id) {
 
         return new ResponseEntity<>(userService.getBidsByUser(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<UserBidDto>> getProductsByUser(@PathVariable Long id, @RequestParam Boolean active) {
+
+        return new ResponseEntity<>(userService.getProductsByUser(id, active), HttpStatus.OK);
     }
 
     @PostMapping()
