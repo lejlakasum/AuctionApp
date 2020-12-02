@@ -76,12 +76,22 @@ public class MappingUtility {
 
     public static CategoryDto mapCategoryToCategoryDto(Category category) {
 
+        List<SubcategoryDto> subcategories = new ArrayList<>();
+
+        if(category.getSubcategories() != null) {
+            subcategories = category.getSubcategories().stream().map(subcategory -> {
+                return mapSubcategoryToDto(subcategory);
+            })
+                    .collect(Collectors.toList());
+        }
+
         return new CategoryDto(
                 category.getId(),
                 category.getDateCreated(),
                 category.getLastModifiedDate(),
                 category.getName(),
-                category.getImage().getUrl()
+                category.getImage().getUrl(),
+                subcategories
         );
     }
 
