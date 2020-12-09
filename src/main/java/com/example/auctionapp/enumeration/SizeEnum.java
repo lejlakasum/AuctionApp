@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum SizeEnum {
+    UNIVERSAL ("Universal"),
     EXTRA_SMALL ("Extra Small"),
     SMALL ("Small"),
     MEDIUM ("Medium"),

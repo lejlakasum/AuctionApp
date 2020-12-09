@@ -13,7 +13,6 @@ public class AddressDto extends BaseResourceDto {
     @Pattern(regexp = "^[A-Za-z0-9\\s\\-]*$")
     private String street;
 
-    @NotEmpty
     @Pattern(regexp = "^[A-Za-z\\s\\-]*$")
     private String state;
 

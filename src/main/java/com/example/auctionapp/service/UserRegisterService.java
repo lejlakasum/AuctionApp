@@ -111,6 +111,18 @@ public class UserRegisterService{
         return userRegisterInformation;
     }
 
+    public UserRegisterInformation updateRole(Long userRegisterId, Role role) {
+        UserRegisterInformation resourceToUpdate = RepositoryUtility.findIfExist(repository, userRegisterId, RESOURCE_NAME);
+
+        resourceToUpdate.setRole(role);
+
+        UserRegisterInformation userRegisterInformation = repository.update(resourceToUpdate);
+
+        logger.info("User Role with id " + userRegisterInformation.getId() + " updated");
+
+        return userRegisterInformation;
+    }
+
 
     public void deleteById(Long id) {
 
