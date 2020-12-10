@@ -31,13 +31,13 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping("/login/refresh")
+    @PostMapping("/token/refresh")
     public ResponseEntity<AuthenticationDto> refresh(@RequestBody AuthenticationDto authenticationDto) {
-try {
-    return new ResponseEntity<>(authenticationService.refresh(authenticationDto), HttpStatus.OK);
-}
-catch (Exception e) {
-    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-}
+        try {
+            return new ResponseEntity<>(authenticationService.refresh(authenticationDto), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }
