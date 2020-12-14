@@ -51,22 +51,28 @@ public class AuthenticationService {
 
         final CustomUserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
 
-        final String token = JwtUtil.generateToken(userDetails, SECRET_KEY);
-
-        return new AuthenticationDto(token);
+        return generateTokens(userDetails);
     }
 
     public AuthenticationDto refresh(AuthenticationDto authenticationDto) {
 
-        String token = authenticationDto.getToken();
+        String refreshToken = authenticationDto.getRefreshToken();
 
-        String username = JwtUtil.extractUsername(token, SECRET_KEY);
+        String username = JwtUtil.extractUsername(refreshToken, SECRET_KEY);
 
         CustomUserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        if(!JwtUtil.validateTokenWithoutExpiration(token, userDetails, SECRET_KEY)) {
-           throw new BadRequestException("Invalid token");
+        if(!JwtUtil.validateToken(refreshToken, userDetails, SECRET_KEY)) {
+           throw new BadRequestException("Invalid refreshToken");
         }
-        return new AuthenticationDto(JwtUtil.generateToken(userDetails, SECRET_KEY));
+
+        return generateTokens(userDetails);
+    }
+
+    private AuthenticationDto generateTokens(CustomUserDetails userDetails) {
+        final String token = JwtUtil.generateToken(userDetails, SECRET_KEY, false);
+        final String refreshToken = JwtUtil.generateToken(userDetails, SECRET_KEY, true);
+
+        return new AuthenticationDto(token, refreshToken);
     }
 }

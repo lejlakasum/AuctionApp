@@ -33,18 +33,22 @@ public class JwtUtil {
         return extractExpiration(token, secretKey).before(new Date());
     }
 
-    public static String generateToken(CustomUserDetails userDetails, String secretKey) {
+    public static String generateToken(CustomUserDetails userDetails, String secretKey, Boolean isRefreshToken) {
         Map<String, Object> claims = new HashMap<>();
         String role = userDetails.getAuthorities().stream().findFirst().get().getAuthority();
         claims.put("role", role);
         claims.put("id", userDetails.getUserId());
-        return createToken(claims, userDetails.getUsername(), secretKey);
+        Integer expTimeMilis = 1000*60*60;
+        if(isRefreshToken) {
+            expTimeMilis = expTimeMilis + 1000*60*5;
+        }
+        return createToken(claims, userDetails.getUsername(), secretKey, expTimeMilis);
     }
 
-    private static String createToken(Map<String, Object> claims, String subject, String secretKey) {
+    private static String createToken(Map<String, Object> claims, String subject, String secretKey, Integer expTimeMilis) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 1))
+                .setExpiration(new Date(System.currentTimeMillis() + expTimeMilis))
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
@@ -53,8 +57,4 @@ public class JwtUtil {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token, secretKey));
     }
 
-    public static Boolean validateTokenWithoutExpiration(String token, UserDetails userDetails, String secretKey) {
-        final String username = extractUsername(token, secretKey);
-        return (username.equals(userDetails.getUsername()));
-    }
 }
