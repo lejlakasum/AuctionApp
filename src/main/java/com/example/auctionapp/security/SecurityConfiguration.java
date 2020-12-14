@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login", "/user", "/shop")
+                .antMatchers(HttpMethod.POST, "/login", "/user", "/shop", "/token/refresh")
                 .permitAll()
 
                 .antMatchers(HttpMethod.GET, "/category", "/category/*",
@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAuthority(RoleEnum.ADMIN.name())
 
                 .antMatchers(HttpMethod.GET, "/bid", "/bid/*", "/user/*/bids", "/country", "/country/*", "/city", "/city/*",
-                        "/card-info", "/card-info/*", "/address", "/address/*")
+                        "/card-info", "/card-info/*", "/address", "/address/*", "/user/*/products")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())
                 .antMatchers(HttpMethod.POST, "/bid", "/bid/*")
                 .hasAnyAuthority(RoleEnum.ADMIN.name(), RoleEnum.SELLER.name(), RoleEnum.USER.name())

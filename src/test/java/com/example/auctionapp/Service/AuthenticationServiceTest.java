@@ -60,7 +60,7 @@ public class AuthenticationServiceTest {
         Mockito.when(userDetailsService.loadUserByUsername("username"))
                 .thenReturn(userDetails);
 
-        assertEquals(JwtUtil.generateToken(userDetails, SECRET_KEY), authenticationService.login(request).getToken());
+        assertEquals(JwtUtil.generateToken(userDetails, SECRET_KEY, false), authenticationService.login(request).getToken());
 
     }
 }

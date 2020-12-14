@@ -346,7 +346,7 @@ public class DatabaseSeeder {
                                                 250.,
                                                 subcategories.get(2),
                                                 LocalDateTime.now(ZoneOffset.UTC).minusHours(77),
-                                                LocalDateTime.now(ZoneOffset.UTC).plusHours(3),
+                                                LocalDateTime.now(ZoneOffset.UTC).minusHours(3),
                                                 images,
                                                 false,
                                                 seller,
