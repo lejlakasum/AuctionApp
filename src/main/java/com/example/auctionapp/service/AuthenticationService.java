@@ -1,7 +1,8 @@
 package com.example.auctionapp.service;
 
+import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.model.LoginRequest;
-import com.example.auctionapp.model.LoginResponse;
+import com.example.auctionapp.dto.AuthenticationDto;
 import com.example.auctionapp.security.CustomUserDetails;
 import com.example.auctionapp.security.JwtUtil;
 import com.example.auctionapp.security.RepositoryAwareUserDetailsService;
@@ -33,7 +34,7 @@ public class AuthenticationService {
         this.SECRET_KEY = SECRET_KEY;
     }
 
-    public LoginResponse login(LoginRequest loginRequest) throws Exception {
+    public AuthenticationDto login(LoginRequest loginRequest) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
@@ -50,8 +51,28 @@ public class AuthenticationService {
 
         final CustomUserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
 
-        final String token = JwtUtil.generateToken(userDetails, SECRET_KEY);
+        return generateTokens(userDetails);
+    }
 
-        return new LoginResponse(token);
+    public AuthenticationDto refresh(AuthenticationDto authenticationDto) {
+
+        String refreshToken = authenticationDto.getRefreshToken();
+
+        String username = JwtUtil.extractUsername(refreshToken, SECRET_KEY);
+
+        CustomUserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        if(!JwtUtil.validateToken(refreshToken, userDetails, SECRET_KEY)) {
+           throw new BadRequestException("Invalid refreshToken");
+        }
+
+        return generateTokens(userDetails);
+    }
+
+    private AuthenticationDto generateTokens(CustomUserDetails userDetails) {
+        final String token = JwtUtil.generateToken(userDetails, SECRET_KEY, false);
+        final String refreshToken = JwtUtil.generateToken(userDetails, SECRET_KEY, true);
+
+        return new AuthenticationDto(token, refreshToken);
     }
 }

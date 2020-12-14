@@ -1,19 +1,13 @@
 package com.example.auctionapp.controller;
 
+import com.example.auctionapp.dto.UpdateRoleRequestDto;
 import com.example.auctionapp.dto.UserBidDto;
 import com.example.auctionapp.dto.UserDtos.UserAccountDto;
 import com.example.auctionapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -46,6 +40,12 @@ public class UserController implements IBaseController<UserAccountDto> {
         return new ResponseEntity<>(userService.getBidsByUser(id), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<UserBidDto>> getProductsByUser(@PathVariable Long id, @RequestParam Boolean active) {
+
+        return new ResponseEntity<>(userService.getProductsByUser(id, active), HttpStatus.OK);
+    }
+
     @PostMapping()
     @Valid
     public ResponseEntity<UserAccountDto> add(@Valid @RequestBody UserAccountDto resource) {
@@ -58,6 +58,14 @@ public class UserController implements IBaseController<UserAccountDto> {
     public ResponseEntity<UserAccountDto> update(@Valid @RequestBody UserAccountDto resource) {
 
         return new ResponseEntity<>(userService.update(resource), HttpStatus.OK);
+    }
+
+    @PutMapping("/update-role")
+    @Valid
+    public ResponseEntity<UserAccountDto> updateUserRole(@Valid @RequestBody UpdateRoleRequestDto resource,
+                                                         @RequestHeader("Authorization") String token) {
+
+        return new ResponseEntity<>(userService.updateUserRole(resource, token), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

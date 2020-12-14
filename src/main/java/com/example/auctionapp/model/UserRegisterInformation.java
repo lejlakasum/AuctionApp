@@ -26,7 +26,7 @@ public class UserRegisterInformation extends Resource {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
     @ManyToOne

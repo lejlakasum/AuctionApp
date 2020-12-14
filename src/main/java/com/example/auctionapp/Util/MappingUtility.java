@@ -76,12 +76,22 @@ public class MappingUtility {
 
     public static CategoryDto mapCategoryToCategoryDto(Category category) {
 
+        List<SubcategoryDto> subcategories = new ArrayList<>();
+
+        if(category.getSubcategories() != null) {
+            subcategories = category.getSubcategories().stream().map(subcategory -> {
+                return mapSubcategoryToDto(subcategory);
+            })
+                    .collect(Collectors.toList());
+        }
+
         return new CategoryDto(
                 category.getId(),
                 category.getDateCreated(),
                 category.getLastModifiedDate(),
                 category.getName(),
-                category.getImage().getUrl()
+                category.getImage().getUrl(),
+                subcategories
         );
     }
 
@@ -237,6 +247,23 @@ public class MappingUtility {
                 city.getName(),
                 city.getCountry().getId(),
                 city.getCountry().getName()
+        );
+    }
+
+    public static UserBidDto mapProductToUserBidDto(Product product) {
+        Double highestBid = 0.;
+        if(product.getBids().size() > 0) {
+            highestBid = product.getBids().stream().mapToDouble(b -> b.getBidAmount()).max().getAsDouble();
+        }
+
+        return new UserBidDto(
+                product.getId(),
+                product.getName(),
+                TimeUtility.LocalDateTimeToTimestamp(product.getAuctionEndDate()),
+                product.getPrice(),
+                highestBid,
+                product.getBids().size(),
+                product.getImages().get(0).getUrl()
         );
     }
 }

@@ -3,6 +3,7 @@ package com.example.auctionapp.service;
 import com.example.auctionapp.Util.MappingUtility;
 import com.example.auctionapp.Util.RepositoryUtility;
 import com.example.auctionapp.Util.TimeUtility;
+import com.example.auctionapp.dto.UpdateRoleRequestDto;
 import com.example.auctionapp.dto.UserBidDto;
 import com.example.auctionapp.dto.UserDtos.UserAccountDto;
 import com.example.auctionapp.enumeration.GenderEnum;
@@ -10,14 +11,18 @@ import com.example.auctionapp.exception.BadRequestException;
 import com.example.auctionapp.model.*;
 import com.example.auctionapp.repository.BaseRepository;
 import com.example.auctionapp.repository.UserRepository;
+import com.example.auctionapp.security.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +32,10 @@ public class UserService implements IBaseService<UserAccountDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private static final String RESOURCE_NAME = "User";
+    private final String SECRET_KEY;
 
     private final UserRepository userRepository;
+    private final BaseRepository<Role> roleRepository;
 
     private final UserRegisterService userRegisterService;
     private final UserDetailsService userDetailsService;
@@ -36,10 +43,14 @@ public class UserService implements IBaseService<UserAccountDto> {
     @Autowired
     public UserService(UserRepository userRepository,
                        UserRegisterService userRegisterService,
-                       UserDetailsService userDetailsService) {
+                       UserDetailsService userDetailsService,
+                       BaseRepository<Role> roleRepository,
+                       @Value("${secret-key}") String SECRET_KEY) {
         this.userRepository = userRepository;
         this.userRegisterService = userRegisterService;
         this.userDetailsService = userDetailsService;
+        this.roleRepository = roleRepository;
+        this.SECRET_KEY = SECRET_KEY;
     }
 
     public List<UserAccountDto> getAll() {
@@ -69,6 +80,17 @@ public class UserService implements IBaseService<UserAccountDto> {
         }).collect(Collectors.toList());
 
         return userBids;
+    }
+
+    public List<UserBidDto> getProductsByUser(Long userId, Boolean active) {
+
+        List<Product> products = userRepository.getProductsByUser(userId, active);
+
+        List<UserBidDto> userProducts = products.stream().map(product -> {
+            return MappingUtility.mapProductToUserBidDto(product);
+        }).collect(Collectors.toList());
+
+        return userProducts;
     }
 
     public UserAccountDto add(UserAccountDto resource) {
@@ -101,6 +123,32 @@ public class UserService implements IBaseService<UserAccountDto> {
 
         UserAccount userAccount = userRepository.update(resourceToUpdate);
         logger.info("User with id " + resource.getId() + " updated");
+
+        return MappingUtility.mapUserToUserDto(userAccount);
+    }
+
+    public UserAccountDto updateUserRole(UpdateRoleRequestDto resource, String token) {
+
+        UserAccount resourceToUpdate = RepositoryUtility.findIfExist(userRepository, resource.getUserId(), RESOURCE_NAME);
+
+        String username = JwtUtil.extractUsername(token.split(" ")[1], SECRET_KEY);
+
+        if(!username.equals(resourceToUpdate.getUserLoginInformation().getEmail())) {
+            throw new BadRequestException("You are forbidden to change other user's information");
+        }
+
+        Role role = RepositoryUtility.findIfExist(roleRepository, resource.getRoleId(), "Role");
+
+        UserRegisterInformation userRegisterInformation = userRegisterService.updateRole(
+                    resourceToUpdate.getUserLoginInformation().getId(),
+                    role
+                );
+
+        resourceToUpdate.setUserLoginInformation(userRegisterInformation);
+
+        UserAccount userAccount = userRepository.update(resourceToUpdate);
+
+        logger.info("User with id " + resource.getUserId() + " updated");
 
         return MappingUtility.mapUserToUserDto(userAccount);
     }
